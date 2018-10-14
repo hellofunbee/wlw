@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网-系统管理-专家管理</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pagination.css">
+</head>
+<body>
+<div class="mx-main">
+    <div class="mx-handle clearfix" page="user-list">
+        <div class="sm-title fl">专家管理</div>
+        <ul class="little-menu cleafix fl">
+            <!-- <li class="on" utype="">
+                 <a href="javascript:;" data-href="#zjyh">专家答疑</a>
+             </li>-->
+            <li class="on" utype="">
+                <a href="javascript:;" data-href="#ptyh">用户提问</a>
+            </li>
+            <li utype="">
+                <a href="javascript:;" data-href="#sczyh">服务用户</a>
+            </li>
+            <li utype="">
+                <a href="javascript:;" data-href="#glzyh">服务项目</a>
+            </li>
+            <li utype="">
+                <a href="javascript:;" data-href="#zjzd">专家指导</a>
+            </li>
+            <li utype="">
+                <a href="javascript:;" data-href="#zjly">专家领域</a>
+            </li>
+            <li class="last" utype="">
+                <a href="javascript:;" data-href="#user_profile">基本信息管理</a>
+            </li>
+        </ul>
+    </div>
+    <div class="yhgl-module cleafix">
+        <!--<div id="zjyh">
+            <div class="mx-nrhandle">
+                <a href="javascript:;" class="btn btn-default fr tjxyh" index="0">新建答疑</a>
+
+                <div class="mx-top-search fr">
+                    <input class="c-0" index="0" type="text" name="searchKeyword">
+                    <a href="#" class="btn-search a-s">搜索</a>
+                </div>
+            </div>
+            <table class="mx-table2">
+                <thead>
+                <tr>
+                    <th width="8%">专家姓名</th>
+                    <th width="27%">答疑问题</th>
+                    <th width="30%">答疑内容</th>
+                    <th width="10%">更新时间</th>
+                    <th width="25%"> 操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+            <div class="mx-page zjyh m-style"></div>
+        </div>-->
+        <div id="ptyh">
+            <div class="mx-nrhandle">
+                <!--<a href="javascript:;" class="btn btn-default fr tjxyh" index="1">添加新用户</a>-->
+                <div class="mx-top-search fr">
+                    <input class="c-1" index="1" type="text"> <a href="#" class="a-s">搜索</a>
+                </div>
+            </div>
+            <div style="margin:auto">
+                <table class="mx-table2">
+                    <thead>
+                    <tr>
+                        <th width="10%">用户名</th>
+                        <th width="25%">用户问题</th>
+                        <th width="35%">专家答案</th>
+                        <th width="10%">更新时间</th>
+                        <th width="20%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="mx-page ptyh m-style"></div>
+        </div>
+        <div id="sczyh">
+            <div class="mx-nrhandle">
+                <a href="javascript:;" class="btn btn-default fr tjxyh" index="2">添加服务用户</a>
+
+                <div class="mx-top-search fr">
+                    <input class="c-2" index="2" type="text"> <a href="#" class="a-s">搜索</a>
+                </div>
+            </div>
+            <table class="mx-table2">
+                <thead>
+                <tr>
+                    <th width="20%">用户姓名</th>
+                    <th width="30%">性别</th>
+                    <th width="10%">更新时间</th>
+                    <th width="30%">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+            <div class="mx-page sczyh m-style"></div>
+        </div>
+        <div id="glzyh">
+            <div class="mx-nrhandle">
+                <a href="javascript:;" class="btn btn-default fr tjxyh" index="3">添加服务项目</a>
+                <div class="mx-top-search fr">
+                    <input class="c-3" index="3" type="text"> <a href="#" class="a-s">搜索</a>
+                </div>
+            </div>
+            <table class="mx-table2">
+                <thead>
+                <tr>
+                    <th width="8%">专家姓名</th>
+                    <th width="27%">项目名称</th>
+                    <th width="30%">项目内容</th>
+                    <th width="10%">更新时间</th>
+                    <th width="25%"> 操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+            <div class="mx-page glzyh m-style"></div>
+        </div>
+        <div id="zjzd" page="publish4">
+            <div class="mx-nrhandle">
+                <div class="mx-top-search fl" style="margin-left:35px">
+                    <input type="text" id="seach-text">
+                    <a id="top-seacher" href="#">搜索</a>
+                </div>
+                <div class="sblb fr"><h3>更多</h3>
+                    <div class="more-cnt">
+                        <h4>所属一级分类</h4>
+                        <p>
+                            <select name="" id="class1">
+                                <option value=""></option>
+                            </select>
+                        </p>
+                        <h4>所属二级分类</h4>
+                        <p>
+                            <select name="" id="class2">
+                                <option value=""></option>
+                            </select>
+                        </p>
+
+                        <div class="mt20 tc"><a href="#" id="class-seach" class="btn-lg">搜索</a></div>
+                    </div>
+                </div>
+                <a href="javascript:;" id="syzx" class="fr btn btn-default mr15">发布新信息</a>
+            </div>
+
+            <!--资讯-->
+            <div id="articals"></div>
+
+
+            <div class="xxx-layer"></div>
+
+        </div>
+
+        <div id="zjly">
+            <div class="mx-nrhandle">
+                <a href="javascript:;" class="btn btn-default fr tjxyh" index="4">编辑领域</a>
+            </div>
+            <table class="mx-table2">
+                <thead>
+                <tr>
+                    <th width="8%">专家姓名</th>
+                    <th width="27%">专家领域</th>
+                    <th width="25%"> 操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+            <div class="mx-page glzyh m-style"></div>
+        </div>
+        <div id="user_profile">
+            <div class="tjzsb add-user " style="padding-top:60px;width: 700px;margin:auto">
+                <div class="" style="width: 100px;margin: auto">
+                    <input type="file" hidden name="picture" accept="image/*" id="publish-file">
+                    <img src="" id="cms-cover" field="tu_logo" class="round_icon" alt=""
+                         onerror="this.src= 'images/people-big.png'">
+                </div>
+                <table class="mx-table  control-dev-form">
+                    <input field="tu_id" type="hidden">
+                    <tr>
+                        <th>登录账号</th>
+                        <td field="tu_username"></td>
+                    </tr>
+                    <tr>
+                        <th>登录密码</th>
+                        <td><input field="tu_pwd1" required type="password" class="text-blue"></td>
+                    </tr>
+                    <tr>
+                        <th>确认密码</th>
+                        <td><input field="tu_pwd" required type="password" class="text-blue"></td>
+                    </tr>
+
+                    <tr>
+                        <th width="20%">姓名</th>
+                        <td><input field="tu_name" required type="text" class="text-blue"></td>
+                    </tr>
+                    <tr>
+                        <th>性别</th>
+
+                        <td><select class="text-lg" field="tu_sex" render="dict"
+                                    dict="user_sex">
+                            <option>默认</option>
+
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <th>年龄</th>
+
+                        <td><input field="tu_age" type="text" class="text-blue"></td>
+
+                    </tr>
+                    <tr>
+                        <th>电话号</th>
+
+                        <td><input field="tu_phone" type="text" class="text-blue"></td>
+                    </tr>
+
+                    <tr>
+                        <th>邮箱</th>
+
+                        <td><input field="tu_email" type="text" class="text-blue"></td>
+
+                    </tr>
+                    <tr>
+                        <th>职务</th>
+
+                        <td><input field="tu_job" type="text" class="text-blue"></td>
+
+                    </tr>
+                    <tr>
+                        <th>学历</th>
+
+                        <td><select class="text-lg" field="tu_edu" render="dict"
+                                    dict="user_edu">
+                            <option>默认</option>
+
+                        </select></td>
+
+                    </tr>
+                    <tr>
+                        <th>简介</th>
+                        <td><p><textarea name="" field="tu_info" cols="60" rows="10"></textarea></p>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="tc mt20">
+                    <a href="javascript:;" class="btn-lg btn-df-red reset">重置</a>
+                    <a href="javascript:;" class="btn-lg btn-df-blue save">保存</a>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div class="xxx-layer xxx-layer1">
+</div>
+<div class="ckscz-layer">
+</div>
+<div class="glz-layer">
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/layer/layer.js"></script>
+<script src="js/jquery.ztree.all.min.js"></script>
+<script src="js/jquery.pagination.js"></script>
+<script src="js/system3.js"></script>
+<script src="js/ajaxfileupload.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+
+<script>
+
+    var page = $('[page="user-list"]');
+
+    $(function () {
+        var e = function () {
+            var e = page.find('[name="searchKeyword"]').val();
+            API.system.user.listUser(0, 3, e, function (e) {
+                console.log(e)
+            })
+        };
+        page.find(".btn-search").click(e).click(), e();
+
+    });
+    $(".yhgl-module>div:not(:first)").hide(),
+            $(".little-menu li").click(function () {
+                $(this).addClass("on").siblings().removeClass("on");
+                $(this).children("a").text();
+                var e = $(this).children("a").attr("data-href");
+                $(e).show().siblings().hide()
+            }), $('.a-s').click(function () {
+        search(this)
+
+    });
+
+
+    //添加入口
+    $(".tjxyh").click(function () {
+        var e = aar[$(this).attr('index')];
+        e.addFunc(e);
+    });
+    //详情入口
+    function detail(el) {
+        var e = aar[$(el).attr('index')];
+        e.detailFunc(e, el);
+    }
+    //详情入口
+    function edit(el) {
+        var e = aar[$(el).attr('index')];
+        e.editFunc(e, el);
+    }
+
+    //删除
+    function del(el) {
+        var e = aar[$(el).attr('index')];
+        e.delFunc(e, el);
+    }
+
+    //删除
+    function check(el) {
+        var e = aar[$(el).attr('index')];
+        e.checkFunc(e, el);
+    }
+
+
+    //    专家答疑
+    var tpl_add1 =
+            ' <div id="layer-content">' +
+            '        <div class="clearfix">' +
+            '            <div >' +
+            '                <h4>标题</h4>' +
+            '                <p>' +
+            '                    <input type="text" style="width: 100%" field="exp_ans_title">' +
+            '                </p>' +
+            '            </div>' +
+            '        </div>' +
+            '        <h4>答疑</h4>' +
+            '        <p><textarea name="" field="exp_ans_content" cols="30" rows="10"></textarea></p>' +
+            '        <div class="tc mt20">' +
+            '            <a href="#" class="btn-lg btn-df-gray cancel">取消</a>' +
+            '            <a href="#" class="btn-lg btn-df-blue save" >保存</a>' +
+            '        </div>' +
+            '    </div>';
+
+    var tpl_add2 =
+            ' <div id="layer-content">' +
+            '        <div class="clearfix">' +
+            '            <div >' +
+            '                <h4>用户问题</h4>' +
+            '                <p>' +
+            '                    <input type="text" readonly style="width: 100%" field="q_title">' +
+            '                </p>' +
+            '            </div>' +
+            '        </div>' +
+            '<div class="ueditor">' +
+            '    <h4>回答</h4>' +
+            '<div id="editor" type="text/plain" style=" z-index:100;"><\/div>' +
+            '</div>' +
+            '        <div class="tc mt20">' +
+            '            <a href="#" class="btn-lg btn-df-gray cancel">取消</a>' +
+            '            <a href="#" class="btn-lg btn-df-blue save" >保存</a>' +
+            '        </div>' +
+            '    </div>';
+
+    var tpl_add3 =
+            '<div id="layer-content">' +
+            '<div class="clearfix">' +
+            '<div >' +
+            '<h4>服务用户</h4>' +
+            '<div class="fieldset">' +
+            '<div class="legend orange">请选择用户</div>' +
+            '<div class="fieldset-con" style="height:320px;overflow-y:auto">' +
+            '<ul id="tree-id" class="ztree"></ul>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="tc mt20">' +
+            '<a href="#" class="btn-lg btn-df-gray cancel">取消</a>' +
+            '<a href="#" class="btn-lg btn-df-blue save" >保存</a>' +
+            '</div>' +
+            '</div>';
+
+
+    //    专家项目
+    var tpl_add4 =
+            ' <div id="layer-content">' +
+            '        <div class="clearfix">' +
+            '            <div >' +
+            '                <h4>项目标题</h4>' +
+            '                <p>' +
+            '                    <input type="text" style="width: 100%" field="exp_pro_title">' +
+            '                </p>' +
+            '            </div>' +
+            '        </div>' +
+            '        <h4>项目内容</h4>' +
+            '        <p><textarea name="" field="exp_pro_content" cols="30" rows="10"></textarea></p>' +
+            '        <div class="tc mt20">' +
+            '            <a href="#" class="btn-lg btn-df-gray cancel">取消</a>' +
+            '            <a href="#" class="btn-lg btn-df-blue save" >保存</a>' +
+            '        </div>' +
+            '    </div>';
+
+    var tpl_add5 =
+            '<div id="layer-content">' +
+            '<div class="clearfix">' +
+            '<div >' +
+            '<h4>领域</h4>' +
+            '<div class="fieldset">' +
+            '<div class="legend orange">请选择领域</div>' +
+            '<div class="fieldset-con" style="height:320px;overflow-y:auto">' +
+            '<ul id="tree-id" class="ztree"></ul>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="tc mt20">' +
+            '<a href="#" class="btn-lg btn-df-gray cancel">取消</a>' +
+            '<a href="#" class="btn-lg btn-df-blue save" >保存</a>' +
+            '</div>' +
+            '</div>';
+
+
+    //专家答疑
+    var tpl1 = ' <tr>' +
+            '<input field="exp_ans_id"  type="hidden">' +
+            '<td field="tu_name"></td>' +
+            '    <td field="exp_ans_title"></td>' +
+            '    <td field="exp_ans_content"></td>' +
+            '    <td field="update_time"></td>' +
+            '    <td>' +
+            '<a href="#" class="btn-sm" index="0" onclick="detail(this)">查看</a>' +
+            '<a href="#" class="btn-sm" index="0" onclick="edit(this)">编辑</a>' +
+            '<a href="#" class="btn-sm btn-fh" index="0" onclick="del(this)">删除</a>' +
+            '</td>' +
+            '    </tr>';
+
+    //用户问题
+    var tpl2 =
+            ' <tr>' +
+            '  <td field="q_user_name" ></td>' +
+            '  <td field="q_title"></td>' +
+            '  <td field="q_ans"></td>' +
+            '  <td field="update_time"</td>' +
+            '<td>' +
+            '<a href="#" class="btn-sm ck" index="1" onclick="check(this)">审核通过</a>' +
+            '<a href="#" class="btn-sm" index="1" onclick="detail(this)">查看</a>' +
+            '<a href="#" class="btn-sm" index="1" onclick="edit(this)">编辑</a>' +
+            /*'<a href="#" class="btn-sm btn-fh" index="1" onclick="del(this)">删除</a>' +*/
+            '</td>' +
+            ' </tr>';
+    ;//服务用户
+    var tpl3 =
+            '<tr>' +
+
+            '  <td field="tu_name"></td>' +
+            '  <td render="dict" dict="user_sex" field="tu_sex"></td>' +
+            '  <td field="update_time"></td>' +
+            '<td>' +
+            /* '<a href="#" class="btn-sm" index="2" onclick="edit(this)">编辑</a>' +*/
+            '<a href="#" class="btn-sm btn-fh" index="2" onclick="del(this)">删除</a>' +
+            '</td>' +
+            ' </tr>';
+    //专家项目
+
+    var tpl4 = ' <tr>' +
+            '<input field="exp_pro_id"  type="hidden">' +
+            '<td field="tu_name"></td>' +
+            '    <td field="exp_pro_title"></td>' +
+            '    <td field="exp_pro_content"></td>' +
+            '    <td field="update_time"></td>' +
+            '    <td>' +
+            '<a href="#" class="btn-sm" index="3" onclick="detail(this)">查看</a>' +
+            '<a href="#" class="btn-sm" index="3" onclick="edit(this)">编辑</a>' +
+            '<a href="#" class="btn-sm btn-fh" index="3" onclick="del(this)">删除</a>' +
+            '</td>' +
+            '    </tr>';
+
+    //专家项目
+
+    var tpl5 = ' <tr>' +
+            '<input field="exp_field_id"  type="hidden">' +
+            '<td field="tu_name"></td>' +
+            '    <td field="c_name"></td>' +
+            '    <td>' +
+            '<a href="#" class="btn-sm btn-fh" index="4" onclick="del(this)">删除</a>' +
+            '</td>' +
+            '    </tr>';
+    //管理者用户
+
+    var aar =
+            [
+                {
+                    title: '添加答疑',
+                    tpl: tpl1,
+                    tpl_add: tpl_add1,
+                    type: 6,
+                    toEl: 'zjyh',
+                    start: 1,
+                    loadFunc: loadInfo0,
+                    addFunc: add0,
+                    detailFunc: detail0,
+                    editFunc: edit0,
+                    delFunc: delete0,
+                },
+                {
+                    title: '用户问题',
+                    tpl: tpl2,
+                    tpl_add: tpl_add2,
+                    type: 3,
+                    toEl: 'ptyh',
+                    start: 1,
+                    loadFunc: loadInfo1,
+                    addFunc: '',
+                    detailFunc: detail1,
+                    editFunc: edit1,
+                    delFunc: delete1,
+                    checkFunc: check1,
+
+                },
+                {
+                    title: '服务对象',
+                    tpl: tpl3,
+                    tpl_add: tpl_add3,
+                    type: 5,
+                    toEl: 'sczyh',
+                    start: 1,
+                    loadFunc: loadInfo2,
+                    addFunc: add2,
+                    /*detailFunc: detail2,
+                     editFunc: edit2,*/
+                    delFunc: delete2,
+                },
+                {
+                    title: '专家项目',
+                    tpl: tpl4,
+                    tpl_add: tpl_add4,
+                    type: 2,
+                    toEl: 'glzyh',
+                    start: 1,
+                    loadFunc: loadInfo3,
+                    addFunc: add3,
+                    detailFunc: detail3,
+                    editFunc: edit3,
+                    delFunc: delete3,
+                },
+                {
+                    title: '专家领域',
+                    tpl: tpl5,
+                    tpl_add: tpl_add5,
+                    type: 2,
+                    toEl: 'zjly',
+                    start: 1,
+                    loadFunc: loadInfo4,
+                    addFunc: add4,
+                    detailFunc: '',
+                    editFunc: '',
+                    delFunc: delete4,
+                },
+            ];
+
+
+    reload();
+    function reload() {
+        $.each(aar, function (i, e) {
+            aar[i].loadFunc(e, i)
+
+        });
+
+    }
+
+    //专家答疑列表
+    function loadInfo0(o, c) {
+        API.service("/expAns/list", {
+            tu_id: sessionStorage.getItem("ckuid"),
+            pagesize: 10,
+            start: o.start,
+            u_search: $('.c-' + c).val(),
+        }, function (data) {
+            console.log(data)
+            var toEl = $('#' + o.toEl).find('tbody');
+            toEl.empty();
+            $.each(data.object, function (i, e) {
+                var update_time = new Date(e.update_time);
+
+                var el = UI.renderField(UI.appendFieldTo(o.tpl, e, toEl), e).data("data", e);
+
+                el.find('[field=update_time]').text(update_time.format("yyyy-MM-dd"));
+                el.find('[field=exp_ans_title]').text(UI.cutSize(e.exp_ans_title, 80));
+                el.find('[field=exp_ans_content]').text(UI.cutSize(e.exp_ans_content, 80));
+
+            });
+            pageIt(o, c, data.totalpage);
+        }, function (rsp) {
+            layer.msg(rsp.msg)
+
+//            pageIt(o, c, 1);
+        });
+
+    }
+    //添加专家答疑
+    function add0(e) {
+        var html = e.tpl_add;
+        $(".xxx-layer1").empty('');
+
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: e.title,
+            skin: "mlayer",
+            /* btn: ["保存", "取消"],*/
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer");
+                var ctl_el = UI.appendFieldTo(html, {}, toEl);
+                ctl_el.find('.cancel').on('click', function () {
+                    layer.close(index);
+                })
+
+                ctl_el.find('.save').on('click', function () {
+                    var obj = UI.getFieldValue(layero);
+                    console.log(obj)
+
+                    if (!obj) {
+                        return true
+                    }
+                    obj.tu_id = sessionStorage.getItem("ckuid");
+
+                    API.service("/expAns/save"
+                            , obj, function (d) {
+                                layer.msg(d.msg);
+                                layer.close(index);
+                                reload();
+
+                            })
+                });
+
+            }
+        });
+    }
+
+    function detail0(e, el) {
+        var data = $(el).closest('tr').data("data");
+        var html = e.tpl_add;
+        console.log(data)
+        $(".xxx-layer1").html('');
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: "详情",
+            skin: "mlayer",
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer1");
+                var ctl_el = UI.appendFieldTo(html, data, toEl);
+                ctl_el.find('.mt20').remove();
+                ctl_el.find('input').attr('readonly', "readonly")
+                ctl_el.find('textarea').attr('readonly', "readonly")
+                ctl_el.find('select').attr('disabled', true)
+            }
+        });
+    }
+
+    function edit0(e, el) {
+        var data = $(el).closest('tr').data("data");
+        var html = e.tpl_add;
+        $(".xxx-layer1").html('');
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: "编辑",
+            skin: "mlayer",
+            /* btn: ["保存", "取消"],*/
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer1");
+                var ctl_el = UI.appendFieldTo(html, data, toEl);
+                /*重置*/
+                ctl_el.find('.reset').on('click', function () {
+                    layer.close(index);
+                    edit(el);
+                });
+
+                /*保存*/
+                ctl_el.find('.save').on('click', function () {
+                    var obj = UI.getFieldValue(layero);
+                    if (!obj) {
+                        return true
+                    }
+                    obj.exp_ans_id = data.exp_ans_id;
+                    API.service("/expAns/update"
+                            , obj, function (d) {
+                                layer.msg(d.msg);
+                                if (d.success) {
+                                    layer.close(index);
+                                    reload();
+
+                                }
+                            })
+                });
+            }
+        });
+    }
+    function delete0(e, el) {
+        var data = $(el).closest('tr').data("data");
+        layer.confirm("确定要删除", function (index) {
+            API.service("/expAns/del"
+                    , data, function (d) {
+                        layer.msg(d.msg);
+                        reload();
+                        layer.close(index);
+
+
+                    })
+        });
+
+
+    }
+
+    //---------------------用户问题---------------
+
+    function loadInfo1(o, c) {
+        API.service("/uq/list", {
+            q_exp_id: sessionStorage.getItem("ckuid"),
+            pagesize: 10,
+            start: o.start,
+            u_search: $('.c-' + c).val(),
+        }, function (data) {
+            console.log(data)
+            var toEl = $('#' + o.toEl).find('tbody');
+            toEl.empty();
+            $.each(data.object, function (i, e) {
+                var update_time = new Date(e.update_time);
+
+                var el = UI.renderField(UI.appendFieldTo(o.tpl, e, toEl), e).data("data", e);
+
+                el.find('[field=update_time]').text(update_time.format("yyyy-MM-dd"));
+                el.find('[field=q_title]').text(UI.cutSize(e.q_title, 80));
+                el.find('[field=q_ans]').text(UI.cutSize(UI.getTextFromHtml(e.q_ans), 80));
+
+                if (e.q_state == 2) {
+                    var a = el.find('.ck');
+                    a.text('审核通过');
+
+                    a.removeClass('btn-fh');
+                    a.addClass('btn-hf');
+
+                } else {
+                    var a = el.find('.ck');
+                    a.text('移除审核');
+                    a.removeClass('btn-hf');
+                    a.addClass('btn-fh');
+
+                }
+            });
+            pageIt(o, c, data.totalpage);
+        }, function (rsp) {
+            layer.msg(rsp.msg)
+
+//            pageIt(o, c, 1);
+        });
+
+    }
+
+    function detail1(e, el) {
+        var data = $(el).closest('tr').data("data");
+        var html = e.tpl_add;
+        console.log(data)
+        $(".xxx-layer1").html('');
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: "详情",
+            skin: "mlayer",
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer1");
+                var ctl_el = UI.appendFieldTo(html, data, toEl);
+                ctl_el.find('.mt20').remove();
+                ctl_el.find('input').attr('readonly', "readonly")
+                ctl_el.find('textarea').attr('readonly', "readonly")
+                ctl_el.find('select').attr('disabled', true)
+
+                ctl_el.find('#editor').html(data.q_ans);
+            }
+        });
+    }
+
+    function edit1(e, el) {
+        var data = $(el).closest('tr').data("data");
+        var html = e.tpl_add;
+        var ue;
+        $(".xxx-layer1").html('');
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: "编辑",
+            skin: "mlayer",
+            /* btn: ["保存", "取消"],*/
+            content: $(".xxx-layer1"),
+            cancel: function () {
+                if (ue)
+                    ue.destroy();
+            }, end: function () {
+                if (ue)
+                    ue.destroy();
+            },
+            success: function (layero, index) {
+
+                var toEl = layero.find(".xxx-layer1");
+                var ctl_el = UI.appendFieldTo(html, data, toEl);
+
+                if (ue)ue.destroy();
+
+                ue = UE.getEditor('editor', {
+                    initialFrameWidth: 700,
+                    initialFrameHeight: 200,
+                    autoFloatEnabled: false,
+                    autoHeightEnabled: false,
+                    elementPathEnabled: false,
+                    enableAutoSave: false
+                });
+
+                ue.ready(function () {
+                    ue.setContent(data.q_ans);
+                });
+
+
+                /*重置*/
+                ctl_el.find('.cancel').on('click', function () {
+                    if (ue)ue.destroy();
+                    layer.close(index);
+
+                });
+
+                /*保存*/
+                ctl_el.find('.save').on('click', function () {
+                    var obj = UI.getFieldValue(layero);
+                    if (!obj) {
+                        return true
+                    }
+                    obj.user_question_id = data.user_question_id;
+                    obj.q_ans = ue.getContent();
+                    API.service("/uq/update"
+                            , obj, function (d) {
+                                layer.msg(d.msg);
+                                if (d.success) {
+                                    layer.close(index);
+                                    reload();
+
+                                }
+                            })
+                });
+
+
+            }
+        });
+    }
+
+
+    /**
+     * 审核
+     * @param e
+     * @param el
+     */
+
+    function check1(e, el) {
+        var data = $(el).closest('tr').data("data");
+        var word = "";
+        if (data.q_state == 1) {
+            data.q_state = 2;
+            word = '确定撤销审核？'
+        } else {
+            data.q_state = 1;
+            word = '确定审核通过？'
+        }
+        var obj = {};
+        obj.user_question_id = data.user_question_id;
+        obj.q_state = data.q_state;
+
+        API.service("/uq/update"
+                , obj, function (d) {
+                    layer.msg(d.msg);
+                    if (d.success) {
+                        reload();
+
+                    }
+                })
+
+    }
+    function delete1(e, el) {
+        var data = $(el).closest('tr').data("data");
+        layer.confirm("确定要删除", function (index) {
+            API.service("/uq/del"
+                    , data, function (d) {
+                        layer.msg(d.msg);
+                        reload();
+                        layer.close(index);
+
+
+                    })
+        });
+
+
+    }
+
+    //---------------------服务对象---------------
+
+    function add2(e) {
+        var html = e.tpl_add;
+        $(".xxx-layer1").empty('');
+
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: e.title,
+            skin: "mlayer",
+            /* btn: ["保存", "取消"],*/
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer1");
+                var ctl_el = UI.appendFieldTo(html, {}, toEl);
+                ctl_el.find('.cancel').on('click', function () {
+                    layer.close(index);
+                })
+
+                ctl_el.find('.save').on('click', function () {
+                    var obj = UI.getFieldValue(layero);
+                    console.log(obj)
+
+                    if (!obj) {
+                        return true
+                    }
+
+                    obj.tu_id = sessionStorage.getItem("ckuid");
+                    obj.dids = get_devs();
+
+                    if (!obj.dids || obj.dids.length == 0) {
+                        layer.msg("请选择用户！");
+                        return false;
+                    }
+
+                    API.service("/expClient/saveList"
+                            , obj, function (d) {
+                                layer.msg(d.msg);
+                                layer.close(index);
+                                reload();
+
+                            })
+                });
+
+
+//                tree
+
+                var get_devs = function () {
+                    var e = $("#tree-id").data("z-tree").getCheckedNodes(!0);
+                    if (0 === e.length) {
+                        return null;
+                    }
+                    var arr = [];
+                    $.each(e, function () {
+                        arr.push(this.oriData.uid)
+                    });
+                    if (0 === arr.length) {
+                        return null;
+                    }
+
+                    return arr;
+                }
+                var lastSelectNode;
+                treeEl = ctl_el.find("#tree-id");
+                var onNodeSelect = function (e) {
+
+                    var node = e;
+                    if (node && lastSelectNode && lastSelectNode === node)return;
+                    if (!node)node = lastSelectNode;
+                    if (!node)return;
+
+                    lastSelectNode = node;
+
+                };
+                var zTreeOnCheck = function (o) {
+
+
+                    var e = ctl_el.find("#tree-id").data("z-tree").getCheckedNodes(!0);
+                    if (0 === e.length)
+                        return;
+                    var i = [];
+                    $.each(e, function () {
+                        i.push(this.oriData.uid)
+                    })
+                    if (0 === i.length)
+                        return;
+
+                }
+                UI.renderUserTree(treeEl,
+                        onNodeSelect,
+                        {
+                            check: {enable: !0},
+                            callback: {
+                                onCheck: zTreeOnCheck
+                            }
+                        }, {
+                            1: !0,
+                            2: !0,
+                            3: !0
+                        });
+
+                treeEl.on("z-tree-load", function () {
+                    var nodes = $(this).data("z-tree").getNodes();
+                    nodes && nodes.length > 0 && onNodeSelect(nodes[0]);
+                });
+
+            }
+        });
+    }
+
+    function loadInfo2(o, c) {
+        API.service("/expClient/list", {
+            exp_id: sessionStorage.getItem("ckuid"),
+            pagesize: 10,
+            start: o.start,
+            u_search: $('.c-' + c).val(),
+        }, function (data) {
+            console.log(data)
+            var toEl = $('#' + o.toEl).find('tbody');
+            toEl.empty();
+            $.each(data.object, function (i, e) {
+                var update_time = new Date(e.update_time);
+
+                var el = UI.renderField(UI.appendFieldTo(o.tpl, e, toEl), e).data("data", e);
+
+                el.find('[field=update_time]').text(update_time.format("yyyy-MM-dd"));
+
+            });
+            pageIt(o, c, data.totalpage);
+        }, function (rsp) {
+            layer.msg(rsp.msg)
+        });
+
+    }
+
+    function delete2(e, el) {
+        var data = $(el).closest('tr').data("data");
+        layer.confirm("确定要删除", function (index) {
+            API.service("/expClient/del"
+                    , data, function (d) {
+                        layer.msg(d.msg);
+                        reload();
+                        layer.close(index);
+
+
+                    })
+        });
+
+
+    }
+
+
+    //*******************专家项目*********************************
+
+    //专家答疑列表
+    function loadInfo3(o, c) {
+        API.service("/expPro/list", {
+            tu_id: sessionStorage.getItem("ckuid"),
+            pagesize: 10,
+            start: o.start,
+            u_search: $('.c-' + c).val(),
+        }, function (data) {
+            console.log(data)
+            var toEl = $('#' + o.toEl).find('tbody');
+            toEl.empty();
+            $.each(data.object, function (i, e) {
+                var update_time = new Date(e.update_time);
+
+                var el = UI.renderField(UI.appendFieldTo(o.tpl, e, toEl), e).data("data", e);
+
+                el.find('[field=update_time]').text(update_time.format("yyyy-MM-dd"));
+                el.find('[field=exp_pro_title]').text(UI.cutSize(e.exp_pro_title, 80));
+                el.find('[field=exp_pro_content]').text(UI.cutSize(e.exp_pro_content, 80));
+
+            });
+            pageIt(o, c, data.totalpage);
+        }, function (rsp) {
+            layer.msg(rsp.msg)
+
+//            pageIt(o, c, 1);
+        });
+
+    }
+    //添加专家答疑
+    function add3(e) {
+        var html = e.tpl_add;
+        $(".xxx-layer1").empty('');
+
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: e.title,
+            skin: "mlayer",
+            /* btn: ["保存", "取消"],*/
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer1");
+                var ctl_el = UI.appendFieldTo(html, {}, toEl);
+                ctl_el.find('.cancel').on('click', function () {
+                    layer.close(index);
+                })
+
+                ctl_el.find('.save').on('click', function () {
+                    var obj = UI.getFieldValue(layero);
+                    console.log(obj)
+
+                    if (!obj) {
+                        return true
+                    }
+                    obj.tu_id = sessionStorage.getItem("ckuid");
+
+                    API.service("/expPro/save"
+                            , obj, function (d) {
+                                layer.msg(d.msg);
+                                layer.close(index);
+                                reload();
+
+                            })
+                });
+
+            }
+        });
+    }
+
+    function detail3(e, el) {
+        var data = $(el).closest('tr').data("data");
+        var html = e.tpl_add;
+
+        console.log(data)
+        $(".xxx-layer1").html('');
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: "详情",
+            skin: "mlayer",
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer1");
+                var ctl_el = UI.appendFieldTo(html, data, toEl);
+                ctl_el.find('.mt20').remove();
+                ctl_el.find('input').attr('readonly', "readonly")
+                ctl_el.find('textarea').attr('readonly', "readonly")
+                ctl_el.find('select').attr('disabled', true)
+            }
+        });
+    }
+
+    function edit3(e, el) {
+        var data = $(el).closest('tr').data("data");
+        var html = e.tpl_add;
+        $(".xxx-layer1").html('');
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: "编辑",
+            skin: "mlayer",
+            /* btn: ["保存", "取消"],*/
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer");
+                var ctl_el = UI.appendFieldTo(html, data, toEl);
+                /*重置*/
+                ctl_el.find('.reset').on('click', function () {
+                    layer.close(index);
+                    edit(el);
+                });
+
+                /*保存*/
+                ctl_el.find('.save').on('click', function () {
+                    var obj = UI.getFieldValue(layero);
+                    if (!obj) {
+                        return true
+                    }
+                    obj.exp_pro_id = data.exp_pro_id;
+                    API.service("/expPro/update"
+                            , obj, function (d) {
+                                layer.msg(d.msg);
+                                if (d.success) {
+                                    layer.close(index);
+                                    reload();
+
+                                }
+                            })
+                });
+            }
+        });
+    }
+    function delete3(e, el) {
+        var data = $(el).closest('tr').data("data");
+        layer.confirm("确定要删除", function (index) {
+            API.service("/expPro/del"
+                    , data, function (d) {
+                        layer.msg(d.msg);
+                        reload();
+                        layer.close(index);
+
+
+                    })
+        });
+
+
+    }
+
+    //================专家领域============================
+
+
+    function add4(e) {
+        var html = e.tpl_add;
+        $(".xxx-layer1").empty('');
+
+        layer.open({
+            type: 1,
+            area: ["820px", "608px"],
+            title: e.title,
+            skin: "mlayer",
+            /* btn: ["保存", "取消"],*/
+            content: $(".xxx-layer1"),
+            success: function (layero, index) {
+                var toEl = layero.find(".xxx-layer1");
+                var ctl_el = UI.appendFieldTo(html, {}, toEl);
+                ctl_el.find('.cancel').on('click', function () {
+                    layer.close(index);
+                })
+
+                ctl_el.find('.save').on('click', function () {
+                    var obj = UI.getFieldValue(layero);
+
+                    if (!obj) {
+                        return true
+                    }
+
+                    obj.tu_id = sessionStorage.getItem("ckuid");
+                    obj.cs = get_devs();
+
+                    if (!obj.cs || obj.cs.length == 0) {
+                        layer.msg("请选择领域！");
+                        return false;
+                    }
+
+                    API.service("/expField/batchAdd"
+                            , obj, function (d) {
+                                layer.msg(d.msg);
+                                layer.close(index);
+                                reload();
+
+                            })
+                });
+
+
+//                tree
+
+                var get_devs = function () {
+                    var e = $("#tree-id").data("z-tree").getCheckedNodes(!0);
+                    if (0 === e.length) {
+                        return null;
+                    }
+                    var arr = [];
+                    $.each(e, function () {
+                        arr.push(this.oriData.c_id)
+                    });
+                    if (0 === arr.length) {
+                        return null;
+                    }
+
+                    return arr;
+                }
+                var lastSelectNode;
+                treeEl = ctl_el.find("#tree-id");
+                var onNodeSelect = function (e) {
+
+                    var node = e;
+                    if (node && lastSelectNode && lastSelectNode === node)return;
+                    if (!node)node = lastSelectNode;
+                    if (!node)return;
+
+                    lastSelectNode = node;
+
+                };
+                var zTreeOnCheck = function (o) {
+
+
+                    var e = ctl_el.find("#tree-id").data("z-tree").getCheckedNodes(!0);
+                    if (0 === e.length)
+                        return;
+                    var i = [];
+                    $.each(e, function () {
+                        i.push(this.oriData.c_id)
+                    })
+                    if (0 === i.length)
+                        return;
+
+                }
+                UI.renderClassTree(treeEl,
+                        onNodeSelect,
+                        {
+                            check: {enable: !0},
+                            callback: {
+                                onCheck: zTreeOnCheck
+                            }
+                        }, {
+                            1: !0,
+                        }, 6);
+
+                treeEl.on("z-tree-load", function () {
+                    var nodes = $(this).data("z-tree").getNodes();
+                    nodes && nodes.length > 0 && onNodeSelect(nodes[0]);
+                    API.service("/listExpFileds", {
+                        tu_id: sessionStorage.getItem("ckuid"),
+                        pagesize: 1000,
+                    }, function (data) {
+                        var treeObj = $.fn.zTree.getZTreeObj("tree-id");
+                        $.each(data.object, function (i, e) {
+                            treeObj.checkNode(treeObj.getNodeByParam("id", e.c_id, null), true, true);
+
+
+                        });
+                    }, function () {
+
+                    });
+
+                });
+
+            }
+        });
+    }
+
+    function loadInfo4(o, c) {
+        API.service("/listExpFileds", {
+            tu_id: sessionStorage.getItem("ckuid"),
+            pagesize: 1000,
+            start: o.start,
+            u_search: $('.c-' + c).val(),
+        }, function (data) {
+            var toEl = $('#' + o.toEl).find('tbody');
+            toEl.empty();
+            $.each(data.object, function (i, e) {
+                var update_time = new Date(e.update_time);
+
+                var el = UI.renderField(UI.appendFieldTo(o.tpl, e, toEl), e).data("data", e);
+
+                el.find('[field=update_time]').text(update_time.format("yyyy-MM-dd"));
+
+            });
+            pageIt(o, c, data.totalpage);
+        }, function (rsp) {
+            layer.msg(rsp.msg)
+        });
+
+    }
+
+    function delete4(e, el) {
+        var data = $(el).closest('tr').data("data");
+
+        layer.confirm("确定要删除", function (index) {
+            API.service("/expField/del"
+                    , data, function (d) {
+                        console.log(data)
+                        layer.msg(d.msg);
+                        reload();
+                        layer.close(index);
+
+
+                    })
+        });
+
+
+    }
+
+
+    function pageIt(o, c, p) {
+        return false;
+
+        var c_ = c;
+        $('.' + o.toEl).pagination(
+                {
+                    pageCount: p,
+                    jump: false,
+                    current: aar[c].start,
+                    coping: true,
+                    homePage: '首页',
+                    endPage: '末页',
+                    prevContent: '上页',
+                    nextContent: '下页',
+                    callback: function (api) {
+                        aar[c_].start = api.getCurrent();
+                        aar[c_].loadFunc(o, c_)
+                    }
+                }
+        );
+    }
+    function search(o) {
+        var index = $(o).prev()
+        i = index.attr('index');
+        var name = $(o).prev().val();
+
+        /*if (!name || name == '') {
+         layer.msg('请输入内容！')
+         }*/
+        aar[i].s
+        aar[i].loadFunc(aar[i], i);
+
+    }
+    loadUInfo();
+    //修改用户信息
+    function loadUInfo() {
+        API.service("/listUserForMap", {
+            uid: sessionStorage.getItem("ckuid"),
+        }, function (data) {
+            var data = data.object[0];
+
+
+            var html = $('#user_profile');
+
+
+            $("#cms-cover").attr('value', data.tu_logo);
+            $("#cms-cover").attr('src', data.tu_logo);
+
+            var ctl_el = UI.renderField(html, data);
+
+            ctl_el.find('[field="tu_pwd1"]').val(data.tu_pwd);
+
+            ctl_el.find('.reset').on('click', function () {
+
+                loadUInfo();
+            });
+            ctl_el.find('.save').on('click', function () {
+                var obj = UI.getFieldValue(html);
+                console.log(obj)
+                if (!obj) {
+                    return true
+                }
+                obj.uid = obj.tu_id;
+                obj.tu_logo = $("#cms-cover").attr('value');
+
+                if (!(ctl_el.find('[field="tu_pwd"]').val() === ctl_el.find('[field="tu_pwd1"]').val())) {
+                    layer.alert("两次输入的密码不一样！")
+                    return false;
+                }
+                API.service("/updateUser"
+                        , obj, function (d) {
+                            layer.msg(d.msg);
+
+                        })
+            });
+
+
+        }, function (rsp) {
+            layer.msg(rsp.msg)
+
+        });
+    }
+
+    var img_input = $("#publish-file");
+    var cover = $("#cms-cover");
+    cover.on('click', function () {
+        img_input.click();
+    });
+    img_input.on("change", function () {
+        if ($(this).val()) {
+            var data = {
+                ckuid: sessionStorage.getItem("ckuid"),
+                cksid: sessionStorage.getItem("cksid"),
+                oldfile: "",
+            };
+            startLoading();
+            uploadImg(data, '/addPicture', 'publish-file', 'cms-cover');
+            stopLoading();
+
+        }
+    });
+
+
+</script>
+<script>
+
+
+    var page = $('[page="publish4"]')
+
+    t = page.find(".mx-top-search"),
+            i = page.parents("div#main_iframe").attr("src") || location.href, n = purl(i).param("keyword");
+
+
+    var layer_html = '' +
+            '        <div class="left-info">' +
+            '<input type="hidden" field="m_id"/>' +
+            '            <h4>标题</h4>' +
+            '            <p><input type="text" field="m_title" required id="publish-title"></p>' +
+            '            <h4> 作者名</h4>' +
+            '            <p><input type="text"  required  field="m_authorname" id="publish-author"></p>' +
+            '            <h4>所属一级分类</h4>' +
+            '            <p>' +
+            '                <select name="" field="m_class" required id="publish-class-sel">' +
+            '                    <option value=""></option>' +
+            '                </select>' +
+            '            </p>' +
+            '            <h4>所属二级分类</h4>' +
+            '            <p>' +
+            '                <select name="" field="m_class2" required id="publish-class-sel2">' +
+            '                    <option value=""></option>' +
+            '                </select>' +
+            '            </p>' +
+            '        </div>' +
+            '        <div class="right-file">' +
+            '            <input type="file" name="picture" accept="image/*" id="publish-file">' +
+            '            <img style="width: 100%;bo field="m_cover" id="cms-cover" src="images/upfile.png" alt="">' +
+            '        </div>' +
+
+
+            '<div class="ueditor">' +
+            '    <h4>文章信息</h4>' +
+            '<div id="editor" type="text/plain" style=" z-index:100;"><\/div>' +
+            '</div>' +
+
+            '    <div class="tc mt20 " style="float: left; text-align: center;width: 100%">' +
+            '        <a href="#" id="publish-frm-cancel"  class="btn-lg btn-df-gray">取消</a>' +
+            '        <a href="#" id="publish-frm-save" class="btn-lg btn-df-blue">保存</a>' +
+            '    </div>';
+
+    var tplNewIt =
+            '<div class="module-box">' +
+            '<div class="module-info">' +
+            '<div class="img">' +
+            '<img src="images/pic2.png" style="height: 100%;width: auto"   onerror="this.setAttribute(\'url\',\'images/pic2.png\');this.removeAttribute(\'onerror\')" field="m_cover" alt="" />' +
+            '</div>' +
+            '<h4 field="m_authorname">天知道博士</h4>' +
+            '<p field="m_time" date-format="yyyy年MM月dd日">2018年7月12日</p>' +
+            '</div>' +
+            '<h3 field="m_title"></h3>' +
+            '<p field="m_content" max-length="100" class="sm-info">..</p>' +
+            '<p class="tr">' +
+            '<a class="btn-sm edit" onclick="showMessageDetail({m_id},4,\'查看\',2);return false;">详情</a>' +
+            '<a class="btn-sm  edit" onclick="edit_msg(this)" >编辑</a>' +
+            '<a class="btn-sm btn-fh edit" onclick="del_msg(this)" >删除</a>' +
+
+
+            '</p>' +
+            '</div>';
+    var title1 = '<div class="line-tit">{c_name}</div> ';
+
+    /*了解更多&gt;*/
+    var title2 =
+            '  <div class="mx-title"> ' +
+            '   <h3>{c_name} ' +
+            '     <a href="#" class="more" onclick="window.openPageContent(&quot;信息发布&quot;,&quot;首页资讯&quot;)">' +
+            '     </a> ' +
+            '   </h3> ' +
+            '  </div>';
+    var cnt = '<div id="cnt_{c_id}" class=" mt20 clearfix module-box-cnt xjgyjList"></div>';
+
+
+    var queryIt_msg = function (m_class, m_class2) {
+        var i = t.find("input").val();
+        var data = {
+            m_type: 4,
+            m_title: i,
+            m_class: m_class,
+            m_class2: m_class2,
+            m_source: 2,
+            m_author_id: sessionStorage.getItem("ckuid")
+        };
+
+
+        API.service("/listHomePageMessage", data, function (d) {
+
+            var el = page.find('#articals');
+            el.empty();
+            for (class1 in  d.object) {
+                var c1 = d.object[class1];
+                UI.appendFieldTo(title1, c1, el);
+                for (var class2 in c1.classList) {
+                    var c2 = c1.classList[class2];
+                    UI.appendFieldTo(title2, c2, el)
+                    var cnt_el = UI.appendFieldTo(cnt, c2, el);
+
+                    for (var message in c2.messageList) {
+                        var msg = c2.messageList[message];
+                        var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el).data('data', msg);
+                        cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 150));
+
+                    }
+
+                }
+            }
+        }, function (e) {
+//            layer.alert(e.msg);
+        });
+    };
+
+
+    //删除
+    function del_msg(el) {
+        var data = $(el).parents('.module-box').data('data');
+
+        layer.confirm('确定删除？', function (idx) {
+            API.service("/deleteMessage", {m_id: data.m_id}, function (e) {
+
+                layer.msg(e.msg), layer.close(idx), queryIt_msg();
+            });
+
+        });
+
+
+    }
+
+    //编辑
+    function edit_msg(el) {
+        var data = $(el).parents('.module-box').data('data');
+
+        var ue;
+        console.log(data)
+        page.find('.xxx-layer').empty();
+        page.find('.xxx-layer').html(layer_html);
+        layer.open({
+            type: 1,
+            area: ["720px", "650px"],
+            title: "新建资讯信息",
+            content: page.find(".xxx-layer"),
+            skin: "mlayer",
+            cancel: function () {
+                if (ue)
+                    ue.destroy();
+            }, end: function () {
+                if (ue)
+                    ue.destroy();
+            },
+
+            success: function (e, t) {
+                var el = e.find('.xxx-layer');
+                if (ue)ue.destroy();
+
+                UI.renderField(el, data);
+
+                ue = UE.getEditor('editor', {
+                    initialFrameWidth: 620,
+                    initialFrameHeight: 200,
+                    autoFloatEnabled: false,
+                    autoHeightEnabled: false,
+                    elementPathEnabled: false,
+                    enableAutoSave: false
+                });
+
+                ue.ready(function () {
+                    ue.setContent(data.m_content);
+                });
+
+
+                var artical_1 = el.find("#publish-class-sel").empty(),
+                        artical_2 = el.find("#publish-class-sel2").empty(),
+                        author = el.find("#publish-author"),
+                        title = el.find("#publish-title"),
+                        file = el.find("#publish-file");
+
+                var fChange = function () {
+                    if ($(this).val()) {
+                        var data = {
+                            ckuid: sessionStorage.getItem("ckuid"),
+                            cksid: sessionStorage.getItem("cksid"),
+                            oldfile: "",
+                        };
+                        startLoading();
+                        uploadImg(data, '/addPicture', 'publish-file', 'cms-cover',
+                                function () {
+                                    el.find("#publish-file").next("img").attr("src", e.object);
+                                    el.find("#publish-file").next("img").attr("value", e.object)
+
+                                    el.find("#publish-file").on("change", fChange);
+                                }, function (e) {
+                                    layer.msg(e.msg);
+                                    el.find("#publish-file").on("change", fChange);
+
+                                });
+                        stopLoading();
+
+                    }
+                }
+                file.next("img").attr("src", data.m_cover ? data.m_cover : "images/nopic.png");
+
+                file.on("change", fChange);
+
+                $.ajaxSetup({
+                    async: false
+                });
+
+                var first1 = true;
+                var first2 = true;
+                UI.renderHArtical_class1(artical_1, function (i) {
+                    if (null !== $(this).val())
+                        UI.renderHArtical_class2(artical_2, $(this).val(), function (i) {
+                            if (null !== $(this).val()) {
+
+                                console.log(first1, first2)
+                                if (first1) {
+                                    console.log(first1, first2)
+                                    first1 = false;
+                                    artical_1.val(data.m_class)
+                                    artical_1.change();
+                                    return false;
+                                }
+
+                                if (!first1 && first2) {
+                                    console.log(first1, first2)
+                                    first2 = false;
+                                    $(this).val(data.m_class2)
+                                    return false;
+                                }
+
+                            }
+
+                        })
+
+                });
+
+
+                artical_1.val(data.m_class);
+                artical_2.val(data.m_class2);
+
+
+                el.find("#publish-frm-save").on('click', function (e) {
+
+                    var param = {
+                        m_id: data.m_id,
+                        m_authorname: author.val(),
+                        m_class: artical_1.val(),
+                        m_class2: artical_2.val(),
+                        m_content: ue.getContent(),
+                        m_title: title.val(),
+                        m_type: "4",
+                        m_source: 2,
+                        m_cover: el.find('#cms-cover').attr("src")
+                    };
+                    var o = UI.getFieldValue(el)
+
+                    if (!o)
+                        return false;
+
+                    console.log(o)
+                    console.log(param)
+
+                    API.service("/updateMessage", param, function (e) {
+                        if (ue)
+                            ue.destroy();
+                        layer.msg(e.msg), layer.close(t), queryIt_msg();
+                    });
+
+                }), el.find("#publish-frm-cancel").on('click', function (e) {
+                    layer.close(t)
+                });
+
+
+            }, end: function () {
+                page.find(".layui-layer-shade").remove();
+            }
+        })
+
+    }
+    ;
+
+    $(function () {
+        var page = $('[page="publish4"]')
+        var e = $('[page="publish4"]'),
+                t = e.find(".mx-top-search"),
+                i = e.parents("div#main_iframe").attr("src") || location.href, n = purl(i).param("keyword");
+        n && t.find("input").val(n);
+
+
+        t.find("a").click(function () {
+            queryIt_msg();
+        }).click(),
+                page.find(".mx-top-select > h3").click(function () {
+                    $(this).hasClass("on") ? ($(this).removeClass("on"),
+                            $(this).next().hide()) : ($(this).addClass("on"),
+                            $(this).next().show())
+                }),
+                page.find("#syzx").click(function () {
+                    page.find('.xxx-layer').empty();
+                    page.find('.xxx-layer').html(layer_html);
+
+                    var ue;
+                    layer.open({
+                        type: 1,
+                        area: ["720px", "650px"],
+                        title: "新建资讯信息",
+                        content: page.find(".xxx-layer"),
+                        skin: "mlayer",
+                        cancel: function () {
+                            if (ue)
+                                ue.destroy();
+                        },
+
+                        success: function (e, t) {
+                            var el = e.find('.xxx-layer');
+                            if (ue)
+                                ue.destroy();
+                            ue = UE.getEditor('editor', {
+                                initialFrameWidth: 620,
+                                initialFrameHeight: 200,
+                                autoFloatEnabled: false,
+                                autoHeightEnabled: false,
+                                elementPathEnabled: false,
+                                enableAutoSave: false
+                            });
+
+                            ue.ready(function () {
+
+                                ue.setContent(' ');
+//                                e.find(".edui-toolbar").attr('overflow','auto');
+                            });
+
+
+                            var a = e.find("#publish-class-sel").empty(),
+                                    artical_2 = e.find("#publish-class-sel2").empty(),
+                                    s = e.find("#publish-author").val(""),
+                                    i = e.find("#publish-title").val(""),
+                                    n = e.find("#publish-content").val(""),
+                                    l = e.find("#publish-file");
+
+                            var fChange = function () {
+                                if ($(this).val()) {
+                                    var data = {
+                                        ckuid: sessionStorage.getItem("ckuid"),
+                                        cksid: sessionStorage.getItem("cksid"),
+                                        oldfile: "",
+                                    };
+                                    startLoading();
+                                    uploadImg(data, '/addPicture', 'publish-file', 'cms-cover',
+                                            function () {
+                                                el.find("#publish-file").next("img").attr("src", e.object);
+                                                el.find("#publish-file").next("img").attr("value", e.object)
+
+                                                el.find("#publish-file").on("change", fChange);
+                                            }, function (e) {
+                                                layer.msg(e.msg);
+                                                el.find("#publish-file").on("change", fChange);
+
+                                            });
+                                    stopLoading();
+
+                                }
+                            }
+                            l.next("img").attr("src", "images/upfile.png"),
+
+                                    l.on("change", fChange),
+
+                                    UI.renderHArtical_class1(a, function (i) {
+                                        null !== $(this).val()
+                                        &&
+                                        UI.renderHArtical_class2(artical_2, $(this).val(), function (i) {
+                                            null !== $(this).val()
+
+                                        })
+                                    });
+
+
+                            el.find("#publish-frm-save").on('click', function (e) {
+
+                                var o = UI.getFieldValue(el)
+
+                                if (!o)
+                                    return false;
+
+                                if (!artical_2.val()) {
+                                    layer.msg("请选择二级分类");
+                                    artical_2.focus();
+                                }
+
+                                if (!a.val()) {
+                                    layer.msg("请选择一级分类");
+                                    a.focus();
+                                }
+
+
+                                API.service("/addMessage", {
+                                    m_authorname: s.val(),
+                                    m_class: a.val(),
+                                    m_class2: artical_2.val(),
+                                    m_content: ue.getContent(),
+                                    m_title: i.val(),
+                                    m_type: "4",
+                                    m_source: 2,
+                                    m_cover: el.find('#cms-cover').attr("src"),
+                                    m_author_id: sessionStorage.getItem("ckuid")
+                                }, function (e) {
+                                    if (ue)
+                                        ue.destroy();
+                                    layer.msg(e.msg), layer.close(t), queryIt_msg();
+                                });
+
+                            }), el.find("#publish-frm-cancel").on('click', function (e) {
+                                layer.close(t)
+                            });
+
+
+                        }, end: function () {
+                            page.find(".layui-layer-shade").remove();
+                        }
+                    })
+                }),
+                page.find(".mx-checkbox").click(function (i) {
+                    $(this).toggleClass("on")
+                }),
+                page.find(".sblb >h3").click(function () {
+                    $(this).next().toggle();
+                });
+
+        var c1 = page.find('#class1')
+        var c2 = page.find('#class2')
+
+        UI.renderHArtical_class1(c1, function (i) {
+            var c_rid = $(this).val();
+
+            if (null !== c_rid) {
+                UI.renderHArtical_class2(c2, $(this).val(), function (i) {
+                    var c_id = $(this).val();
+
+                })
+            }
+        });
+
+        page.find('#class-seach').on('click', function () {
+            queryIt_msg($(c1).val(), $(c2).val())
+
+        });
+
+
+    })
+    ;
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网-系统管理</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="xgzsb" page="znkzgz">
+    <div class="clearfix mt10">
+        <div class="btn-groups fl">
+            <a href="javascript:;" class="btn-lg btn-df-red btn-delete-all btn-delete">删除选中规则</a>
+            <a href="javascript:;" class="btn-lg btn-df-blue btn-add" id="xjgz">新建规则</a>
+        </div>
+        <a href="javascript:;" class="btn-lg btn-df-blue fr btn-save">保存</a></div>
+    <table class="mx-table2  mt10 tbl-list">
+        <thead>
+
+
+        <tr>
+            <th width="3%" class="tc">
+                <div class="mx-checkbox select-all"><em></em></div>
+            </th>
+            <th>规则名称</th>
+            <th width="8%">间隔(m)</th>
+            <th width="6%">状态</th>
+            <th width="12%">监测传感器</th>
+            <!--<th width="8%">数值范围</th>-->
+            <th width="8%">小于</th>
+            <th width="12%">执行命令</th>
+            <th width="8%">大于</th>
+            <th width="12%">执行命令</th>
+            <th width="10%">执行时长(s)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="row-tpl" style="display: none">
+            <input type="hidden" field="mo_id"/>
+            <td class="tc">
+                <div class="mx-checkbox"><em></em></div>
+            </td>
+            <td><input type="text" required field="mo_name" class="text"></td>
+            <td><input type="text" required field="check_interval" class="text"></td>
+            <td>
+                <div class="mx-switch" field="mo_state"><em>关</em><i></i></div>
+            </td>
+            <td><select name="" required field="mo_channel" class="text">
+            </select></td>
+            <td><input type="text" required field="mo_lower" class="text"></td>
+            <td><select name="" required field="order_less" class="text">
+                <option value="1" selected>开启</option>
+                <option value="2">关闭</option>
+            </select>
+
+            <td><input type="text" required field="mo_high" class="text"></td>
+            <td><select name="" required field="order_more" class="text">
+                <option value="2" selected>关闭</option>
+                <option value="1">开启</option>
+            </select>
+            <td><input type="text" required field="duration" class="text"></td>
+
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    if (!window.jQuery) {
+        var html = '<script src="js/jquery.min.js"><\/script>\n<script src="js/jquery.scrollTo.min.js"><\/script>\n<script src="js/jquery.bgiframe-2.1.2.js"><\/script>\n<script src="js/jquery.ztree.all.min.js"><\/script>\n<script src="js/layer/laydate/laydate.js"><\/script>\n<script src="js/layer/layer.js"><\/script>\n<script src="js/slide.js"><\/script>\n<script src="js/common.js"><\/script>\n<script src="js/purl.js"><\/script>\n<script src="js/api.js"><\/script>\n<script src="js/ui.js"><\/script>';
+        document.write(html)
+    }</script>
+<script>
+    var tpl = $("<div></div>").append($(".row-tpl").clone()).html();
+    var layero = $('.xgzsb');
+
+
+    $(".mx-switch").click(function () {
+        var t = $(this).children("em").text();
+        console.log(t), "开" == t ? ($(this).removeClass("on"), $(this).children("em").text("关")) : ($(this).addClass("on"), $(this).children("em").text("开"))
+    }), $(".mx-checkbox").click(function (t) {
+        $(this).toggleClass("on")
+    });
+
+    var url = purl(location.href);
+    var defVal = {};
+
+    defVal.ctrl_id = url.param('ctrl_id');
+    defVal.type = url.param('type');
+    defVal.deviceId = url.param('deviceId');
+    defVal.tp_id = url.param('tp_id');
+
+
+    $(".tbl-list").on("click", ".mx-checkbox", function (t) {
+        $(this).toggleClass("on")
+    });
+
+    var tbody = $(".tbl-list>tbody");
+    var thead = $(".tbl-list>thead");
+
+    thead.find(".mx-checkbox").click(function () {
+        $(this).hasClass("on") ? tbody.find(":not([field]).mx-checkbox").removeClass("on") : tbody.find(":not([field]).mx-checkbox").addClass("on")
+    });
+
+
+    $(".mx-checkbox").on("click", function () {
+        var me = $(this);
+        var onAll = me.toggleClass("on").is(".select-all");
+        if (onAll) {
+            var checkBox = layero.find("tbody .mx-checkbox").addClass("on");
+            if (me.is(".on")) {
+                checkBox.removeClass("on")
+            }
+        }
+    });
+    $(".btn-edit").on('click', function () {
+        var item = $(this).parents("tr").data("data");
+        layer.open({
+            type: 2,
+            title: "修改规则",
+            area: ["800px", "600px"],
+            content: "xjgz.html?action=update&r_id=" + item.r_id,
+            skin: "mlayer"
+        });
+        return false
+    });
+
+
+    $(".btn-delete-all").on("click", function () {
+        var checkBox = layero.find("tbody .mx-checkbox.on");
+        if (!checkBox.size()) {
+            layer.msg("请选择要删除的行");
+            return false
+        }
+        layer.confirm("确定删除选择的" + checkBox.size() + "行吗？", function (idx) {
+            checkBox.each(function () {
+                var itemTr = $(this).parents("tr");
+                var item = itemTr.data("data");
+                API.service("/deleteRule", {r_id: item.r_id}, function (d) {
+                    layer.msg(d.msg);
+                    itemTr.fadeOut().remove()
+                })
+            });
+            layer.close(idx)
+        })
+    });
+
+
+    API.service("/getGatherSettings", {deviceId: defVal.deviceId, tp_id: defVal.tp_id, listDisplay: 1}, function (e) {
+        var t = [];
+        for (var i in e.object)
+            t.push('<option value="' + e.object[i].channel + '">' + e.object[i].name + "</option>\n");
+        var select = t.join("");
+
+        UI.appendFieldTo($(select), {}, $("table.mx-table2>tbody").find('[field="mo_channel"]'));
+
+        tpl = $("<div></div>").append($(".row-tpl").clone().show()).html();
+
+        //$("table.mx-table2>tbody").empty();
+        var load = function () {
+            $("table.mx-table2>tbody").empty();
+            API.service("/listMonitor", {
+                ctrl_id: defVal.ctrl_id,
+                type: defVal.type
+            }, function (rsp) {
+                console.log(rsp)
+                //$("table.mx-table2>tbody").empty();
+                $.each(rsp.object, function (i, e) {
+                    var item = this;
+                    addRow(e, true);
+//                    UI.appendFieldTo(tpl, item, tbody).find('[field="channel"]').html(select).data("data", item);
+                });
+            }, function (e) {
+                layer.msg(e.msg);
+            });
+        }
+
+
+        getNewValueFromHtml = function (t) {
+
+
+            var a = {mo_state: t.find('.mx-switch').hasClass('on') ? 1 : 2};
+
+            return t.find("[field]").each(function () {
+                var t = $(this);
+                e = t.attr("field");
+                t.is(".mx-checkbox") ? a[e] = t.hasClass("on") ? 1 : 2 : (t.is("input") || t.is("select") || t.is("textarea")) && (a[e] = t.val())
+
+
+            }), a
+        };
+        addRow = function (t, e) {
+
+            t || (t = {});
+            var a = UI.appendFieldTo(tpl, t, tbody).data("data", t);
+            a.find('[field="mo_state"]').html('<em>关</em><i></i>');
+
+            /*a.find("select option:first").each(function () {
+             $(this).attr("selected", 'selected');
+             console.log($(this).text());
+             });*/
+
+
+            if (t) {
+                var mo_state = t.mo_state;
+                if (mo_state == 1) {
+                    a.find('[field="mo_state"]').addClass('on');
+                    a.find('[field="mo_state"]').children("em").text("开");
+                } else {
+                    a.find('[field="mo_state"]').removeClass('on');
+                    a.find('[field="mo_state"]').children("em").text("关");
+                }
+            }
+
+
+            !0 === e && setTimeout(function () {
+                $.scrollTo(a), a.find("input:eq(0)").focus()
+            }, 100);
+
+            a.find(".mx-switch").click(function () {
+                var t = $(this).children("em").text();
+                "开" == t ? ($(this).removeClass("on"),
+                        $(this).children("em").text("关")) : ($(this).addClass("on"),
+                        $(this).children("em").text("开"))
+            });
+
+            if (!t.mo_id) {
+                console.log(a.html())
+                a.find("select").each(function () {
+                    var option = $(this).find('option:first');
+                    $(this).val(option.val());
+
+                });
+            }
+            /* $(".mx-switch").on("click", function (t) {
+             if ($(this).hasClass('on')) {
+             $(this).removeClass('on');
+             } else {
+             $(this).addClass('on');
+             }
+             });*/
+
+
+        };
+
+        $(".btn-add").click(function () {
+            addRow({}, !0)
+        });
+        top.clibData = top.clibData || [];
+        var updateClibDataStatus = function () {
+            top.clibData.length ? $(".btn-paste").text("粘贴(" + top.clibData.length + ")") : $(".btn-paste").text("粘贴")
+        };
+        updateClibDataStatus();
+
+        $(".btn-save").click(function () {
+            var n = [];
+            var empty = false;
+            tbody.find("tr").each(function () {
+
+                var t = $(this);
+
+                var e = t.data("data");
+                var obj = UI.getFieldValue(t);
+                if (!obj)
+                    empty = true;
+                var a = getNewValueFromHtml(t);
+
+                if (!a)
+                    return !(c = !1);
+                a.deviceid = defVal.deviceId;
+                var i = $.extend({}, e, a);
+                i.ctrl_id = defVal.ctrl_id;
+                i.mo_type = defVal.type;
+                i.mo_deviceId = defVal.deviceId;
+
+                n.push(i)
+            });
+
+            if (empty)
+                return false;
+            if (!n)
+                return false;
+
+            API.service("/addListMonitor",
+                    {
+                        ctrl_id: defVal.ctrl_id,
+                        deviceid: defVal.deviceId,
+                        mList: n
+                    }, function (t) {
+                        layer.msg("保存成功！"),
+                                /*UI.closeIframeDialog() ||*/ load()
+                    });
+        });
+        $(".btn-delete").click(function () {
+            var t = tbody.find(".mx-checkbox.on:not([field])");
+            t.size() ?
+                    t.each(function (t) {
+                        $(this).parents("tr").fadeOut(function () {
+                            $(this).remove()
+                        }), layer.msg("删除完成!")
+                    }) : layer.msg("请选择要删除的行!")
+        });
+
+        load();
+
+
+    })
+
+
+</script>
+</body>
+</html>

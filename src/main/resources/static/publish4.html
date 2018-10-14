@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网-发布信息-首页资讯</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<div class="mx-main" page="publish4">
+    <div class="mx-handle clearfix">
+        <div class="sm-title fl">首页资讯</div>
+        <div class="mx-top-search fl" style="margin-left:35px">
+            <input type="text" id="seach-text">
+            <a id="top-seacher" href="#">搜索</a>
+        </div>
+        <div class="sblb fr"><h3>更多</h3>
+            <div class="more-cnt">
+                <h4>所属一级分类</h4>
+                <p>
+                    <select name="" id="class1">
+                        <option value=""></option>
+                    </select>
+                </p>
+                <h4>所属二级分类</h4>
+                <p>
+                    <select name="" id="class2">
+                        <option value=""></option>
+                    </select>
+                </p>
+
+                <div class="mt20 tc"><a href="#" id="class-seach" class="btn-lg">搜索</a></div>
+            </div>
+        </div>
+        <a href="javascript:;" id="syzx" class="fr btn btn-default mr15">发布新信息</a>
+    </div>
+
+    <!--资讯-->
+    <div id="articals"></div>
+
+
+    <div class="xxx-layer"></div>
+</div>
+
+<script type="text/javascript">
+    if (!window.jQuery) {
+        var html = '<script src="js/jquery.min.js"><\/script>\n<script src="js/jquery.scrollTo.min.js"><\/script>\n<script src="js/jquery.bgiframe-2.1.2.js"><\/script>\n<script src="js/jquery.ztree.all.min.js"><\/script>\n<script src="js/layer/laydate/laydate.js"><\/script>\n<script src="js/layer/layer.js"><\/script>\n<script src="js/slide.js"><\/script>\n<script src="js/common.js"><\/script>\n<script src="js/purl.js"><\/script>\n<script src="js/api.js"><\/script>\n<script src="js/ui.js"><\/script>';
+        document.write(html)
+    }</script>
+<script src="js/ajaxfileupload.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<script>
+
+    var layer_html = '' +
+            '        <div class="left-info">' +
+            '<input type="hidden" field="m_id"/>' +
+            '            <h4>标题</h4>' +
+            '            <p><input type="text" field="m_title" required id="publish-title"></p>' +
+            '            <h4> 作者名</h4>' +
+            '            <p><input type="text"  required  field="m_authorname" id="publish-author"></p>' +
+            '            <h4>所属一级分类</h4>' +
+            '            <p>' +
+            '                <select name="" field="m_class" required id="publish-class-sel">' +
+            '                    <option value=""></option>' +
+            '                </select>' +
+            '            </p>' +
+            '            <h4>所属二级分类</h4>' +
+            '            <p>' +
+            '                <select name="" field="m_class2" required id="publish-class-sel2">' +
+            '                    <option value=""></option>' +
+            '                </select>' +
+            '            </p>' +
+            '        </div>' +
+            '        <div class="right-file">' +
+            '            <input type="file" name="picture" accept="image/*" id="publish-file">' +
+            '            <img style="width: 100%;bo field="m_cover" id="cms-cover" src="images/upfile.png" alt="">' +
+            '        </div>' +
+
+            '<div class="ueditor">' +
+            '    <h4>文章信息</h4>' +
+            '<div id="editor" type="text/plain" style=" z-index:100;"><\/div>' +
+            '</div>' +
+
+            '    <div class="tc mt20 " style="float: left; text-align: center;width: 100%">' +
+            '        <a href="#" id="publish-frm-cancel"  class="btn-lg btn-df-gray">取消</a>' +
+            '        <a href="#" id="publish-frm-save" class="btn-lg btn-df-blue">保存</a>' +
+            '    </div>';
+
+    var tplNewIt =
+            '<div class="module-box">' +
+            '<div class="module-info">' +
+            '<div class="img">' +
+            '<img src="images/pic2.png" style="height: 100%;width: auto" onerror="this.setAttribute(\'url\',\'images/pic2.png\');this.removeAttribute(\'onerror\')" field="m_cover" alt="" />' +
+            '</div>' +
+            '<h4 field="m_authorname">天知道博士</h4>' +
+            '<p field="m_time" date-format="yyyy年MM月dd日">2018年7月12日</p>' +
+            '</div>' +
+            '<h3 field="m_title"></h3>' +
+            '<p field="m_content" max-length="100" class="sm-info">..</p>' +
+            '<p class="tr">' +
+            '<a class="btn-sm edit" onclick="showMessageDetail({m_id},4,\'查看\');return false;">详情</a>' +
+            '<a class="btn-sm  edit" onclick="edit(this)" >编辑</a>' +
+            '<a class="btn-sm btn-fh edit" onclick="del(this)" >删除</a>' +
+
+
+            '</p>' +
+            '</div>';
+    var title1 = '<div class="line-tit">{c_name}</div> ';
+
+    /*了解更多&gt;*/
+    var title2 =
+            '  <div class="mx-title"> ' +
+            '   <h3>{c_name} ' +
+            '     <a href="#" class="more" onclick="window.openPageContent(&quot;信息发布&quot;,&quot;首页资讯&quot;)">' +
+            '     </a> ' +
+            '   </h3> ' +
+            '  </div>';
+    var cnt = '<div id="cnt_{c_id}" class=" mt20 clearfix module-box-cnt xjgyjList"></div>';
+
+
+    //删除
+    function del(el) {
+        var data = $(el).parents('.module-box').data('data');
+
+        layer.confirm('确定删除？', function (idx) {
+            API.service("/deleteMessage", {m_id: data.m_id}, function (e) {
+
+                layer.msg(e.msg), layer.close(idx), queryIt();
+            });
+
+        });
+
+
+    }
+    //编辑
+    function edit(el) {
+        var data = $(el).parents('.module-box').data('data');
+
+        var ue;
+        $('.xxx-layer').empty();
+        $('.xxx-layer').html(layer_html);
+        layer.open({
+            type: 1,
+            area: ["720px", "650px"],
+            title: "编辑资讯信息",
+            content: $(".xxx-layer"),
+            skin: "mlayer",
+            cancel: function () {
+                if (ue)
+                    ue.destroy();
+            }, end: function () {
+                if (ue)
+                    ue.destroy();
+            },
+
+            success: function (e, t) {
+                var el = e.find('.xxx-layer');
+                if (ue)ue.destroy();
+
+                UI.renderField(el, data);
+
+                ue = UE.getEditor('editor', {
+                    initialFrameWidth: 620,
+                    initialFrameHeight: 200,
+                    autoFloatEnabled: false,
+                    autoHeightEnabled: false,
+                    elementPathEnabled: false,
+                    enableAutoSave: false
+                });
+
+                ue.ready(function () {
+                    ue.setContent(data.m_content);
+                });
+
+
+                var artical_1 = el.find("#publish-class-sel").empty(),
+                        artical_2 = el.find("#publish-class-sel2").empty(),
+                        author = el.find("#publish-author"),
+                        title = el.find("#publish-title"),
+                        file = el.find("#publish-file");
+
+                var fChange = function () {
+                    if ($(this).val()) {
+                        var data = {
+                            ckuid: sessionStorage.getItem("ckuid"),
+                            cksid: sessionStorage.getItem("cksid"),
+                            oldfile: "",
+                        };
+                        startLoading();
+                        uploadImg(data, '/addPicture', 'publish-file', 'cms-cover',
+                                function (e) {
+                                    el.find("#publish-file").next("img").attr("src", e.object);
+                                    el.find("#publish-file").next("img").attr("value", e.object)
+
+                                    el.find("#publish-file").on("change", fChange);
+                                }, function (e) {
+                                    layer.msg(e.msg);
+                                    el.find("#publish-file").on("change", fChange);
+
+                                });
+                        stopLoading();
+
+                    }
+                }
+                file.next("img").attr("src", data.m_cover ? data.m_cover : "images/nopic.png");
+
+                file.on("change", fChange);
+
+                $.ajaxSetup({
+                    async: false
+                });
+                var first1 = true;
+                var first2 = true;
+
+                UI.renderHArtical_class1(artical_1, function (i) {
+                    if (null !== $(this).val())
+                        UI.renderHArtical_class2(artical_2, $(this).val(), function (i) {
+                            if (null !== $(this).val()) {
+
+                                console.log(first1,first2)
+                                if (first1) {
+                                    console.log(first1,first2)
+                                    first1 = false;
+                                    artical_1.val(data.m_class)
+                                    artical_1.change();
+                                    return false;
+                                }
+
+                                if (!first1 && first2) {
+                                    console.log(first1,first2)
+                                    first2 = false;
+                                    $(this).val(data.m_class2)
+                                    return false;
+                                }
+
+                            }
+
+                        })
+
+                });
+
+
+
+                artical_1.val(data.m_class);
+                artical_2.val(data.m_class2);
+
+                $.ajaxSetup({
+                    async: true
+                });
+                $("#publish-frm-save").on('click', function (e) {
+
+                    var param = {
+                        m_id: data.m_id,
+                        m_authorname: author.val(),
+                        m_class: artical_1.val(),
+                        m_class2: artical_2.val(),
+                        m_content: ue.getContent(),
+                        m_title: title.val(),
+                        m_type: "4",
+                        m_cover: el.find('#cms-cover').attr("src")
+                    };
+                    var o = UI.getFieldValue(el)
+
+                    if (!o)
+                        return false;
+
+                    console.log(o)
+                    console.log(param)
+
+                    API.service("/updateMessage", param, function (e) {
+                        if (ue)
+                            ue.destroy();
+                        layer.msg(e.msg), layer.close(t), queryIt();
+                    });
+
+                }), $("#publish-frm-cancel").on('click', function (e) {
+                    layer.close(t)
+                });
+
+
+            }, end: function () {
+                $(".layui-layer-shade").remove();
+            }
+        })
+
+    }
+    ;
+    $(function () {
+
+        var e = $('[page="publish4"]'),
+                t = e.find(".mx-top-search"),
+                i = e.parents("div#main_iframe").attr("src") || location.href, n = purl(i).param("keyword");
+        n && t.find("input").val(n);
+
+        queryIt = function (m_class, m_class2) {
+            var i = t.find("input").val();
+            var data = {m_type: 4, m_title: i, m_class: m_class, m_class2: m_class2};
+            API.service("/listHomePageMessage", data, function (d) {
+                console.log(d)
+                var el = $('#articals');
+                el.empty();
+                for (class1 in  d.object) {
+                    var c1 = d.object[class1];
+                    UI.appendFieldTo(title1, c1, el);
+                    for (var class2 in c1.classList) {
+                        var c2 = c1.classList[class2];
+                        UI.appendFieldTo(title2, c2, el)
+                        var cnt_el = UI.appendFieldTo(cnt, c2, el);
+
+                        for (var message in c2.messageList) {
+                            var msg = c2.messageList[message];
+                            var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el).data('data', msg);
+                            cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 150));
+
+                        }
+
+                    }
+                }
+            }, function (e) {
+                layer.alert(e.msg);
+            });
+        };
+
+
+        t.find("a").click(function () {
+            queryIt();
+        }).click(),
+                $(".mx-top-select > h3").click(function () {
+                    $(this).hasClass("on") ? ($(this).removeClass("on"),
+                            $(this).next().hide()) : ($(this).addClass("on"),
+                            $(this).next().show())
+                }),
+                $("#syzx").click(function () {
+                    $('.xxx-layer').empty();
+                    $('.xxx-layer').html(layer_html);
+
+                    var ue;
+                    layer.open({
+                        type: 1,
+                        area: ["720px", "650px"],
+                        title: "新建资讯信息",
+                        content: $(".xxx-layer"),
+                        skin: "mlayer",
+                        cancel: function () {
+                            if (ue)
+                                ue.destroy();
+                        },
+
+                        success: function (e, t) {
+                            var el = e.find('.xxx-layer');
+                            if (ue)
+                                ue.destroy();
+                            ue = UE.getEditor('editor', {
+                                initialFrameWidth: 620,
+                                initialFrameHeight: 200,
+                                autoFloatEnabled: false,
+                                autoHeightEnabled: false,
+                                elementPathEnabled: false,
+                                enableAutoSave: false
+                            });
+
+                            ue.ready(function () {
+
+                                ue.setContent(' ');
+//                                e.find(".edui-toolbar").attr('overflow','auto');
+                            });
+
+
+                            var a = e.find("#publish-class-sel").empty(),
+                                    artical_2 = e.find("#publish-class-sel2").empty(),
+                                    s = e.find("#publish-author").val(""),
+                                    i = e.find("#publish-title").val(""),
+                                    n = e.find("#publish-content").val(""),
+                                    l = e.find("#publish-file");
+
+                            var fChange = function () {
+                                if ($(this).val()) {
+                                    var data = {
+                                        ckuid: sessionStorage.getItem("ckuid"),
+                                        cksid: sessionStorage.getItem("cksid"),
+                                        oldfile: "",
+                                    };
+                                    startLoading();
+                                    uploadImg(data, '/addPicture', 'publish-file', 'cms-cover',
+                                            function () {
+                                                stopLoading();
+                                                el.find("#publish-file").next("img").attr("src", e.object);
+                                                el.find("#publish-file").next("img").attr("value", e.object)
+
+                                                el.find("#publish-file").on("change", fChange);
+                                            }, function (e) {
+                                                stopLoading();
+                                                el.find("#publish-file").on("change", fChange);
+
+                                            });
+
+
+                                }
+                            }
+                            l.next("img").attr("src", "images/upfile.png"),
+
+                                    l.on("change", fChange),
+
+                                    UI.renderHArtical_class1(a, function (i) {
+                                        null !== $(this).val()
+                                        &&
+                                        UI.renderHArtical_class2(artical_2, $(this).val(), function (i) {
+                                            null !== $(this).val()
+
+                                        })
+                                    });
+
+
+                            $("#publish-frm-save").on('click', function (e) {
+
+                                var o = UI.getFieldValue(el)
+
+                                if (!o)
+                                    return false;
+
+                                if (!artical_2.val()) {
+                                    layer.msg("请选择二级分类");
+                                    artical_2.focus();
+                                }
+
+                                if (!a.val()) {
+                                    layer.msg("请选择一级分类");
+                                    a.focus();
+                                }
+                                if (!i.val()) {
+                                    layer.msg("请输入标题");
+                                    i.focus();
+                                }
+
+                                if (!s.val()) {
+                                    layer.msg("请输入作者");
+                                    s.focus();
+                                }
+
+                                API.service("/addMessage", {
+                                    m_authorname: s.val(),
+                                    m_class: a.val(),
+                                    m_class2: artical_2.val(),
+                                    m_content: ue.getContent(),
+                                    m_title: i.val(),
+                                    m_type: "4",
+                                    m_cover: $('#cms-cover').attr("src")
+                                }, function (e) {
+                                    if (ue)
+                                        ue.destroy();
+                                    layer.msg(e.msg), layer.close(t), queryIt();
+                                });
+
+                            }), $("#publish-frm-cancel").on('click', function (e) {
+                                layer.close(t)
+                            });
+
+
+                        }, end: function () {
+                            $(".layui-layer-shade").remove();
+                        }
+                    })
+                }),
+                $(".mx-checkbox").click(function (i) {
+                    $(this).toggleClass("on")
+                }),
+                $(".sblb >h3").click(function () {
+                    $(this).next().toggle();
+                });
+
+        var c1 = $('#class1')
+        var c2 = $('#class2')
+
+        UI.renderHArtical_class1(c1, function (i) {
+            var c_rid = $(this).val();
+
+            if (null !== c_rid) {
+                UI.renderHArtical_class2(c2, $(this).val(), function (i) {
+                    var c_id = $(this).val();
+
+                })
+            }
+        });
+
+        $('#class-seach').on('click', function () {
+            queryIt($(c1).val(), $(c2).val())
+
+        });
+
+
+    })
+    ;
+
+
+</script>
+</body>
+</html>

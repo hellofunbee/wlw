@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="mx-main" page="homepage">
+    <div id="articals"></div>
+    <div id="policys"></div>
+</div>
+<script type="text/javascript">
+    if (!window.jQuery) {
+        var html = '<script src="js/jquery.min.js"><\/script>\n<script src="js/jquery.scrollTo.min.js"><\/script>\n<script src="js/jquery.bgiframe-2.1.2.js"><\/script>\n<script src="js/jquery.ztree.all.min.js"><\/script>\n<script src="js/layer/laydate/laydate.js"><\/script>\n<script src="js/layer/layer.js"><\/script>\n<script src="js/slide.js"><\/script>\n<script src="js/common.js"><\/script>\n<script src="js/purl.js"><\/script>\n<script src="js/api.js"><\/script>\n<script src="js/ui.js"><\/script>';
+        document.write(html)
+    }</script>
+<script>
+
+
+    var lct = $("div#main_iframe").attr("src") || location.href,
+            e = purl(lct);
+    var m_title = decodeURIComponent(e.param("keyword"));
+    var state= 0;
+
+    var
+    page = $('[page="homepage"]');
+    var tplNewIt =
+            '<div class="module-box">' +
+            '<div class="module-info">' +
+            '<div class="img">' +
+            '<img src="images/pic2.png" style="height: 100%;width: auto" onerror="this.setAttribute(\'url\',\'images/pic2.png\');this.removeAttribute(\'onerror\')" field="m_cover" alt="" />' +
+            '</div>' +
+            '<h4 field="m_authorname"></h4>' +
+            '<p field="m_time" date-format="yyyy年MM月dd日"></p>' +
+            '</div>' +
+            '<h3 field="m_title"></h3>' +
+            '<p field="m_content" max-length="100" class="sm-info">..</p>' +
+            '<p class="tr">' +
+            '<a href="#" onclick="showMessageDetail({m_id},4,\'查看\');return false;">了解更多&gt;</a>' +
+            '</p>' +
+            '</div>';
+    var title1 = '<div class="line-tit">{c_name}</div> ';
+
+    var title2 =
+            '  <div class="mx-title"> ' +
+            '   <h3>{c_name} ' +
+            '     </a> ' +
+            '   </h3> ' +
+            '  </div>';
+    var cnt = '<div id="cnt_{c_id}" class=" mt20 clearfix module-box-cnt xjgyjList"></div>';
+
+    var data = {m_title: m_title};
+
+
+    API.service("/listHomePageMessage", {m_title: m_title, m_type: 4}, function (d) {
+
+        var el = $('#articals');
+        el.empty();
+        for (class1 in  d.object) {
+
+            var c1 = d.object[class1];
+            UI.appendFieldTo(title1, c1, el);
+
+
+            for (var class2 in c1.classList) {
+                var c2 = c1.classList[class2];
+                UI.appendFieldTo(title2, c2, el)
+                var cnt_el = UI.appendFieldTo(cnt, c2, el);
+
+
+                var ms = c2.messageList;
+                for (var message in ms) {
+                    var msg = ms[message];
+
+                    var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el)
+                    cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 150));
+
+
+                }
+
+            }
+
+        }
+
+
+    }, function (e) {
+//        layer.alert(e.msg);
+        state = state-1;
+        if(state == -2){
+            layer.msg(e.msg);
+        }
+    });
+    API.service("/listMessage1Bygroup", {m_title: m_title, m_type: 1}, function (d) {
+        var el = $('#policys');
+        el.empty();
+        if (d.object && d.object.length > 0) {
+            el.append('<div class="line-tit">政策信息</div> ');
+        }
+
+        for (var class1 in d.object) {
+            var c2 = d.object[class1];
+            var sub_title = UI.appendFieldTo(title2, c2, el)
+            sub_title.find('a').attr('onclick', function () {
+                window.open(apiPre + '/morepolicyss.html?c_id=' + c2.c_id);
+            });
+            var cnt_el = UI.appendFieldTo(cnt, c2, el);
+
+
+            var ms = c2.list;
+            ms = 4 < ms.length ? ms.slice(0, 4) : ms;
+            for (var message in ms) {
+                var msg = ms[message];
+
+                var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el)
+                cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 150));
+
+
+            }
+
+        }
+
+
+    }, function (e) {
+        state = state-1;
+        if(state == -2){
+            layer.msg(e.msg);
+        }
+
+    });
+
+
+    page.find(".scrollUp").slide({mainCell: "ul", effect: "topLoop", autoPlay: !0, delayTime: 0})
+</script>
+</body>
+</html>

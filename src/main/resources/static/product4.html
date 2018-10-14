@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网-生产管理-专家远程指导</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="mx-main">
+    <div class="mx-handle clearfix">
+        <div class="sblb fl"><h3>设备列表</h3>
+            <div class="tree-cnt">
+                <div class="tree-show">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="sm-title fl">专家远程指导</div>
+        <div class="sm-userInfo fr">[21号] 李娜 土豆</div>
+    </div>
+    <div class="zjzd-module mt20">
+        <div class="zjzd clearfix">
+
+
+            <div class="video" id="synthesize3_video">
+            </div>
+            <div class="video-handle">
+                <img src="images/talk.png" alt="">
+                <a  class="tk-btn">开启对讲</a>
+            </div>
+        </div>
+        <div class="zjzd-by">
+            <marquee behavior="" direction="">欢迎使用远程专家指导系统</marquee>
+        </div>
+    </div>
+</div>
+<div id="newMessageDIV" style="display: none"></div>
+<script type="text/javascript">if (!window.jQuery) {
+    var html = '<script src="js/jquery.min.js"><\/script>\n<script src="js/jquery.scrollTo.min.js"><\/script>\n<script src="js/jquery.bgiframe-2.1.2.js"><\/script>\n<script src="js/jquery.ztree.all.min.js"><\/script>\n<script src="js/layer/laydate/laydate.js"><\/script>\n<script src="js/layer/layer.js"><\/script>\n<script src="js/slide.js"><\/script>\n<script src="js/common.js"><\/script>\n<script src="js/purl.js"><\/script>\n<script src="js/api.js"><\/script>\n<script src="js/ui.js"><\/script>';
+    document.write(html)
+}</script>
+<script>
+
+
+    var lastSelectNode;
+    var treeEl = $("#treeDemo");
+    var onNodeSelect = function (e) {
+
+        var node = e;
+        if (node && lastSelectNode && lastSelectNode === node)return;
+        if (!node)node = lastSelectNode;
+        if (!node)return;
+
+        //当点击父节点时，自动选择第一个设备
+        if (node.oriData["tp_type"] < 4) {
+            while (node && node.oriData["tp_type"] < 4) {
+                var c = node.children;
+                if (c && c.length > 0) {
+                    node = c[0];
+                    if (node && node.oriData["tp_type"] === 4) {
+                        treeEl.data("z-tree").selectNode(node);
+                        onNodeSelect(node);
+                        return
+                    }
+                } else {
+                    layer.msg('请选择摄像头');
+                    return;
+                }
+            }
+        }
+
+        if (e && e.oriData && 4 === e.oriData.tp_type) {
+            lastSelectNode = e;
+            treeEl.parents(".tree-cnt").hide();
+            var t = e.oriData.tp_name;
+            a = (e.oriData.tp_id, e.oriData.deviceId),
+                    i = e.getParentNode();
+            i && i.oriData && (t = i.oriData.tp_name + " " + t),
+                    $(".sm-userInfo").text(t);
+            UI.showCamera(a, "#synthesize3_video")
+        }
+    };
+
+
+    UI.renderPointTree("#treeDemo", onNodeSelect);
+    treeEl.on("z-tree-load", function () {
+
+        var nodes = $(this).data("z-tree").getNodes();
+        nodes && nodes.length > 0 && onNodeSelect(nodes[0]);
+
+//       UI.findFirstDeviceOnTree($(this).data("z-tree"), 3, onNodeSelect)
+    });
+
+    $(".sblb>h3").click(function () {
+        $(this).next().toggle()
+    })
+
+    $('.tk-btn').on('click', function (e) {
+        var el = $(this);
+        if (el.hasClass("on")) {
+            $("#video_frame")[0].contentWindow.closeTalk(function (e) {
+                play();
+                layer.msg(e)
+                el.removeClass("on")
+                el.text("开启对讲");
+            }, function (e) {
+                layer.msg(e)
+            });
+        } else {
+            $("#video_frame")[0].contentWindow.openTalk(function (e) {
+                layer.msg(e)
+                el.addClass("on")
+                el.text("关闭对讲");
+            }, function (e) {
+                layer.msg(e)
+            });
+        }
+
+    });
+
+    function play() {
+
+        $('#newMessageDIV').html(
+                '<audio autoplay="autoplay">' +
+                '<source src="open.wav"' + 'type="audio/wav"/>' +
+                '</audio>');
+
+    }
+
+
+</script>
+</body>
+</html>

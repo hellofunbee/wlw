@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>专家指导</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<div class="mx-main">
+    <div class="mx-handle clearfix" style="display:none;">
+        <div class="sm-title fl">专家详情</div>
+    </div>
+    <div id="exp-info" class="expert-xq clearfix" style="display: none">
+        <div id="info-content">
+            <div class="userPic fl">
+                <img src="{tu_logo}" class="round_icon_150" alt="" onerror="this.src= 'images/nopic.png'">
+            </div>
+            <div class="fr info"><h3><span> {tu_name}</span><span>{tu_sex}</span> <span>{tu_age}</span>
+                <span>{tu_job}</span>
+            </h3>
+                <table>
+                    <tr>
+                        <th width="100px">研究领域</th>
+                        <td>{fields}</td>
+                    </tr>
+                    <tr>
+                        <th>电子邮箱</th>
+                        <td>{tu_email}</td>
+                    </tr>
+                    <tr>
+                        <th>个人简介</th>
+                        <td style="font-size:16px">{tu_info}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">
+
+        <div class="line-tit">专家指导
+
+            <a href="#" class="bar-btn ans-search-a fr mr10 mt2"><img src="images/search-icon.png"
+                                                                      class="alimg mr5">搜索</a>
+            <input type="text" name="search" style="margin-top:4px " class="ans-search-i mr10  fr"/>
+
+
+        </div>
+        <div id="articals" class="clearfix ">
+
+        </div>
+    </div>
+
+    <script type="text/javascript">if (!window.jQuery) {
+        var html = '<script src="js/jquery.min.js"><\/script>\n<script src="js/jquery.scrollTo.min.js"><\/script>\n<script src="js/jquery.bgiframe-2.1.2.js"><\/script>\n<script src="js/jquery.ztree.all.min.js"><\/script>\n<script src="js/layer/laydate/laydate.js"><\/script>\n<script src="js/layer/layer.js"><\/script>\n<script src="js/slide.js"><\/script>\n<script src="js/common.js"><\/script>\n<script src="js/purl.js"><\/script>\n<script src="js/api.js"><\/script>\n<script src="js/ui.js"><\/script>';
+        document.write(html)
+    }</script>
+
+    <script>
+        var info_content = $('#info-content').clone().html();
+        var exp_c_id = 0;
+
+        var lct = $("div#main_iframe").attr("src") || location.href,
+                e = purl(lct);
+        var tu_id = e.param("tu_id");
+
+
+        var tu_type = sessionStorage.getItem("tu_type");
+        var q_user_id = sessionStorage.getItem("ckuid");
+
+
+        var tplNewIt = '<div class="zdlb-list fl">' +
+                /*'            <em class="close"></em>' +*/
+
+                '        <img src="images/pic3.png"    field="m_cover" alt="">' +
+
+                '            <h3 class="blue" field="m_title">首红苹果高产栽培技术</h3>' +
+                '            <p class="blue" >' +
+                '            <span field="class1Name"></span>' +
+                '-' +
+                '            <span field="class2Name"></span>' +
+                '            </p>' +
+                '            <p class="blue clearfix" >' +
+                '                <span field="c_name">文章分类 - 新技术</span>' +
+                '                <span class="fr red" field="m_time" date-format="yyyy年MM月dd日" >2018年7月13日</span></p>' +
+                '            <p field="m_content" max-length="100"></p>' +
+                '            <p class="tr">' +
+                '                <a href="#" class="blue" >了解更多&gt;</a>' +
+                '            </p>' +
+                '        </div>';
+
+
+        function loadUserInfo() {
+            API.service("/findUserById", {
+                uid: tu_id,
+            }, function (data) {
+                $('#exp-info').empty();
+
+                console.log(data)
+                data.object.tu_age = '';
+                data.object.tu_sex = API.dict.user_sex[data.object.tu_sex];
+                $('#exp-info').html(UI.renderField2(info_content, data.object));
+                $('#exp-info').show();
+            });
+        }
+        // 加载文章
+        function loadArticals() {
+            var cnt_el = $('#articals');
+            cnt_el.empty();
+            API.service("/listHomePageMessage",
+                    {
+                        m_type: 4,
+                        m_source: 2,
+                        m_author_id: tu_id,
+                        m_title: $('.ans-search-i').val()
+                    }, function (d) {
+                        console.log(d)
+                        var el = $('#articals');
+                        el.empty();
+
+                        for (class1 in  d.object) {
+
+                            var c1 = d.object[class1];
+                            var class1Name = c1.c_name;
+                            for (var class2 in c1.classList) {
+                                var c2 = c1.classList[class2];
+                                var class2Name = c2.c_name;
+
+                                var ms = c2.messageList;
+                                ms = 4 < ms.length ? ms.slice(0, 4) : ms;
+                                for (var message in ms) {
+                                    var msg = ms[message];
+                                    msg.class1Name = class1Name;
+                                    msg.class2Name = class2Name;
+
+                                    var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el).data('data', msg);
+                                    cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 120));
+                                    cn.find('.tr a').on('click', function () {
+                                        onclick = showMessageDetail($(this).closest('div').data('data').m_id, 4, '查看',2);
+                                        return false;
+                                    });
+                                }
+
+                            }
+
+                        }
+
+                    }, function (e) {
+
+                        layer.msg(e.msg);
+                    });
+        }
+
+
+        function load() {
+            loadUserInfo();
+            loadArticals();
+        }
+
+
+        $(function () {
+            load();
+        })
+
+        //专家答疑搜索
+        $('.zjdy-search').click(function () {
+
+            load();
+
+        });
+
+        $('.ans-search-a').click(function () {
+            var m_title = $('.ans-search-i').val();
+            if (!m_title) {
+                layer.msg('请输入要查询的标题');
+                return false;
+            }
+            load()
+
+        });
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网-专家系统</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<div class="mx-main">
+    <div class="mx-handle clearfix" style="display:none;">
+        <div class="sm-title fl">专家详情</div>
+        <!--<div class="mx-top-search fr">
+            <input type="text"> <a href="#">搜索</a></div>
+        <div class="mx-top-select fr">
+            <h3>专家分类<em><i></i></em></h3>
+            <dl class="mx-top-select-list">
+                <dd>专家分类2</dd>
+                <dd>专家分类3</dd>
+            </dl>
+        </div>-->
+    </div>
+    <div id="exp-info" class="expert-xq clearfix" style="display: none">
+        <div id="info-content">
+            <div class="userPic fl">
+                <img src="" class="round_icon_150" alt="" onerror="this.src= 'images/nopic.png'">
+            </div>
+            <div class="fr info"><h3><span> {tu_name}</span><span>{tu_sex}</span> <span>{tu_age}</span>
+                <span>{tu_job}</span>
+            </h3>
+                <table>
+                    <tr>
+                        <th width="100px">研究领域</th>
+                        <td>{fields}</td>
+                    </tr>
+                    <tr>
+                        <th>电子邮箱</th>
+                        <td>{tu_email}</td>
+                    </tr>
+                    <tr>
+                        <th>个人简介</th>
+                        <td style="font-size:16px">{tu_info}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">
+        <div class="mx-box fl">
+            <div class="mx-box-tit clearfix">专家答疑<a href="#" class="bar-btn fr mr10 mt2 zjdy-search"><img
+                    src="images/search-icon.png" class="alimg mr5 ">搜索</a></div>
+            <div class="mx-box-cnt" id="exp-ans">
+                <!--<div class="qa-cnt"><h3>大葱何时收获适时？</h3>
+                    <p>
+                        育苗、定植、收获适宜时期的确定以自然界温度的变化为依据。育苗分为秋季育苗和春季育苗两种方式。秋季育苗根据各地区的纬度不同，在北纬46°~36°地区，播种由8月下旬至9月下旬；春季育苗播种期为3月中、下旬，只适于北纬34°~40°地区。春季育苗在早春土壤化冻土5厘米深时即可进行。定植期最早为5月上旬，最迟为7月上旬。收获期最早10月上旬，最迟11月中旬。</p>
+                </div>
+                <div class="qa-cnt"><h3>大葱何时收获适时？</h3>
+                    <p>
+                        育苗、定植、收获适宜时期的确定以自然界温度的变化为依据。育苗分为秋季育苗和春季育苗两种方式。秋季育苗根据各地区的纬度不同，在北纬46°~36°地区，播种由8月下旬至9月下旬；春季育苗播种期为3月中、下旬，只适于北纬34°~40°地区。春季育苗在早春土壤化冻土5厘米深时即可进行。定植期最早为5月上旬，最迟为7月上旬。收获期最早10月上旬，最迟11月中旬。</p>
+                </div>
+                <div class="qa-cnt"><h3>大葱何时收获适时？</h3>
+                    <p>
+                        育苗、定植、收获适宜时期的确定以自然界温度的变化为依据。育苗分为秋季育苗和春季育苗两种方式。秋季育苗根据各地区的纬度不同，在北纬46°~36°地区，播种由8月下旬至9月下旬；春季育苗播种期为3月中、下旬，只适于北纬34°~40°地区。春季育苗在早春土壤化冻土5厘米深时即可进行。定植期最早为5月上旬，最迟为7月上旬。收获期最早10月上旬，最迟11月中旬。</p>
+                </div>-->
+            </div>
+        </div>
+        <div class="mx-box fr">
+            <div class="mx-box-tit">用户提问
+                <a style="display: none" class="bar-btn fr mr10 mt2" id="answer">回答</a>
+                <a style="display: none" class="bar-btn fr mr10 mt2" id="ask">提问</a>
+            </div>
+            <div class="mx-box-cnt">
+                <ul class="mx-list" id="user_question">
+                    <!-- <li><a href="#">农业专家在线咨询玉米处苗后叶片有的象用水煮了一样是怎么回事，应当怎么解决，请专家帮助解决谢谢！</a></li>
+                     <li><a href="#">葡萄叶子表面有斑点，是什么病？</a></li>
+                     <li><a href="#">黄瓜果实特别干瘪细小，这是怎么回事？</a></li>
+                     <li><a href="#">茄子叶子发黄，这是什么病？</a></li>
+                     <li><a href="#">蘑菇技术去哪学习</a></li>
+                     <li><a href="#">玉米有大斑病打什么药好呢</a></li>
+                     <li><a href="#">小偃60 和81有什么区别，晋南地区更适合那种？？</a></li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="mx-box fl">
+            <div class="mx-box-tit">服务用户</div>
+            <div class="mx-box-cnt">
+                <ul class="mx-list" id="exp-client">
+                    <!--<li><a href="#">[21号] 李娜 土豆</a></li>
+                    <li><a href="#">[21号] 李娜 土豆</a></li>
+                    <li><a href="#">[21号] 李娜 土豆</a></li>
+                    <li><a href="#">[21号] 李娜 土豆</a></li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="mx-box fr">
+            <div class="mx-box-tit">服务项目</div>
+            <div class="mx-box-cnt">
+                <ul class="mx-list" id="exp-pro">
+                    <!-- <li><a href="#">越瓜保护地高产栽培技术推广项目</a><em></em></li>
+                     <li><a href="#">温室大棚蔬菜病虫害绿色防控技术推广项目</a><em></em></li>
+                     <li><a href="#">蔬菜病虫害远程诊断技术推广项目</a><em></em></li>
+                     <li><a href="#">项目名称项目名称项目名称项目名称项目名称</a><em></em></li>
+                     <li><a href="#">项目名称项目名称项目名称</a><em></em></li>
+                     <li><a href="#">项目名称项目名称项目名称项目名称项目名称</a><em></em></li>
+                     <li><a href="#">项目名称项目名称项目名称项目名称</a><em></em></li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="line-tit">专家指导 <a href="#" class="bar-btn exp-artical-seach fr mt2 mr10">
+        <img src="images/search-icon.png" class="alimg mr5">搜索</a>
+    </div>
+    <div id="articals" class="clearfix ">
+        <!--<div class="zdlb-list fl">
+            <em class="close"></em>
+            <img src="images/pic3.png" field="m_cover" alt="">
+            <h3 class="blue" field="m_title">首红苹果高产栽培技术</h3>
+            <p class="blue" >浆果类 - 苹果</p>
+            <p class="blue clearfix" >
+                <span field="c_name">文章分类 - 新技术</span>
+                <span class="fr red" field="m_time" date-format="yyyy年MM月dd日" >2018年7月13日</span></p>
+            <p feild="m_content"></p>
+            <p class="tr">
+                <a href="#" class="blue"  onclick="showMessageDetail({m_id},4,\'查看\');return false;" >了解更多&gt;</a></p>
+        </div>
+-->
+    </div>
+</div>
+<div class="answer-layer"><h3>提问列表</h3>
+    <div class="mx-list-cnt">
+        <ul class="mx-list">
+            <li class="on"><a href="#">农业专家在线咨询玉米处苗后叶片有的象用水煮了一样是怎么回事，应当怎么解决，请专家帮助解决谢谢！</a></li>
+            <li><a href="#">葡萄叶子表面有斑点，是什么病？</a></li>
+            <li><a href="#">黄瓜果实特别干瘪细小，这是怎么回事？</a></li>
+            <li><a href="#">茄子叶子发黄，这是什么病？</a></li>
+            <li><a href="#">蘑菇技术去哪学习</a></li>
+            <li><a href="#">玉米有大斑病打什么药好呢</a></li>
+            <li><a href="#">小偃60 和81有什么区别，晋南地区更适合那种？？</a></li>
+        </ul>
+    </div>
+    <h3>提问内容</h3><textarea>农业专家在线咨询玉米处苗后叶片有的象用水煮了一样是怎么回事，应当怎么解决，请专家帮助解决谢谢！</textarea>
+    <h3>回答内容</h3><textarea></textarea>
+    <div class="tc mt20"><a href="#" class="btn-lg btn-df-red">放弃修改</a><a href="#" class="btn-lg btn-df-blue">保存回答</a>
+    </div>
+</div>
+<script type="text/javascript">if (!window.jQuery) {
+    var html = '<script src="js/jquery.min.js"><\/script>\n<script src="js/jquery.scrollTo.min.js"><\/script>\n<script src="js/jquery.bgiframe-2.1.2.js"><\/script>\n<script src="js/jquery.ztree.all.min.js"><\/script>\n<script src="js/layer/laydate/laydate.js"><\/script>\n<script src="js/layer/layer.js"><\/script>\n<script src="js/slide.js"><\/script>\n<script src="js/common.js"><\/script>\n<script src="js/purl.js"><\/script>\n<script src="js/api.js"><\/script>\n<script src="js/ui.js"><\/script>';
+    document.write(html)
+}</script>
+
+<script>
+    var info_content = $('#info-content').clone().html();
+    var exp_c_id = 0;
+
+    var lct = $("div#main_iframe").attr("src") || location.href,
+            e = purl(lct);
+    var tu_id = e.param("tu_id");
+
+    var ask =
+            ' <div id="layer-content">' +
+            '        <div class="clearfix">' +
+            '            <div >' +
+            '                <h4>请写下您的问题</h4>' +
+            '<p><textarea name="" maxlength="200" field="q_title" cols="60" rows="8"></textarea></p>' +
+            '            </div>' +
+            '        </div>' +
+            '        <div class="tc mt20">' +
+            '            <a href="#" class="btn-lg btn-df-gray cancel">取消</a>' +
+            '            <a href="#" class="btn-lg btn-df-blue save" >保存</a>' +
+            '        </div>' +
+            '    </div>';
+
+    var tu_type = sessionStorage.getItem("tu_type");
+    var q_user_id = sessionStorage.getItem("ckuid");
+    if (tu_type && tu_type != 6) {
+        $('#ask').css('display', 'block');
+        $('#ask').click(function () {
+            layer.open({
+                        type: 1,
+                        title: "回答提问",
+                        skin: "mlayer",
+                        area: ["720px", "350px"],
+                        content: $(".answer-layer"),
+                        success: function (layero, index) {
+                            var toEl = layero.find(".answer-layer").empty();
+
+                            var ctl_el = UI.appendFieldTo(ask, {}, toEl);
+                            ctl_el.find('.cancel').on('click', function () {
+                                layer.close(index);
+                            })
+                            ctl_el.find('.save').on('click', function () {
+
+                                var o = UI.getFieldValue(toEl);
+                                if (!o)return false;
+
+                                API.service("/uq/save", {
+                                    q_title: o.q_title,
+                                    q_user_id: q_user_id,
+                                    q_exp_id: tu_id,
+                                    q_state: 2
+                                }, function (e) {
+                                    layer.msg(e.msg);
+                                    layer.close(index);
+                                }, function (e) {
+                                    layer.msg(e.msg);
+                                    layer.close(index);
+
+                                })
+
+                            })
+                        }
+
+                    }
+            )
+        });
+
+    }
+
+
+    API.service("/listClass1", {c_type: 6, c_lev: 1}, function (data) {
+        var str = '';
+        $(data.object).each(function (i, e) {
+            str += '<dd value="' + e.c_id + '">' + e.c_name + '</dd>';
+        });
+
+        $('.mx-top-select-list').html(str);
+        $("dd").on('click', function () {
+            $(".mx-top-select h3").removeClass("on");
+            $('.mx-top-select-list').hide()
+            $('.mx-top-select-list').prev('h3').html('<h3>' + $(this).text() + '<em><i></i></em></h3>');
+            exp_c_id = $(this).attr('value');
+
+        });
+    });
+
+
+    var tplNewIt = '<div class="zdlb-list fl">' +
+            /*'            <em class="close"></em>' +*/
+
+            '        <img src="images/pic3.png"    field="m_cover" alt="">' +
+
+            '            <h3 class="blue" field="m_title">首红苹果高产栽培技术</h3>' +
+            '            <p class="blue" >' +
+            '            <span field="class1Name"></span>' +
+            '-' +
+            '            <span field="class2Name"></span>' +
+            '            </p>' +
+            '            <p class="blue clearfix" >' +
+            '                <span field="c_name">文章分类 - 新技术</span>' +
+            '                <span class="fr red" field="m_time" date-format="yyyy年MM月dd日" >2018年7月13日</span></p>' +
+            '            <p field="m_content" max-length="100"></p>' +
+            '            <p class="tr">' +
+            '                <a href="#" class="blue" >了解更多&gt;</a>' +
+            '            </p>' +
+            '        </div>';
+
+
+    function loadUserInfo() {
+        API.service("/findUserById", {
+            uid: tu_id,
+        }, function (data) {
+            $('#exp-info').empty();
+
+            console.log(data)
+            data.object.tu_age = '';
+            data.object.tu_sex = API.dict.user_sex[data.object.tu_sex];
+            $('#exp-info').html(UI.renderField2(info_content, data.object));
+            $('#exp-info').find('img').attr('src',data.object.tu_logo);
+            $('#exp-info').show();
+        });
+    }
+    // 加载文章
+    function loadArticals() {
+        var cnt_el = $('#articals');
+        cnt_el.empty();
+        API.service("/listHomePageMessage",
+                {
+                    m_type: 4,
+                    m_source: 2,
+                    m_author_id: tu_id
+                }, function (d) {
+                    console.log(d)
+                    var el = $('#articals');
+                    el.empty();
+
+                    for (class1 in  d.object) {
+
+                        var c1 = d.object[class1];
+                        var class1Name = c1.c_name;
+                        for (var class2 in c1.classList) {
+                            var c2 = c1.classList[class2];
+                            var class2Name = c2.c_name;
+
+                            var ms = c2.messageList;
+                            ms = 4 < ms.length ? ms.slice(0, 4) : ms;
+                            for (var message in ms) {
+                                var msg = ms[message];
+                                msg.class1Name = class1Name;
+                                msg.class2Name = class2Name;
+
+                                var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el).data('data', msg);
+                                cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 120));
+                                cn.find('.tr a').on('click', function () {
+                                    onclick = showMessageDetail($(this).closest('div').data('data').m_id, 4, '查看',2);
+                                    return false;
+                                });
+                            }
+
+                        }
+
+                    }
+
+                }, function (e) {
+
+//                    layer.msg(e.msg);
+                });
+    }
+
+    //加载用户问题
+    function loadQuestion() {
+        API.service("/uq/list", {
+            q_exp_id: tu_id,
+            q_state: 1,
+            u_search: '',
+        }, function (data) {
+            console.log(data)
+            var toEl = $('#user_question');
+            toEl.empty();
+            var arr = data.object;
+            arr = 10 < arr.length ? arr.slice(0, 10) : arr;
+
+            $.each(arr, function (i, e) {
+                var tpl = $('<li><a></a></li>');
+                tpl.data('data', e);
+
+                tpl.find('a').text(UI.cutSize(e.q_title, 80));
+                tpl.find('a').on('click', function () {
+
+                    showDetail({
+                        id: $(this).parents('li').data('data').user_question_id,
+                        type: 2
+                    });
+                });
+
+                toEl.append(tpl)
+
+            });
+
+        }, function (rsp) {
+//            layer.msg(rsp.msg)
+
+        });
+    }
+
+    //加载专家答疑
+    function loadAns() {
+        API.service("/uq/list", {
+            q_exp_id: tu_id,
+            q_state: 1,
+            u_search: '',
+        }, function (data) {
+            console.log(data)
+            var toEl = $('#exp-ans');
+            toEl.empty();
+            var arr = data.object;
+            arr = 5 < arr.length ? arr.slice(0, 5) : arr;
+            $.each(arr, function (i, e) {
+                var tpl = $(' <div class="qa-cnt"><h3></h3><p></p></div>');
+                tpl.data('data', e);
+
+                tpl.find('h3').text(UI.cutSize(e.q_title, 80));
+                tpl.find('p').text(UI.cutSize(UI.getTextFromHtml(e.q_ans), 200));
+                tpl.find('p').on('click', function () {
+                    console.log($(this).parents('div').data('data'))
+                    showDetail({
+                        id: $(this).parents('div').data('data').user_question_id,
+                        type: 2
+                    });
+                });
+
+                toEl.append(tpl)
+
+            });
+
+        }, function (rsp) {
+//            layer.msg(rsp.msg)
+
+        });
+
+    }
+
+    //加载服务项目
+    function loadExpPro() {
+        API.service("/expPro/list", {
+            tu_id: tu_id,
+            u_search: '',
+        }, function (data) {
+            console.log(data)
+            var toEl = $('#exp-pro');
+            toEl.empty();
+
+            var arr = data.object;
+            arr = 10 < arr.length ? arr.slice(0, 10) : arr;
+            $.each(arr, function (i, e) {
+                /*<em></em>*/
+                var tpl = $(' <li><a></a></li>');
+                tpl.data('data', e);
+
+                tpl.find('a').text(UI.cutSize(e.exp_pro_title, 80));
+                tpl.find('a').on('click', function () {
+                    showDetail({
+                        id: $(this).parents('li').data('data').exp_pro_id,
+                        type: 4
+                    });
+//                        showMessageDetail($(this).closest('div').data('data').m_id, 4, '查看');
+                });
+                /*tpl.find('em').on('click', function () {
+                 layer.msg(2)
+                 //                        showMessageDetail($(this).closest('div').data('data').m_id, 4, '查看');
+                 });*/
+
+                toEl.append(tpl)
+
+            });
+
+        }, function (rsp) {
+//            layer.msg(rsp.msg)
+
+        });
+
+    }
+
+    //服务用户
+    function loadExpClient() {
+        API.service("/expClient/list", {
+            exp_id: tu_id,
+            u_search: '',
+        }, function (data) {
+            console.log(data)
+            var toEl = $('#exp-client');
+            toEl.empty();
+            var arr = data.object;
+            arr = 10 < arr.length ? arr.slice(0, 10) : arr;
+
+            $.each(arr, function (i, e) {
+                var tpl = $('<li><a></a></li>');
+                console.log(e)
+                tpl.data('data', e);
+                tpl.find('a').text(UI.cutSize(e.tu_name, 80));
+                tpl.find('a').on('click', function () {
+                    showUInfo($(this).parents('li').data('data').tu_id)
+
+                    /* showDetail({
+                     id: $(this).parents('li').data('data').tu_id,
+                     type: 3,
+                     type2: 2
+                     });*/
+                });
+
+                toEl.append(tpl)
+
+            });
+
+        }, function (rsp) {
+//            layer.msg(rsp.msg)
+
+        });
+    }
+
+
+    $("#answer").click(function (t) {
+        layer.open({type: 1, title: "回答提问", skin: "mlayer", area: ["720px", "700px"], content: $(".answer-layer")})
+    }), $(".mx-top-select h3").click(function () {
+        $(this).hasClass("on") ? ($(this).removeClass("on"), $(this).next(".mx-top-select-list").hide()) : ($(this).addClass("on"), $(this).next(".mx-top-select-list").show())
+    })
+
+    function load() {
+        loadUserInfo();
+        loadArticals();
+        loadQuestion();
+        loadAns();
+        loadExpPro();
+        loadExpClient();
+    }
+
+    function showUInfo(id) {
+        layer.open({
+            type: 2,
+            area: ["500px", "408px"],
+            title: "用户详情",
+            skin: "mlayer",
+            /* btn: ["保存", "取消"],*/
+            content: 'device-gover.html?id=' + id,
+            success: function (layero, index) {
+
+            }, end: function () {
+
+            }
+        });
+    }
+
+
+    function showDetail(o) {
+//        type 1:答疑,2：提问,3：服务,4：项目
+
+        if (!o.type2) {
+            o.type2 = 1;
+        }
+        showMessageDetail(o.id, o.type, '查看', o.type2);
+
+    }
+    $(function () {
+        load();
+    })
+
+    //专家答疑搜索
+    $('.zjdy-search').click(function () {
+
+        window.open(apiPre + '/expert-ans.html?tu_id=' + tu_id);
+
+    });
+
+    //专家答疑搜索
+    $('.exp-artical-seach').click(function () {
+
+        window.open(apiPre + '/expert-articals.html?tu_id=' + tu_id);
+
+    });
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="mx-main" page="homepage">
+    <div class="mt20 clearfix">
+        <div class="mx-scroll fl">
+            <ul class="mx-scroll-pic">
+            </ul>
+            <ul class="mx-scroll-num clearfix">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="first-news">
+            <div class="first-news-tit clearfix">
+                <h3>即时信息</h3>
+                <!--<a href="#" onclick='window.openPageContent("信息发布","即时信息")' class="more">更多&gt;&gt;</a>-->
+                <a href="#" class="more-in more">更多&gt;&gt;</a>
+                <div class="scrollUp">
+                    <ul class="clearfix newsScroll">
+                        <li>2018-07-12 滚动几时消息</li>
+                        <li>2018-07-12 滚动几时消息2</li>
+                        <li>2018-07-12 滚动几时消息3</li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="newslist">
+
+            </ul>
+        </div>
+    </div>
+
+    <!--资讯-->
+    <div id="articals"></div>
+    <div id="policys"></div>
+
+
+</div>
+<script type="text/javascript">
+    if (!window.jQuery) {
+        var html = '<script src="js/jquery.min.js"><\/script>\n<script src="js/jquery.scrollTo.min.js"><\/script>\n<script src="js/jquery.bgiframe-2.1.2.js"><\/script>\n<script src="js/jquery.ztree.all.min.js"><\/script>\n<script src="js/layer/laydate/laydate.js"><\/script>\n<script src="js/layer/layer.js"><\/script>\n<script src="js/slide.js"><\/script>\n<script src="js/common.js"><\/script>\n<script src="js/purl.js"><\/script>\n<script src="js/api.js"><\/script>\n<script src="js/ui.js"><\/script>';
+        document.write(html)
+    }</script>
+<script>
+    var page = $('[page="homepage"]');
+
+    /*轮播图*/
+    API.listHomePage(function (e) {
+
+
+        var i = [], l = [];
+        $.each(e.object, function (e) {
+            var t = this;
+            var a, alt;
+            if (t.h_url) {
+                alt = t.h_url;
+                a = '<a target="_blank" title="'+alt+'" href="' + (t.h_url ? t.h_url + '"' : '"') + ' >';
+
+            }
+            else {
+                alt = '暂无跳转链接'
+                a = '<a title="'+alt+'">';
+
+            }
+
+
+            l.push('<li>' +
+                    a +
+                    '<img alt="'+alt+'"  src="' + apiPre + t.h_cover + '" />' +
+                    '<div class="info">\n<h3>' + (t.h_name || "&#160;") + "</h3>" +
+                    "</div>" +
+                    "</a>" +
+                    "</li>"),
+                    i.push("<li></li>");
+        });
+
+        var t = page.find(".mx-scroll");
+        t.find(".mx-scroll-num").empty().html(i.join(""));
+        t.find(".mx-scroll-num.a").each(function () {
+            if (!$(this).attr('href')) {
+                $(this).attr('target', '');
+            }
+        });
+
+
+        t.find(".mx-scroll-pic").empty().html(l.join("")),
+                t.slide({
+                    titCell: ".mx-scroll-num li",
+                    mainCell: ".mx-scroll-pic",
+                    effect: "fold",
+                    autoPlay: !0,
+                    trigger: "click",
+                    delayTime: 10
+                });
+        var dot =  t.find(".mx-scroll-num");
+
+
+        dot.css('margin-left',-(dot.width()/2)+'px')
+    });
+    /*即时消息*/
+    API.listMessage(2, null, null, function (e) {
+        var t = e.object,
+                a = page.find(".newslist").empty(),
+                n =
+                        '<div class="time">\n{year}年\n' +
+                        '<small>{monthDay}</small>\n' +
+                        '</div>\n' +
+                        '<div style="padding-left: 15px">' +
+                        '<h3><a href="#" class="news_title"></a></h3>\n' +
+                        '<p><a href="#" class="news_content"></a></p>' +
+                        '</div>',
+                i = 5 < t.length ? t.slice(0, 5) : t;
+        $(i).each(function (e) {
+            var t = this,
+                    i = $("<li></li>").appendTo(a),
+                    l = new Date(1e3 * t.m_time);
+            i.append(
+                    n.replace(/{year}/g,
+                            l.format("yyyy")).replace(/{monthDay}/g,
+                            l.format("MM月dd日")))
+                    .find(".news_title")
+                    .text(UI.cutSize(t.m_title, 56)).end().find(".news_content")
+                    .text(t.m_content)
+                    .end().attr("m_id", t.m_id)
+                    .click(function () {
+                        return showMessageDetail($(this).attr("m_id")), !1
+                    });
+        });
+        i = 3 < t.length ? t.slice(0, 3) : t;
+        var s = page.find(".newsScroll").empty();
+        $(i).each(function (e) {
+            var t = this,
+                    i = $("<li></li>").appendTo(s),
+                    l = new Date(1e3 * t.m_time);
+            i.text(l.format("yyyy-MM-dd") + " " + t.m_title).attr("m_id", t.m_id).click(function () {
+                return showMessageDetail($(this).attr("m_id")), !1
+            })
+        })
+    });
+
+
+    var tplNewIt =
+            '<div class="module-box">' +
+            '<div class="module-info">' +
+            '<div class="img">' +
+            '<img src="images/pic2.png" style="height: 100%;width: auto" onerror="this.setAttribute(\'url\',\'images/pic2.png\');this.removeAttribute(\'onerror\')" field="m_cover" alt="" />' +
+            '</div>' +
+            '<h4 field="m_authorname"></h4>' +
+            '<p field="m_time" date-format="yyyy年MM月dd日"></p>' +
+            '</div>' +
+            '<h3 field="m_title"></h3>' +
+            '<p field="m_content" max-length="100" class="sm-info">..</p>' +
+            '<p class="tr">' +
+            '<a href="#" onclick="showMessageDetail({m_id},4,\'查看\');return false;">了解更多&gt;</a>' +
+            '</p>' +
+            '</div>';
+    var title1 = '<div class="line-tit">{c_name}</div> ';
+
+    var title2 =
+            '  <div class="mx-title"> ' +
+            '   <h3>{c_name} ' +
+            /*'     <a href="#" class="more" onclick="window.openPageContent(&quot;信息发布&quot;,&quot;首页资讯&quot;)">了解更多&gt;' +*/
+            '     <a href="#" class="more" onclick="window.open(apiPre+\'/moreArticals.html?c_id=\'+{c_id})">了解更多&gt;' +
+            '     </a> ' +
+            '   </h3> ' +
+            '  </div>';
+    ;
+    var cnt = '<div id="cnt_{c_id}" class=" mt20 clearfix module-box-cnt xjgyjList"></div>';
+
+    var data = {m_type: 4};
+
+
+    API.service("/listHomePageMessage", data, function (d) {
+        var el = $('#articals');
+        el.empty();
+        for (class1 in  d.object) {
+
+            var c1 = d.object[class1];
+            UI.appendFieldTo(title1, c1, el);
+
+
+            for (var class2 in c1.classList) {
+                var c2 = c1.classList[class2];
+                UI.appendFieldTo(title2, c2, el)
+                var cnt_el = UI.appendFieldTo(cnt, c2, el);
+
+
+                var ms = c2.messageList;
+                ms = 4 < ms.length ? ms.slice(0, 4) : ms;
+                for (var message in ms) {
+                    var msg = ms[message];
+
+                    var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el)
+                    cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 150));
+
+
+                }
+
+            }
+
+        }
+
+
+    }, function (e) {
+        layer.alert(e.msg);
+    });
+
+    API.service("/listMessage1Bygroup", {m_type: 1}, function (d) {
+        var el = $('#policys');
+        el.empty();
+        if (d.object && d.object.length > 0) {
+            el.append('<div class="line-tit">政策信息</div> ');
+        }
+
+        for (var class1 in d.object) {
+            var c2 = d.object[class1];
+            var t = title2.replace('moreArticals', 'morepolicyss')
+            var sub_title = UI.appendFieldTo(t, c2, el)
+
+            var cnt_el = UI.appendFieldTo(cnt, c2, el);
+
+
+            var ms = c2.list;
+            ms = 4 < ms.length ? ms.slice(0, 4) : ms;
+            for (var message in ms) {
+                var msg = ms[message];
+
+                var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el)
+                cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 150));
+
+
+            }
+
+        }
+
+
+    }, function (e) {
+        layer.alert(e.msg);
+    });
+
+    /*
+     API.listMessage(4, null, null, function (e) {
+     var t = e.object;
+     i = 4 < t.length ? t.slice(0, 4) : t;
+     l = page.find(".xjgyjList").empty();
+     $(i).each(function (e) {
+     UI.appendFieldTo(tplNewIt, this, l)
+     })
+     });
+
+     /!*新技术案例*!/
+     API.listMessage(4, null, null, function (e) {
+     var t = e.object;
+     i = 4 < t.length ? t.slice(0, 4) : t;
+     l = page.find(".xjsalList").empty();
+     $(i).each(function (e) {
+     UI.appendFieldTo(tplNewIt, this, l)
+     })
+     });*/
+
+    $('.more-in').click(function () {
+        window.open(apiPre + '/moreNodelay.html');
+    })
+
+    page.find(".scrollUp").slide({mainCell: "ul", effect: "topLoop", autoPlay: !0, delayTime: 0})
+</script>
+</body>
+</html>
