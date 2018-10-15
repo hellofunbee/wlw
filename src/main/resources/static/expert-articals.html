@@ -73,7 +73,7 @@
         var q_user_id = sessionStorage.getItem("ckuid");
 
 
-        var tplNewIt = '<div class="zdlb-list fl">' +
+        var tplNewIt = '<div class="zdlb-list fl" style="width: 580px;margin-left: 1%">' +
                 /*'            <em class="close"></em>' +*/
 
                 '        <img src="images/pic3.png"    field="m_cover" alt="">' +
@@ -138,6 +138,7 @@
                                     msg.class2Name = class2Name;
 
                                     var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el).data('data', msg);
+                                    cn.find('[field=m_title]').text(UI.cutSize(msg.m_title, 33));
                                     cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 120));
                                     cn.find('.tr a').on('click', function () {
                                         onclick = showMessageDetail($(this).closest('div').data('data').m_id, 4, '查看',2);

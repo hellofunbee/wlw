@@ -1,22 +1,3 @@
-/*
- pushHistory();
-
- window.addEventListener("popstate", function (e) {
- var currentUrl = history.state.url;
- console.log(currentUrl)
- }, false);
-
- function pushHistory() {
- var state = {
- title: "title",
- url: "#"
-
- };
- window.history.pushState(state, "title", "#");
- }
- */
-
-
 $(function () {
     var menu = $('.mx-nav').empty();
     if (!sessionStorage.getItem("ckuid")) {
@@ -86,6 +67,14 @@ $(function () {
                 var subMenus = {};
                 $(menus).each(function (i, e) {
 
+                    try {
+                        if (e.href && e.href.substr(0, 1) == '{') {
+                            e.href = JSON.parse(e.href)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+
                     if (e.name == '首页') {
                         topMenus[e.name] = {url: e.href, type: 'iframe'}
                     } else if (e.name == '注销') {
@@ -120,7 +109,7 @@ $(function () {
                                     e.href = JSON.parse(e.href)
                                 }
                             } catch (e) {
-                              console.log(e)
+                                console.log(e)
                             }
                             subMenus[e.name] = e.href;
                         })
@@ -138,10 +127,11 @@ $(function () {
                     if (topMenus[content] && content) {
 
                         showMainContent(topMenus[content])
+                    } else {
+
                     }
 
                 });
-
 
                 if (window.purl && location.hash && location.hash.indexOf("page=") > 0) {
                     var s = "http://s.com/?" + location.hash.substring(1);
@@ -156,7 +146,57 @@ $(function () {
                         showMainContent(define, type)
                     }
                 } else {
-                    pageNav.eq(0).click()
+                    // pageNav.eq(0).click()
+
+                    var lct = $("div#main_iframe").attr("src") || location.href,
+                        e = purl(lct);
+                    var url = decodeURIComponent(e.param("detail-url"));
+                    if (!url || !url.startsWith('http')) {
+                        pageNav.eq(0).click()
+                    } else {
+                        if (
+                            url.indexOf('expert') != -1 || url.indexOf('detail-exp') != -1
+                        ) {
+
+                            $('.ico7').parents('li').addClass("on").siblings().removeClass("on").parents("li").siblings().children("dl").children("dd").removeClass("on");
+                        } else {
+                            $('.ico1').parents('li').addClass("on").siblings().removeClass("on").parents("li").siblings().children("dl").children("dd").removeClass("on");
+                        }
+                        console.log(url);
+                        var c_p = '详情';
+                        if(url.indexOf('expert-xq2') != -1){
+                            c_p = '专家系统>专家详情';
+                        }else if(url.indexOf('expert-ans') != -1){
+                            c_p ='专家系统>专家详情>专家答疑'
+                        }else if(url.indexOf('expert-articals') != -1){
+                            c_p ='专家系统>专家详情>专家指导'
+                        }else if(url.indexOf('detail-exp') != -1 && url.indexOf('type=2') != -1){
+                            c_p ='专家系统>专家详情>答疑详情'
+                        }else if(url.indexOf('detail-exp') != -1 && url.indexOf('type=4') != -1){
+                            c_p ='专家系统>专家详情>专家项目详情'
+                        }else if(url.indexOf('news') != -1 && url.indexOf('type=4&m_source=2') != -1){
+                            c_p ='专家系统>专家详情>专家指导详情'
+                        }else if(url.indexOf('homeSearch') != -1 ){
+                            c_p ='首页>搜索'
+                        }else if(url.indexOf('moreNodelay') != -1 ){
+                            c_p ='首页>即时消息'
+                        }else if(url.indexOf('moreArticals') != -1 ){
+                            c_p ='首页>资讯'
+                        }else if(url.indexOf('morepolicyss') != -1 ){
+                            c_p ='首页>政策资讯'
+                        }else if(url.indexOf('news') != -1&&url.indexOf('type=4') != -1 ){
+                            c_p ='资讯详情'
+                        }else if(url.indexOf('detail') != -1&&url.indexOf('type=2') != -1 ){
+                            c_p ='即时消息详情'
+                        }
+
+                        showMainContent(url);
+
+                        //$("#main_frame").contents().find(".mx-handle").html('<div class="sm-title fl">'+c_p+'</div>').show();
+
+
+                    }
+
                 }
 
 
@@ -183,6 +223,7 @@ $(function () {
         });
 
         // $.ajaxSetup({async: true});
+
 
     }
     var handleUnReadMessageTimer = 0;

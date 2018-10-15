@@ -169,7 +169,7 @@
             '  <div class="mx-title"> ' +
             '   <h3>{c_name} ' +
             /*'     <a href="#" class="more" onclick="window.openPageContent(&quot;信息发布&quot;,&quot;首页资讯&quot;)">了解更多&gt;' +*/
-            '     <a href="#" class="more" onclick="window.open(apiPre+\'/moreArticals.html?c_id=\'+{c_id})">了解更多&gt;' +
+            '     <a href="#" class="more" onclick="UI.details(apiPre+\'/moreArticals.html?c_id=\'+{c_id})">了解更多&gt;' +
             '     </a> ' +
             '   </h3> ' +
             '  </div>';
@@ -268,7 +268,7 @@
      });*/
 
     $('.more-in').click(function () {
-        window.open(apiPre + '/moreNodelay.html');
+         UI.details(apiPre + '/moreNodelay.html');
     })
 
     page.find(".scrollUp").slide({mainCell: "ul", effect: "topLoop", autoPlay: !0, delayTime: 0})

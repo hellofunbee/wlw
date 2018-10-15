@@ -5,8 +5,8 @@ if (!window.js_common_loaded) {
             }
         };
     window.js_common_loaded = true;
-    // window.apiPre ='http://localhost:8087';
-    window.apiPre ='http://39.107.119.69:8087';
+    window.apiPre = 'http://localhost:8087';
+    // window.apiPre ='http://39.107.119.69:8087';
     /*window.apiPre = window.apiPre || "";*/
     window.staticPre = window.staticPre || "http://39.107.119.69:8087";
     var _mock = false;
@@ -180,6 +180,9 @@ if (!window.js_common_loaded) {
         }
         if (type === "iframe") {
             $('<iframe src="' + url + '" width="100%" height="1000px" frameborder="0" scrolling="no" id="main_iframe_s"></iframe>').appendTo($("#main_iframe").empty().css("overflow", "hidden")).on("load", autoBody)
+        } else if (type === "out") {
+            window.open(url)
+
         } else {
             $.get(url, function (rsp) {
                 var reg = /<head>([\s\S]+)<\/head>/gi;
@@ -330,10 +333,7 @@ if (!window.js_common_loaded) {
                             onFail(e)
                             return;
                         }
-
                     }
-
-
                     layer.msg(e.msg)
                 },
                 error: function (e) {

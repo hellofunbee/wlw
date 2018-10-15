@@ -75,6 +75,7 @@
 //
 
                 $(menu_ids).each(function (i, e) {
+//                    if(e.parent_id > 0)
                     treeObj.checkNode(treeObj.getNodeByParam("id", e.id, null), true, true);
 
                 });

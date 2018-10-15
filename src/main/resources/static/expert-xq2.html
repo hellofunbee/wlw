@@ -115,19 +115,7 @@
         <img src="images/search-icon.png" class="alimg mr5">搜索</a>
     </div>
     <div id="articals" class="clearfix ">
-        <!--<div class="zdlb-list fl">
-            <em class="close"></em>
-            <img src="images/pic3.png" field="m_cover" alt="">
-            <h3 class="blue" field="m_title">首红苹果高产栽培技术</h3>
-            <p class="blue" >浆果类 - 苹果</p>
-            <p class="blue clearfix" >
-                <span field="c_name">文章分类 - 新技术</span>
-                <span class="fr red" field="m_time" date-format="yyyy年MM月dd日" >2018年7月13日</span></p>
-            <p feild="m_content"></p>
-            <p class="tr">
-                <a href="#" class="blue"  onclick="showMessageDetail({m_id},4,\'查看\');return false;" >了解更多&gt;</a></p>
-        </div>
--->
+
     </div>
 </div>
 <div class="answer-layer"><h3>提问列表</h3>
@@ -238,7 +226,7 @@
     });
 
 
-    var tplNewIt = '<div class="zdlb-list fl">' +
+    var tplNewIt = '<div class="zdlb-list fl" style="margin-left: 6px">' +
             /*'            <em class="close"></em>' +*/
 
             '        <img src="images/pic3.png"    field="m_cover" alt="">' +
@@ -303,6 +291,7 @@
                                 msg.class2Name = class2Name;
 
                                 var cn = UI.appendFieldTo(tplNewIt, msg, cnt_el).data('data', msg);
+                                cn.find('[field=m_title]').text(UI.cutSize(msg.m_title, 33));
                                 cn.find('[field=m_content]').text(UI.cutSize(UI.getTextFromHtml(msg.m_content), 120));
                                 cn.find('.tr a').on('click', function () {
                                     onclick = showMessageDetail($(this).closest('div').data('data').m_id, 4, '查看',2);
@@ -520,14 +509,14 @@
     //专家答疑搜索
     $('.zjdy-search').click(function () {
 
-        window.open(apiPre + '/expert-ans.html?tu_id=' + tu_id);
+        UI.details(apiPre + '/expert-ans.html?tu_id=' + tu_id);
 
     });
 
     //专家答疑搜索
     $('.exp-artical-seach').click(function () {
 
-        window.open(apiPre + '/expert-articals.html?tu_id=' + tu_id);
+        UI.details(apiPre + '/expert-articals.html?tu_id=' + tu_id);
 
     });
 

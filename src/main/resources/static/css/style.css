@@ -1,3 +1,4 @@
+
 @charset "UTF-8";
 /*登录页面*/
 .mx-login {
@@ -61,7 +62,7 @@
 .mx-header {
   background: url("../images/h_bg.png") center top no-repeat;
   height: 85px;
-  width: 100%;
+  width: 1200px;
   margin: auto;
   background-size:cover;
   -webkit-background-size:cover;
@@ -71,12 +72,12 @@
 .header-line {
   height: 2px;
   background: #fff;
-  min-width: 100%;
+  min-width: 1200px;
   border-bottom: 1px solid #004d9b;
 }
 
 .mx-contaniner {
-  width: 100%;
+  width: 1200px;
   overflow: hidden;
   margin: auto;
   position: relative;
@@ -144,14 +145,14 @@ a.mx-logo {
   background: url("../images/nav_bg.png") left bottom repeat-x;
   height: 40px;
   top: -4px;
-  width: 100%;
+  width: 1200px;
   margin: auto;
   z-index: 101;
   position: relative;
 }
 
 .mx-navCnt .mx-nav {
-  width: 100%;
+  width: 1200px;
   margin: auto;
 }
 
@@ -353,13 +354,12 @@ a.mx-logo {
 #main_iframe {
   overflow: hidden;
   overflow-y: auto;
-  width: 100% !important;
+  width: 1200px !important;
   margin: auto;
-  padding: 0 5px 5px 5px;
 }
 
 .mx-main {
-  width: 100%;
+  width: 1200px;
   margin: auto;
   padding-bottom: 20px;
 }

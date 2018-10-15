@@ -330,8 +330,8 @@
                 UI.renderProvince(ctl_el.find("#gis2_provice"), function () {
 
                     if ($(this).val()) {
-                        count = count+1;
-                        if ($(this).val() != data.tu_province && count <=1) {
+                        count = count + 1;
+                        if ($(this).val() != data.tu_province && count <= 1) {
                             $(this).val(data.tu_province);
                         }
                         console.log(count)
@@ -339,12 +339,12 @@
                         UI.renderCity(ctl_el.find("#gis2_city"), $(this).val(), function () {
 
                             if ($(this).val()) {
-                                if ($(this).val() != data.tu_city && count <=1) {
+                                if ($(this).val() != data.tu_city && count <= 1) {
                                     $(this).val(data.tu_city);
                                 }
 
                                 UI.renderDistrict(ctl_el.find("#gis2_district"), $(this).val(), function () {
-                                    if ($(this).val() != data.tu_district && count <=1) {
+                                    if ($(this).val() != data.tu_district && count <= 1) {
                                         $(this).val(data.tu_district);
                                     }
 
@@ -426,10 +426,19 @@
 
                     if (data.menu_ids && data.menu_ids.length > 0) {
                         $(data.menu_ids).each(function (i, e) {
-                            rq.menu_ids.push({id:e.id});
+                            if (e && e.rank && e.rank.length > 0) {
+                                $(e.rank).each(function (i, e) {
+                                    rq.menu_ids.push({id: e.id, parent_id: e.parent_id});
+                                })
+                            }
+                            if (e && (!e.rank || e.rank.length == 0)) {
+                                rq.menu_ids.push({id: e.id, parent_id: e.parent_id});
+                            }
+
+
                         });
                     }
-                    console.log(rq)
+                    console.log(data)
 
                     var param = encodeURIComponent(JSON.stringify(rq));
 

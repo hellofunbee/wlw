@@ -299,6 +299,7 @@
 
 <script>
 
+    var isShow = true;//控制错误信息是否提示
     var page = $('[page="user-list"]');
 
     $(function () {
@@ -596,6 +597,7 @@
 
         });
 
+
     }
 
     //专家答疑列表
@@ -621,7 +623,7 @@
             });
             pageIt(o, c, data.totalpage);
         }, function (rsp) {
-            layer.msg(rsp.msg)
+            layermsg(rsp.msg)
 
 //            pageIt(o, c, 1);
         });
@@ -784,7 +786,7 @@
             });
             pageIt(o, c, data.totalpage);
         }, function (rsp) {
-            layer.msg(rsp.msg)
+            layermsg(rsp.msg)
 
 //            pageIt(o, c, 1);
         });
@@ -1064,7 +1066,7 @@
             });
             pageIt(o, c, data.totalpage);
         }, function (rsp) {
-            layer.msg(rsp.msg)
+            layermsg(rsp.msg)
         });
 
     }
@@ -1111,7 +1113,7 @@
             });
             pageIt(o, c, data.totalpage);
         }, function (rsp) {
-            layer.msg(rsp.msg)
+            layermsg(rsp.msg)
 
 //            pageIt(o, c, 1);
         });
@@ -1379,7 +1381,7 @@
             });
             pageIt(o, c, data.totalpage);
         }, function (rsp) {
-            layer.msg(rsp.msg)
+            layermsg(rsp.msg)
         });
 
     }
@@ -1960,6 +1962,11 @@
 
     })
     ;
+
+    function layermsg(e) {
+
+//        layer.msg(e.msg);
+    }
 
 
 </script>

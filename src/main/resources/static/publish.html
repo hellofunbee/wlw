@@ -93,7 +93,7 @@
         $(a.list).each(function (e) {
             var t = $(
                     '<div class="module-box ">' +
-                   /* '<div class="close"></div>' +*/
+                    /* '<div class="close"></div>' +*/
                     '<div class="module-info">' +
                     '<div class="img">' +
                     '<img src="" style="height: 100%;width: auto"class="cover" alt="" />' +
@@ -108,7 +108,7 @@
                     '<a class="btn-sm  edit" onclick="edit(this)" >编辑</a>' +
 
                     '<a class="btn-sm btn-fh edit " onclick="del(this)" >删除</a>' +
-                  /*  '<a href="#" class="item-more">了解更多&gt;</a> ' +*/
+                    /*  '<a href="#" class="item-more">了解更多&gt;</a> ' +*/
                     '</p>' +
                     '</div>'
             ).appendTo(s);
@@ -268,6 +268,8 @@
                     });
 
                 }), $("#publish-frm-cancel").on('click', function (e) {
+                    if (ue)
+                        ue.destroy();
                     layer.close(t)
                 });
 
@@ -306,6 +308,7 @@
         var ue;
         layer.open({
             type: 1,
+
             area: ["720px", "650px"],
             title: "发布新消息",
             content: $(".xxx-layer"),
@@ -367,10 +370,9 @@
                         l.on("change", fChange),
 
                         API.service("/listClass1", {c_type: 4}, function (e) {
-                            console.log("class ", e.object),
-                                    $(e.object).each(function (e) {
-                                        $("<option>" + this.c_name + "</option>").attr("value", this.c_id).appendTo(a)
-                                    })
+                            $(e.object).each(function (e) {
+                                $("<option>" + this.c_name + "</option>").attr("value", this.c_id).appendTo(a)
+                            })
                         }),
                         e.find("#publish-frm-save,#publish-frm-cancel").click(function (e) {
                             e.preventDefault();
@@ -387,11 +389,15 @@
                                     m_type: "1",
                                     m_cover: $('#cms-cover').attr("src")
                                 }, function (e) {
+                                    if (ue)ue.destroy();
                                     layer.msg(e.msg), layer.close(t), queryIt()
                                 })
                             }
+                            if (ue)ue.destroy();
                             layer.close(t)
                         })
+            }, end: function () {
+                $(".layui-layer-shade").remove();
             }
         })
     })</script>

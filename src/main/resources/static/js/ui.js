@@ -623,12 +623,10 @@ UI.cleanHtml = function (html) {
     return html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "").replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "").replace(/<link\b[^<]*(?:(?!<\/>)<[^<]*)*<\/>/gi, "").replace(/onmouse/gi, "_onmouse").replace(/onclick/gi, "_onclick")
 };
 var showMessageDetail = function (id, type, title, type2) {
-    console.log(id, type, title, type2)
     var url = "detail.html";
     if (type === 4) {
         url = "news.html"
     }
-
     if (type2 == 1)
         url = "detail-exp.html";
 
@@ -638,9 +636,13 @@ var showMessageDetail = function (id, type, title, type2) {
     else
          options = {url: url + "?id=" + id + "&type=" + (type || 2)};
 
-
     // window.openPageContent("信息发布", "首页资讯", options);
-    window.open(options.url);
+    window.open(apiPre+"/details.html?detail-url="+encodeURIComponent(apiPre+'/'+options.url));
+    return false
+};
+
+UI.details = function (url) {
+    window.open(apiPre+"/details.html?" +"detail-url="+encodeURIComponent(url));
     return false
 };
 UI.preZero = function (oriStr, len, maxValue) {

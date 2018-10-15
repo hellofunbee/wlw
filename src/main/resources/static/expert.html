@@ -72,7 +72,7 @@
                     el.find('img').attr('src', e.tu_logo);
                 el.find('img').on('click', function () {
 //                    window.openPageContent('&quot;专家系统&quot;', '&quot;' + e.tu_name + '&quot;', {url: '/expert-xq2.html?tu_id=' + e.tu_id});
-                    window.open(apiPre + '/expert-xq2.html?tu_id=' + e.tu_id);
+                    UI.details(apiPre + '/expert-xq2.html?tu_id=' + e.tu_id);
 
                 });
             });
@@ -100,7 +100,7 @@
 
                 el.find('img').on('click', function () {
 //                    window.showDetail('&quot;专家系统&quot;','&quot;'+e.tu_name+'&quot;',{url:'/expert-xq2.html?tu_id='+e.tu_id});
-                    window.open(apiPre + '/expert-xq2.html?tu_id=' + e.tu_id);
+                    UI.details(apiPre + '/expert-xq2.html?tu_id=' + e.tu_id);
 
                 });
 

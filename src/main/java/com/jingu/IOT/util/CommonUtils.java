@@ -1,9 +1,8 @@
 package com.jingu.IOT.util;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -372,28 +371,6 @@ public class CommonUtils {
         return day;
     }
 
-    public static String getXml() throws IOException {
-        String xmlString;
-        byte[] strBuffer = null;
-        int flen = 0;
-        Resource resource = new ClassPathResource("hk.xml");
-        File xmlfile = resource.getFile();
-        try {
-            InputStream in = new FileInputStream(xmlfile);
-            flen = (int) xmlfile.length();
-            strBuffer = new byte[flen];
-            in.read(strBuffer, 0, flen);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        xmlString = new String(strBuffer);
-
-        return xmlString;
-
-    }
-
     static class OffOn {
         long s = 0;
         long e = 0;
@@ -436,4 +413,38 @@ public class CommonUtils {
         }
 
     }
+
+    /**
+     * 生成随机时间
+     * @param beginDate
+     * @param endDate
+     * @return
+     *
+    "2010-09-20","2010-09-21";
+     */
+    public static Date randomDate(){
+        Random rndYear=new Random();
+        int year=rndYear.nextInt(2)+2017;
+        Random rndMonth=new Random();
+        int month=rndMonth.nextInt(12)+1;
+        Random rndDay=new Random();
+        int Day=rndDay.nextInt(30)+1;
+        Random rndHour=new Random();
+        int hour=rndHour.nextInt(23);
+        Random rndMinute=new Random();
+        int minute=rndMinute.nextInt(60);
+        Random rndSecond=new Random();
+        int second=rndSecond.nextInt(60);
+        String str = year+"-"+cp(month)+"-"+cp(Day)+"  "+cp(hour)+":"+cp(minute)+":"+cp(second);
+       return getDate(str,"yyyy-MM-dd HH:mm:ss");
+    }
+    private static String cp(int num){
+        String Num=num+"";
+        if (Num.length()==1){
+            return "0"+Num;
+        }else {
+            return Num;
+        }
+    }
+
 }
