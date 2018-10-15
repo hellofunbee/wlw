@@ -22,18 +22,22 @@
         </div>
         <div class="first-news">
             <div class="first-news-tit clearfix">
-                <h3>即时信息</h3>
+                <h3 id="jishi_tab">即时信息</h3>
+                <h3 id="yujing_tab" class="uncheck" style="margin-left: 5px">预警信息</h3>
                 <!--<a href="#" onclick='window.openPageContent("信息发布","即时信息")' class="more">更多&gt;&gt;</a>-->
                 <a href="#" class="more-in more">更多&gt;&gt;</a>
-                <div class="scrollUp">
+                <div class="scrollUp" style="margin-left: 102px">
                     <ul class="clearfix newsScroll">
-                        <li>2018-07-12 滚动几时消息</li>
-                        <li>2018-07-12 滚动几时消息2</li>
-                        <li>2018-07-12 滚动几时消息3</li>
+                        <li>&nbsp;</li>
+                        <li>&nbsp;</li>
+                        <li>&nbsp;</li>
                     </ul>
                 </div>
             </div>
-            <ul class="newslist">
+            <ul class="newslist jishilist">
+
+            </ul>
+            <ul class="newslist yujinglist" style="display: none">
 
             </ul>
         </div>
@@ -63,19 +67,19 @@
             var a, alt;
             if (t.h_url) {
                 alt = t.h_url;
-                a = '<a target="_blank" title="'+alt+'" href="' + (t.h_url ? t.h_url + '"' : '"') + ' >';
+                a = '<a target="_blank" title="' + alt + '" href="' + (t.h_url ? t.h_url + '"' : '"') + ' >';
 
             }
             else {
                 alt = '暂无跳转链接'
-                a = '<a title="'+alt+'">';
+                a = '<a title="' + alt + '">';
 
             }
 
 
             l.push('<li>' +
                     a +
-                    '<img alt="'+alt+'"  src="' + apiPre + t.h_cover + '" />' +
+                    '<img alt="' + alt + '"  src="' + apiPre + t.h_cover + '" />' +
                     '<div class="info">\n<h3>' + (t.h_name || "&#160;") + "</h3>" +
                     "</div>" +
                     "</a>" +
@@ -101,15 +105,15 @@
                     trigger: "click",
                     delayTime: 10
                 });
-        var dot =  t.find(".mx-scroll-num");
+        var dot = t.find(".mx-scroll-num");
 
 
-        dot.css('margin-left',-(dot.width()/2)+'px')
+        dot.css('margin-left', -(dot.width() / 2) + 'px')
     });
     /*即时消息*/
     API.listMessage(2, null, null, function (e) {
         var t = e.object,
-                a = page.find(".newslist").empty(),
+                a = page.find(".jishilist").empty(),
                 n =
                         '<div class="time">\n{year}年\n' +
                         '<small>{monthDay}</small>\n' +
@@ -145,6 +149,64 @@
                 return showMessageDetail($(this).attr("m_id")), !1
             })
         })
+    });
+
+    /*预警消息*/
+    API.listMessage(3, null, null, function (e) {
+        var t = e.object,
+                a = page.find(".yujinglist").empty(),
+                n =
+                        '<div class="time">\n{year}年\n' +
+                        '<small>{monthDay}</small>\n' +
+                        '</div>\n' +
+                        '<div style="padding-left: 15px">' +
+                        '<h3><a href="#" class="news_title"></a></h3>\n' +
+                        '<p><a href="#" class="news_content"></a></p>' +
+                        '</div>',
+                i = 5 < t.length ? t.slice(0, 5) : t;
+        $(i).each(function (e) {
+            var t = this,
+                    i = $("<li></li>").appendTo(a),
+                    l = new Date(1e3 * t.m_time);
+            i.append(
+                    n.replace(/{year}/g,
+                            l.format("yyyy")).replace(/{monthDay}/g,
+                            l.format("MM月dd日")))
+                    .find(".news_title")
+                    .text(UI.cutSize(t.m_title, 56)).end().find(".news_content")
+                    .text(t.m_content)
+                    .end().attr("m_id", t.m_id)
+                    .click(function () {
+                        return showMessageDetail($(this).attr("m_id"), 5), !1
+                    });
+        });
+        /*i = 3 < t.length ? t.slice(0, 3) : t;
+         var s = page.find(".newsScroll").empty();
+         $(i).each(function (e) {
+         var t = this,
+         i = $("<li></li>").appendTo(s),
+         l = new Date(1e3 * t.m_time);
+         i.text(l.format("yyyy-MM-dd") + " " + t.m_title).attr("m_id", t.m_id).click(function () {
+         return showMessageDetail($(this).attr("m_id")), !1
+         })
+         })*/
+    });
+
+    $('#jishi_tab').click(function () {
+        $('.jishilist').css('display', 'block');
+        $('.yujinglist').css('display', 'none');
+        $(this).removeClass('uncheck');
+        $('#yujing_tab').addClass('uncheck');
+
+
+    });
+    $('#yujing_tab').click(function () {
+
+        $('.yujinglist').css('display', 'block');
+        $('.jishilist').css('display', 'none');
+        $(this).removeClass('uncheck');
+        $('#jishi_tab').addClass('uncheck');
+
     });
 
 
@@ -268,7 +330,15 @@
      });*/
 
     $('.more-in').click(function () {
-         UI.details(apiPre + '/moreNodelay.html');
+
+
+        if (!$('#jishi_tab').hasClass('uncheck')) {
+            UI.details(apiPre + '/moreNodelay.html');
+        } else {
+
+            UI.details(apiPre + '/yujing.html');
+
+        }
     })
 
     page.find(".scrollUp").slide({mainCell: "ul", effect: "topLoop", autoPlay: !0, delayTime: 0})

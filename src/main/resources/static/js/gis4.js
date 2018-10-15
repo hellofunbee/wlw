@@ -33,6 +33,14 @@ $(function () {
     controls.push(navControl);
     controls.push(overviewControl);
 
+    var city = "北京";
+    if (UI.getConstant()) {
+
+        city = UI.getConstant().city_;
+
+    }
+    map1.setCurrentCity(city);
+
     var cleanMapAreas = function () {
         map.reset();
         $(overlays).each(function () {
@@ -125,7 +133,7 @@ $(function () {
         map1.openInfoWindow(infoWindow, point)
 
     }
-
+    var constant = UI.getConstant();
     var drawMapArea = function (v, messages, keep) {
         /* map.reset();
          if (!keep) {
@@ -158,9 +166,19 @@ $(function () {
                 polygon_item.push({item: messages, polygon: ply});
 
                 //TODO 后台获取默认点
+                // if (isFocused == false && ply) {
+                //     showInfo(ply, messages)
+                //     isFocused = true;
+                // }
+
                 if (isFocused == false && ply) {
-                    showInfo(ply, messages)
-                    isFocused = true;
+
+                    if (constant && constant.city_ === d.city) {
+                        console.log(constant.city_)
+                        showInfo(ply, d)
+                        isFocused = true;
+                    }
+
                 }
 
                 ply.addEventListener("click", function () {

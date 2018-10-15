@@ -72,7 +72,7 @@
             e.ctrl_id = url.param('ctrl_id');
             e.type = url.param('type');
 
-            API.service(apiPre + "/updateRule", $.extend({}, r, e), function (e) {
+            API.service("/updateRule", $.extend({}, r, e), function (e) {
                 layer.msg(e.msg)
             })
         })

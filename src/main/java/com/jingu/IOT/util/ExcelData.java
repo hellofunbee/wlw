@@ -97,11 +97,22 @@ public class ExcelData {
             InputStream is = file.getInputStream();
             //根据文件后缀名不同(xls和xlsx)获得不同的Workbook实现类对象
             if (fileName.endsWith("xls")) {
+
                 //2003
-                workbook = new HSSFWorkbook(is);
+                try {
+                    workbook = new HSSFWorkbook(is);
+                } catch (Exception e) {
+                    workbook = new XSSFWorkbook(is);
+                }
+
             } else if (fileName.endsWith("xlsx")) {
                 //2007 及2007以上
-                workbook = new XSSFWorkbook(is);
+                try {
+                    workbook = new XSSFWorkbook(is);
+                } catch (Exception e) {
+                    workbook = new HSSFWorkbook(is);
+                }
+
             }
         } catch (IOException e) {
             log.error(e.getMessage());

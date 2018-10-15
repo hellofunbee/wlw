@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网-系统管理-专家管理</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pagination.css">
+</head>
+<body>
+<div class="mx-main">
+    <div class="mx-handle clearfix" page="user-list">
+        <div class="sm-title fl">基本变量管理</div>
+    </div>
+    <div class="yhgl-module cleafix">
+        <div id="user_profile">
+            <div class="tjzsb add-user " style="padding-top:60px;width: 500px;margin:auto">
+
+                <table class="mx-table  control-dev-form">
+                    <input field="constant_id" type="hidden">
+
+                    <tr>
+                        <th>卷帘走完行程秒数</th>
+                        <td><input field="total_seconds" required type="number" class="text-blue" style="width:auto;">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>默认省</th>
+                        <td><select class="text-x30" required field="province" id="gis2_provice">
+                            <option value=""></option>
+                        </select>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>默认市</th>
+                        <td>
+                            <select class="text-x30" required field="city" id="gis2_city">
+                                <option value=""></option>
+                            </select>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>默认地区</th>
+                        <td>
+                            <select class="text-x30" required field="district" id="gis2_district">
+                                <option value=""></option>
+                            </select>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="tc mt20">
+                    <a class="btn-lg btn-df-blue save">保存</a>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/layer/layer.js"></script>
+
+<script>
+
+    var page = $('[page="user-list"]');
+    var html = $('#user_profile');
+
+    loadUInfo();
+    $('.save').on('click', function () {
+        var obj = UI.getFieldValue(html);
+        if (!obj) {
+            return true
+        }
+        API.service("/con/update"
+                , obj, function (d) {
+                    layer.msg(d.msg);
+
+                })
+    });
+
+    function loadUInfo() {
+
+
+
+        API.service("/con/list", {
+                    uid: sessionStorage.getItem("ckuid"),
+                }, function (data) {
+                    var data = data.object;
+
+                    UI.renderField(html, data);
+
+                    var count = 0;
+                    UI.renderProvince(html.find("#gis2_provice"), function () {
+
+                        if ($(this).val()) {
+                            count = count + 1;
+                            if ($(this).val() != data.tu_province && count <= 1) {
+                                $(this).val(data.province);
+                            }
+                            UI.renderCity(html.find("#gis2_city"), $(this).val(), function () {
+
+                                if ($(this).val()) {
+                                    if ($(this).val() != data.tu_city && count <= 1) {
+                                        $(this).val(data.city);
+                                    }
+
+                                    UI.renderDistrict(html.find("#gis2_district"), $(this).val(), function () {
+                                        if ($(this).val() != data.tu_district && count <= 1) {
+                                            $(this).val(data.district);
+                                        }
+
+
+                                    });
+                                }
+
+                            })
+                        }
+                    });
+
+
+                }, function (rsp) {
+                    layer.msg(rsp.msg)
+                    UI.renderProvince(html.find("#gis2_provice"), function () {
+                        UI.renderCity(html.find("#gis2_city"), $(this).val(), function () {
+                            UI.renderDistrict(html.find("#gis2_district"), $(this).val(), function () {
+                            });
+                        })
+                    });
+
+                }
+        );
+    }
+
+
+</script>
+
+</body>
+</html>

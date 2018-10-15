@@ -4,7 +4,7 @@
 
     <groupId>com.jingu</groupId>
     <artifactId>IOT</artifactId>
-    <version>0.1.5.4-SNAPSHOT</version>
+    <version>0.1.5.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>IOT</name>

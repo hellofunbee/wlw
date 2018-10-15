@@ -5,8 +5,8 @@ if (!window.js_common_loaded) {
             }
         };
     window.js_common_loaded = true;
-    window.apiPre = 'http://localhost:8087';
-    // window.apiPre ='http://39.107.119.69:8087';
+    // window.apiPre = 'http://localhost:8087';
+    window.apiPre ='http://39.107.119.69:8087';
     /*window.apiPre = window.apiPre || "";*/
     window.staticPre = window.staticPre || "http://39.107.119.69:8087";
     var _mock = false;
@@ -146,7 +146,7 @@ if (!window.js_common_loaded) {
     $(window).resize(function () {
         autoBody()
     });
-    window.showMainContent = function (define, type) {
+    window.showMainContent = function (define, type, c_p) {
         if (typeof define === "function") {
             try {
                 var ret = define()
@@ -177,9 +177,11 @@ if (!window.js_common_loaded) {
                 pageURL = (location.pathname || "") + "/" + url
             }
             _hmt.push(["_trackPageview", pageURL])
+            console.log('pageURL:'+pageURL)
         }
         if (type === "iframe") {
             $('<iframe src="' + url + '" width="100%" height="1000px" frameborder="0" scrolling="no" id="main_iframe_s"></iframe>').appendTo($("#main_iframe").empty().css("overflow", "hidden")).on("load", autoBody)
+
         } else if (type === "out") {
             window.open(url)
 
@@ -190,6 +192,38 @@ if (!window.js_common_loaded) {
                 if (body) {
                     $("#main_iframe").empty().attr("src", url).html(body);
                     autoBody()
+                    if (!c_p)return false;
+                    var main = $("#main_iframe").find(".mx-main").css('display', 'block');
+                    var handle = $("#main_iframe").find(".mx-handle").css('display', 'block');
+                    var title = $("#main_iframe").find(".mx-handle .sm-title");
+                    $("#main_iframe").find(".mx-handle .news-index").remove();
+                    $("#main_iframe").find(".mx-handle .news-title").remove();
+
+
+                    if (title && title.length > 0) {
+                        $(title).each(function () {
+                            $(this).remove();
+                        })
+                        handle.prepend('<div class="sm-title fl">' + c_p + '</div>');
+
+
+                    } else if (handle && handle.length > 0) {
+                        handle.prepend('<div class="sm-title fl">' + c_p + '</div>');
+
+                    } else {
+                        var index = ' <div class="mx-handle clearfix">' +
+                            '<div class="sm-title fl">' + c_p + '</div>' +
+                            '</div>';
+                        main.prepend(index)
+                    }
+                    $("#main_iframe").find(".mx-handle").css('background', 'url("")');
+                    $("#main_iframe").find(".mx-handle").css('background-color', 'rgba(0, 0, 0, 0.11)');
+
+
+                    var title = $("#main_iframe").find(".mx-handle .sm-title");
+                    /*title.css('margin-top',0);
+                    title.css('background-color','#cccdda');
+                    title.css('color','#636555');*/
                 } else {
                     layer.msg("页面异常，无法访问")
                 }

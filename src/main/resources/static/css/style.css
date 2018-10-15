@@ -486,6 +486,16 @@ a.mx-logo {
   text-align: center;
   color: #fff;
 }
+.first-news-tit h3.uncheck {
+  font-size: 16px;
+  background: url("../images/tit_bg_1.png") no-repeat;
+  height: 30px;
+  line-height: 30px;
+  width: 96px;
+  float: left;
+  text-align: center;
+  color: #fff;
+}
 
 .first-news-tit a.more {
   float: right;

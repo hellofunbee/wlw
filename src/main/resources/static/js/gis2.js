@@ -29,7 +29,15 @@ $(function () {
     map1.addControl(allControl);
 
     map1.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
-    map1.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+
+    var city = "北京";
+    if (UI.getConstant()) {
+
+        city = UI.getConstant().city_;
+
+    }
+    map1.setCurrentCity(city);          // 设置地图显示的城市 此项是必须设置的
+
     map1.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
     map1.addEventListener("zoomend", function (evt) {
@@ -104,6 +112,7 @@ $(function () {
 
 
     var distData = [];
+    var constant = UI.getConstant();
 
     var renderMapData = function (d, index) {
         var v = d.province + d.city + d.district;
@@ -130,9 +139,15 @@ $(function () {
 
 
                 //TODO 后台获取默认点
+
                 if (isFocused == false && ply) {
-                    showInfo(ply, d)
-                    isFocused = true;
+
+                    if (constant && constant.city_ === d.city) {
+                       console.log(constant.city_)
+                        showInfo(ply, d)
+                        isFocused = true;
+                    }
+
                 }
 
                 ply.addEventListener("click", function () {
@@ -226,7 +241,9 @@ $(function () {
             }
         }
     });
+    var html = $('#xxx-content').clone().html();
     $("#sjdl").click(function () {
+
         layer.open({
             type: 1,
             area: ["1000px", "670px"],
@@ -234,9 +251,16 @@ $(function () {
             content: $(".xxx-layer"),
             skin: "mlayer",
             success: function (page, index) {
+                page.find(".xxx-layer").empty().html(html)
                 var d_province = page.find('#gis2_provice').val();
                 var d_city = page.find('#gis2_city').val();
                 var d_district = page.find('#gis2_district').val();
+                laydate.render(
+                    {
+                        elem: "#data_time",
+                        format: 'yyyy-MM-dd'
+                    }
+                );
 
                 var dtype = 1;
 
@@ -392,12 +416,7 @@ $(function () {
         })
     })
 
-    laydate.render(
-        {
-            elem: "#data_time",
-            format: 'yyyy-MM-dd'
-        }
-    );
+
     var mainIframe = $("#main_iframe");
     var mapEl = $("#map2");
     mapEl.height(Math.max(500, mainIframe.height() - 40));

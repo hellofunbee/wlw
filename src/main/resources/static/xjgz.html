@@ -65,8 +65,7 @@
     load = function () {
         $(".btn-cancel").remove();
 
-        API.service(
-                apiPre + "/listRule",
+        API.service("/listRule",
                 {
                     r_id: url.param("r_id"),
                     type: url.param('type')
@@ -77,7 +76,7 @@
         $(".btn-save").click(function () {
             var e = UI.getFieldValue($(".form-table"));
             if (!e)return !1;
-            API.service(apiPre + "/updateRule", $.extend({}, {r_id:r}, e), function (e) {
+            API.service("/updateRule", $.extend({}, {r_id:r}, e), function (e) {
                 layer.msg(e.msg)
             })
         })

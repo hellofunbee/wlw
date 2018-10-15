@@ -1024,6 +1024,22 @@ UI.renderClassTree = function (targetEl, onClick, setting, showTypes, c_type) {
         }
     })
 };
+UI.getConstant = function () {
+    if(sessionStorage.getItem('constant')){
+       return window.JSON.parse(sessionStorage.getItem('constant'));
+
+    }else {
+        API.service("/con/list",{},function (e) {
+            e
+            if(e.success && e.object.province && e.object.city && e.object.district)
+                i
+
+        },function () {
+
+        })
+        return null;
+    }
+}
 
 
 

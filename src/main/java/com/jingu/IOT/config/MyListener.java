@@ -5,13 +5,18 @@ package com.jingu.IOT.config;
  */
 
 import com.jingu.IOT.entity.ControlEntity;
+import com.jingu.IOT.response.IOTResult;
+import com.jingu.IOT.service.ConstantService;
 import com.jingu.IOT.service.RedisService;
 import com.jingu.IOT.service.SettingService;
+import com.jingu.IOT.util.PageData;
+import com.jingu.IOT.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.util.Map;
 
 /**
  *
@@ -22,6 +27,8 @@ public class MyListener implements ServletContextListener {
     RedisService redisService;
     @Autowired
     SettingService settingService;
+    @Autowired
+    ConstantService constantService;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -37,6 +44,19 @@ public class MyListener implements ServletContextListener {
         ControlEntity ctrl = new ControlEntity();
         ctrl.setIs_running(2);
         settingService.updateControlSetting(ctrl);
+
+        //初始化常量
+        IOTResult result = constantService.list(new PageData());
+
+        try {
+            if (result.isSuccess()) {
+                ToolUtil.TotalS = (int) ((Map) result.getObject()).get("total_seconds");
+                System.out.println("TotalS:" + ToolUtil.TotalS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 

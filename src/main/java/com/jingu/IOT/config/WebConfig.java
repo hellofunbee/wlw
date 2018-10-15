@@ -1,4 +1,4 @@
-package com.jingu.IOT.conf;
+package com.jingu.IOT.config;
 
 import com.jingu.IOT.util.CommonUtils;
 import com.jingu.IOT.util.ToolUtil;

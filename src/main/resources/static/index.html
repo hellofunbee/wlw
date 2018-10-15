@@ -94,6 +94,15 @@
          UI.details(apiPre + "/homeSearch.html?keyword=" + encodeURIComponent(m_title))
 
     });
+
+    API.service("/con/list",{},function (e) {
+        e
+        if(e.success && e.object.province && e.object.city && e.object.district)
+            sessionStorage.setItem('constant',JSON.stringify(e.object));
+
+    },function () {
+        
+    })
 </script>
 <script>!function (e) {
     var t = document.createElement("script");

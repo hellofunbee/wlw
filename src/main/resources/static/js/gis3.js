@@ -26,8 +26,13 @@ $(function () {
     map1.addControl(overviewControl);
     var allControl = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP]});
     map1.addControl(allControl);
+    var city = "北京";
+    if (UI.getConstant()) {
 
-    map1.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+        city = UI.getConstant().city_;
+
+    }
+    map1.setCurrentCity(city);          // 设置地图显示的城市 此项是必须设置的
     map1.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
 
@@ -193,6 +198,7 @@ $(function () {
 
 
     var distData = [];
+    var constant = UI.getConstant();
     var renderMapData = function (d, t) {
         var v = d.province + d.city + d.district;
         var bdary = new BMap.Boundary;
@@ -216,10 +222,20 @@ $(function () {
                 all.push(ply.getBounds().getCenter());
                 polygon_item.push({item: d, polygon: ply});
 
-                //TODO 后台获取默认点
+                /*//TODO 后台获取默认点
                 if (isFocused == false && ply) {
                     showInfo(ply, d)
                     isFocused = true;
+                }*/
+
+                if (isFocused == false && ply) {
+
+                    if (constant && constant.city_ === d.city) {
+                        console.log(constant.city_)
+                        showInfo(ply, d)
+                        isFocused = true;
+                    }
+
                 }
 
                 ply.addEventListener("click", function () {
