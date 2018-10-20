@@ -50,8 +50,8 @@ $(function () {
     };
     treeEl.on("z-tree-load", function () {
 
-        var nodes = $(this).data("z-tree").getNodes();
-        nodes && nodes.length > 0 && onNodeSelect(nodes[0]);
+        // var nodes = $(this).data("z-tree").getNodes();
+        // nodes && nodes.length > 0 && onNodeSelect(nodes[0]);
 
 
         // UI.findFirstDeviceOnTreeActive($(this).data("z-tree"), 3, onNodeSelect)
@@ -75,10 +75,19 @@ $(function () {
 
         /* 参数配置 加载*/
         API.service("/getMainDeviceSetting", {deviceId: deviceId, ip: ip, port: port}, function (d) {
-            console.log();
-            console.log(d);
+
 
             stopLoading();
+            if (!d.success) {
+
+                layer.msg(d.msg);
+                configEl.find('input').each(function () {
+                    configEl.find("input").val("");
+                })
+                lastSelectNode = null;
+                return ;
+            }
+
             var renders = {
                 ip_port: function (el, v) {
                     var vs = v.split(":");
@@ -118,6 +127,15 @@ $(function () {
                     }
                 })
             }
+        }, function (d) {
+
+            layer.msg(d.msg);
+            configEl.find('input').each(function () {
+                configEl.find("input").val("");
+
+            })
+            lastSettingData = null;
+
         })
     };
     page.on("node-change", loadConfigPanel);
@@ -137,8 +155,8 @@ $(function () {
     page.find(".btn-cfg-save").click(function (e) {
         var rsp = lastSettingData;
         if (!rsp || !rsp.object) {
-            layer.msg("请先选择设备");
-            return
+            layer.msg("未获取到原数据");
+            return false;
         }
         var data = rsp.object;
         var node = lastSelectNode;
@@ -217,7 +235,7 @@ $(function () {
         };
         console.log(params)
         API.service("/setMainDeviceSetting", params, function (d) {
-            alert(d.msg)
+            layer.msg(d.msg)
         });
         e.preventDefault();
         return false
@@ -225,6 +243,10 @@ $(function () {
     /*写入设备*/
 
     page.find(".btn-cfg-write").click(function (e) {
+        /*if (!rsp || !rsp.object) {
+            layer.msg("未获取到原数据");
+            return false;
+        }*/
         layer.confirm("确定写入设备配置信息吗？", function (idx) {
             layer.close(idx);
             var node = lastSelectNode;
@@ -664,43 +686,70 @@ $(function () {
             layer.close(idx)
         })
     });
+    /*page.find(".btn-sync-config").click(function () {
+
+     var checkBoxs = ipcTBody.find(".mx-checkbox.on");
+     var mapperDeviceIds = [];
+     if (checkBoxs.size() === 0) {
+     layer.msg("请选择要同步的设备！");
+     return false
+     }
+     checkBoxs.each(function (idx) {
+     var data = $(this).parents("tr").data("data");
+     mapperDeviceIds.push({
+     _idx: idx,
+     id: data.id,
+     name: data.name,
+     mapingDeviceId: data.mapingDeviceId,
+     deviceId: data.deviceId,
+     pointEntity: {ip: data.s_ip, port: data.s_port}
+     })
+     });
+     var syncFun = function (obj) {
+     if (!obj) {
+     page.trigger("node-change");
+     return
+     }
+     $.ajaxSetup({
+     async: true
+     });
+     API.service("/autoSyn1", obj, function (d) {
+     checkBoxs.eq(obj._idx).removeClass("on");
+     layer.msg("同步[" + obj.name + "]" + d.msg);
+     syncFun(mapperDeviceIds.pop())
+     }, function (e) {
+     stopLoading();
+     layer.alert(e.msg || e.message || e.statusText || e.state || e.status || "同步失败，请重试！");
+     page.trigger("node-change")
+     })
+     };
+     syncFun(mapperDeviceIds.pop())
+     });*/
     page.find(".btn-sync-config").click(function () {
-        var checkBoxs = ipcTBody.find(".mx-checkbox.on");
-        var mapperDeviceIds = [];
-        if (checkBoxs.size() === 0) {
+        var node = lastSelectNode;
+        var id = node.oriData["tp_id"];
+        var deviceId = node.oriData["deviceId"];
+
+        if (!deviceId) {
             layer.msg("请选择要同步的设备！");
             return false
         }
-        checkBoxs.each(function (idx) {
-            var data = $(this).parents("tr").data("data");
-            mapperDeviceIds.push({
-                _idx: idx,
-                id: data.id,
-                name: data.name,
-                mapingDeviceId: data.mapingDeviceId,
-                deviceId: data.deviceId,
-                pointEntity: {ip: data.s_ip, port: data.s_port}
-            })
-        });
+        ;
         var syncFun = function (obj) {
-            if (!obj) {
-                page.trigger("node-change");
-                return
-            }
+
             $.ajaxSetup({
                 async: true
             });
-            API.service("/autoSyn", obj, function (d) {
-                checkBoxs.eq(obj._idx).removeClass("on");
-                layer.msg("同步[" + obj.name + "]" + d.msg);
-                syncFun(mapperDeviceIds.pop())
+            API.service("/autoSyn1", {deviceId: deviceId,pointEntity:{tp_pid:id}}, function (d) {
+                layer.msg(d.msg)
+                loadIpcList();
             }, function (e) {
                 stopLoading();
-                layer.alert(e.msg || e.message || e.statusText || e.state || e.status || "同步失败，请重试！");
+                layer.msg(e.msg || e.message || e.statusText || e.state || e.status || "同步失败，请重试！");
                 page.trigger("node-change")
             })
         };
-        syncFun(mapperDeviceIds.pop())
+        syncFun()
     });
     $(".sblb >h3").click(function () {
         $(this).next().toggle()

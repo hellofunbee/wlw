@@ -1030,9 +1030,10 @@ UI.getConstant = function () {
 
     }else {
         API.service("/con/list",{},function (e) {
-            e
+
             if(e.success && e.object.province && e.object.city && e.object.district)
-                i
+                sessionStorage.setItem("constant",JSON.stringify(e.object));
+
 
         },function () {
 

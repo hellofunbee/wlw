@@ -10,18 +10,21 @@
 </head>
 <body>
 <div class="left-info">
+    <a class="btn-lg btn-df-blue btn-add-gz" style="float: right" id="tjdk">新建地块</a>
+    <a class="btn-lg btn-df-blue btn-add-gz" style="float: right" id="tjdp">新建大棚</a>
+    <a class="btn-lg btn-df-blue btn-add-gz" style="float: right" id="bj">编辑</a>
+    <div class="clearfix mt20 tc">
 
+    </div>
     <div class="fieldset">
         <div class="legend orange">地块管理</div>
         <div class="fieldset-con" style="height:320px;overflow-y:auto">
             <ul id="tree-id" class="ztree"></ul>
         </div>
     </div>
-
-
-    <div class="tc mt20">
-        <a class="btn-lg btn-lg-blue" id="save-tree">保存</a>
-    </div>
+    <!-- <div class="tc mt20">
+         <a class="btn-lg btn-lg-blue" id="save-tree">保存</a>
+     </div>-->
 
 
 </div>
@@ -30,18 +33,20 @@
     document.write(html)
 }</script>
 <script>
+    var lastSelectNode;
     $(function () {
 
 
-                var lastSelectNode;
                 var treeEl = $("#tree-id");
-                var onNodeSelect = function (e) {
-                    var node = e;
+                var onNodeSelect = function (e, target, selNode) {
+                    console.log(selNode)
+                    var node = selNode;
                     if (node && lastSelectNode && lastSelectNode === node)return;
                     if (!node)node = lastSelectNode;
                     if (!node)return;
 
                     lastSelectNode = node;
+
                 };
                 var zTreeOnCheck = function (o) {
                     var e = $("#tree-id").data("z-tree").getCheckedNodes(!0);
@@ -58,6 +63,10 @@
                 //*****************TREE FUN **********************
 
                 function beforeRemove(treeId, treeNode) {
+                    if (treeNode && treeNode.children && treeNode.children.length > 0) {
+                        layer.msg("节点包含子类，无法删除")
+                        return false;
+                    }
                     var treeObj = $.fn.zTree.getZTreeObj("tree-id");
                     layer.confirm("删除  " + treeNode.name + "?", function (idx) {
 
@@ -166,46 +175,44 @@
                     $("#addBtn_" + treeNode.tId).unbind().remove();
                 }
 
+                reload();
 
-                UI.renderLandTree("#tree-id",
-                        onNodeSelect,
-                        {
-                            check: {enable: !1},
-                            callback: {
-                                onCheck: zTreeOnCheck,
-                                beforeRename: bfRename,
-                                onRename: onRename,
-                                beforeRemove: beforeRemove,
-                                onRemove: onRemove,
-                                beforeDrag:function () {
-                                    return false;
+                function reload() {
+                    UI.renderLandTree("#tree-id",
+                            null,
+                            {
+                                callback: {
+                                    onClick: onNodeSelect,
+                                    onCheck: zTreeOnCheck,
+                                    beforeRename: bfRename,
+                                    onRename: onRename,
+                                    beforeRemove: beforeRemove,
+                                    onRemove: onRemove,
+                                    beforeDrag: function () {
+                                        return false;
+                                    }
+                                },
+                                edit: {
+                                    enable: true,
+                                    showRenameBtn: false,
+                                    showRemoveBtn: setRemoveBtn,
+                                    removeTitle: '移除',
+
+
                                 }
                             },
-                            edit: {
-                                enable: true,
-                                editNameSelectAll: true,
-                                showRemoveBtn: setRemoveBtn,
-                                showRenameBtn: setRenameBtn,
-                                removeTitle: '移除',
-                                renameTitle: '重命名',
-
-
-                            },
-                            view: {
-                                addHoverDom: addHoverDom,
-                                removeHoverDom: removeHoverDom,
-                                selectedMulti: false
+                            {
+                                1: !0,
+                                2: !0,
+                                3: !1,
+                                4: !1,
+                                5: !0,
+                                6: !0
                             }
-                        },
-                        {
-                            1: !0,
-                            2: !0,
-                            3: !1,
-                            4: !1,
-                            5: !0
-                        }
-                )
-                ;
+                    )
+                    ;
+
+                }
 
                 treeEl.on("z-tree-load", function () {
                     var nodes = $(this).data("z-tree").getNodes();
@@ -221,7 +228,7 @@
                     $(nodes).each(function (i, e) {
 
                         if (e.level == 2) {
-                            p.list.push({tp_id:e.tp_id,tp_pid:e.tp_pid,tp_name:e.name});
+                            p.list.push({tp_id: e.tp_id, tp_pid: e.tp_pid, tp_name: e.name});
                         }
                     });
 
@@ -234,8 +241,85 @@
                 });
 
 
+                $('#tjdp').click(function () {
+                    var node = lastSelectNode;
+
+                    var tp_id = node.oriData["tp_id"];
+                    var tp_type = node.oriData["tp_type"];
+
+                    if (tp_type != 2) {
+                        layer.msg('请选择园区');
+                        return false;
+                    }
+
+
+                    layer.open({
+                        type: 2,
+                        title: "添加大棚",
+                        area: ["500px", "250px"],
+                        content: "tjdk.html?tp_type=6&tp_pid=" + tp_id,
+                        skin: "mlayer",
+                        end: function () {
+                            reload();
+                        }
+                    })
+
+                });
+
+                $('#tjdk').click(function () {
+                    var node = lastSelectNode;
+                    var tp_id = node.oriData["tp_id"];
+                    var tp_type = node.oriData["tp_type"];
+
+                    if (tp_type != 6) {
+                        layer.msg('请选择大棚');
+                        return false;
+                    }
+                    layer.open({
+                        type: 2,
+                        title: "添加地块",
+                        area: ["500px", "250px"],
+                        content: "tjdk.html?tp_type=5&tp_pid=" + tp_id,
+                        skin: "mlayer",
+                        end: function () {
+                            reload();
+                        }
+                    })
+
+                });
+
+                $('#bj').click(function () {
+                    var node = lastSelectNode;
+                    if (!node) {
+                        layer.msg('请选择大棚或者地块');
+                        return false;
+                    }
+                    var tp_id = node.oriData["tp_id"];
+                    var tp_type = node.oriData["tp_type"];
+                    var tp_pid = node.oriData["tp_pid"];
+
+                    if (tp_type != 6 && tp_type != 5) {
+                        layer.msg('请选择大棚或者地块');
+                        return false;
+                    }
+                    layer.open({
+                        type: 2,
+                        title: "编辑",
+                        area: ["500px", "250px"],
+                        content: "tjdk.html?tp_type=" + tp_type + "&tp_pid=" + tp_pid + "&item=" + encodeURIComponent(JSON.stringify(node.oriData)),
+                        skin: "mlayer",
+                        end: function () {
+                            reload();
+                        }
+                    })
+
+                });
+
+
             }
     );
+
+
 </script>
 
 </body>

@@ -34,6 +34,7 @@ if (!window.js_common_loaded) {
         }, complete: stopLoading, dataType: "json"
     });
     window.API = {
+
         service: function (uri, data, successFunc, errorFunc) {
             if (window._hmt) {
                 var s;
@@ -186,6 +187,8 @@ if (!window.js_common_loaded) {
             window.open(url)
 
         } else {
+
+            $("#main_iframe").empty().attr("src", url)
             $.get(url, function (rsp) {
                 var reg = /<head>([\s\S]+)<\/head>/gi;
                 var body = rsp.replace(reg, "");

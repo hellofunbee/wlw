@@ -110,11 +110,12 @@ $(function () {
                 var item = this;
                 var bigImgSrc = window.staticPre + "/getReportImage?file_name=" + encodeURIComponent(item["smallName"]);
                 var bigImgSrcB = window.staticPre + "/getReportImage?file_name=" + encodeURIComponent(item["fileName"]);
-                $('<div class="swiper-slide"><a href="javascript:;" target="_blank"> <img style="width:100%;" src="images/video2.png" /></a></dev>')
+
+                $('<div class="swiper-slide"><a target="_blank"> <img style="width:100%;" src="images/video2.png" /></a></dev>')
                     .appendTo(bigImgEl)
                     .attr("infoDataTime", new Date(item["infoDataTime"])
                         .format("yyyy-MM-dd hh:mm:ss")).find("img")
-                    .attr("src", bigImgSrc).end().find("a")
+                    .attr("src", bigImgSrcB).end().find("a")
                     .attr("img", bigImgSrcB)
                     .dblclick(function () {
                         var bd = $("body");

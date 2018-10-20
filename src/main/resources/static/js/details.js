@@ -1,4 +1,5 @@
 $(function () {
+
     var menu = $('.mx-nav').empty();
     if (!sessionStorage.getItem("ckuid")) {
         window.location.href = "./login.html"
@@ -52,6 +53,12 @@ $(function () {
                         }
                         if (left + p_w_l < 0) {
                             left = -p_w_l;
+                        }
+
+
+
+                        if(left + w +p_w_l> $(window).width()){
+                            left = $(window).width() - w - p_w_l;
                         }
 
                         var sub_el = UI.appendFieldTo($('<dl class="nav-drop" style="width:' + w + 'px;left:' + left + 'px"></dl>'), {}, el)
@@ -158,30 +165,30 @@ $(function () {
                             top.$(".mx-nav>li").removeClass("active").eq(nav).addClass("active");
                             showMainContent(define, type)
 
-/*
-                            var lct = $("div#main_iframe").attr("src") || location.href,
-                                e = purl(lct);
+                            /*
+                             var lct = $("div#main_iframe").attr("src") || location.href,
+                             e = purl(lct);
 
-                            var url = decodeURIComponent(e.param("detail-url"));
-                            if (!url || !url.startsWith('http')) {
-                                pageNav.eq(0).click()
-                            }
+                             var url = decodeURIComponent(e.param("detail-url"));
+                             if (!url || !url.startsWith('http')) {
+                             pageNav.eq(0).click()
+                             }
 
-                            console.log(url)
-                            showMainContent(define, type, getIndex(url))*/
+                             console.log(url)
+                             showMainContent(define, type, getIndex(url))*/
 
                         }
                     } else {
                         pageNav.eq(0).click()
                         /*var lct = $("div#main_iframe").attr("src") || location.href,
-                            e = purl(lct);
-                        var url = decodeURIComponent(e.param("detail-url"));
-                        if (!url || !url.startsWith('http')) {
-                            pageNav.eq(0).click()
-                        } else {
-                            showMainContent(url, null, getIndex(url));
+                         e = purl(lct);
+                         var url = decodeURIComponent(e.param("detail-url"));
+                         if (!url || !url.startsWith('http')) {
+                         pageNav.eq(0).click()
+                         } else {
+                         showMainContent(url, null, getIndex(url));
 
-                        }*/
+                         }*/
 
                     }
                 }
@@ -218,7 +225,7 @@ $(function () {
         } else if (url.indexOf('expert-ans') != -1) {
             c_p = '专家系统>专家>专家答疑'
         } else if (url.indexOf('expert-articals') != -1) {
-            c_p = '专家系统>专家>专家指导'
+            c_p = '专家系统>专家>专家成果'
         } else if (url.indexOf('detail-exp') != -1 && url.indexOf('type=2') != -1) {
             c_p = '专家系统>专家>答疑详情'
         } else if (url.indexOf('detail-exp') != -1 && url.indexOf('type=4') != -1) {
@@ -237,9 +244,9 @@ $(function () {
             c_p = '资讯详情'
         } else if (url.indexOf('detail') != -1 && url.indexOf('type=2') != -1) {
             c_p = '即时信息详情'
-        }else if (url.indexOf('detail') != -1 && url.indexOf('type=5') != -1) {
+        } else if (url.indexOf('detail') != -1 && url.indexOf('type=5') != -1) {
             c_p = '预警信息详情'
-        }else if (url.indexOf('yujing') != -1) {
+        } else if (url.indexOf('yujing') != -1) {
             c_p = '首页>预警信息'
         }
         return c_p;

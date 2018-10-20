@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>物联网-系统管理</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="tjzsb xxx-layer" style="display: block">
+    <table>
+
+        <tr>
+            <th>地块名称：</th>
+            <td><input type="text" id="tp_name" field="tp_name" required class="text-blue"></td>
+        </tr>
+        <tr id="scz" style="display: none">
+            <th>生产者姓名：</th>
+            <td><select field="produce" id="produce" required class="text-blue">
+                <option value=""></option>
+            </select></td>
+        </tr>
+        <tr id="jgz" style="display: none">
+            <th>监管者：</th>
+            <td><select field="superviser" id="superviser" required class="text-blue">
+                <option value=""></option>
+            </select></td>
+        </tr>
+    </table>
+    <div class="tc mt20"><a href="javascript:;" class="btn-lg btn-save">保存参数</a></div>
+</div>
+<script type="text/javascript">if (!window.jQuery) {
+    var html = '<script src="js/jquery.min.js"><\/script>\n<script src="js/jquery.scrollTo.min.js"><\/script>\n<script src="js/jquery.bgiframe-2.1.2.js"><\/script>\n<script src="js/jquery.ztree.all.min.js"><\/script>\n<script src="js/layer/laydate/laydate.js"><\/script>\n<script src="js/layer/layer.js"><\/script>\n<script src="js/slide.js"><\/script>\n<script src="js/common.js"><\/script>\n<script src="js/purl.js"><\/script>\n<script src="js/api.js"><\/script>\n<script src="js/ui.js"><\/script>';
+    document.write(html)
+}</script>
+<script type="text/javascript">
+
+
+    $(function () {
+        var url = location.href,
+                p = purl(url);
+        var tp_pid = p.param('tp_pid');
+        var tp_type = p.param('tp_type');
+        var tp_id = 0;
+
+        var item;
+        if(p.param('item')){
+            item = JSON.parse(decodeURIComponent(p.param('item')));
+        }
+        var d = $('#produce')
+        var s = $('#superviser')
+
+        console.log(item)
+        if (item) {
+            tp_id = item.tp_id;
+            UI.renderField($('.xxx-layer table'), item);
+
+        }
+
+
+        //地块
+        if (tp_type == 5) {
+            $('#scz').show();
+            $('#jgz').show();
+
+            API.service("/listUser", {tu_type: 5}, function (i) {
+                $(i.object).each(function (i) {
+                    var t = this;
+                    $("<option></option>").appendTo(d).val(t.uid).text(t.tu_name);
+                })
+
+                if (item) {
+                    d.val(item.produce);
+
+                }
+            });
+            API.service("/listUser", {tu_type: 4}, function (i) {
+                $(i.object).each(function (i) {
+                    var t = this;
+                    $("<option></option>").appendTo(s).val(t.uid).text(t.tu_name);
+                })
+                if (item) {
+                    s.val(item.superviser);
+
+                }
+            })
+        }
+
+        //大棚
+        if (tp_type == 6) {
+            $('#scz').remove();
+            $('#jgz').remove();
+        }
+
+        $('.btn-save').click(function () {
+            var o = UI.getFieldValue($('.xxx-layer'));
+            if (!o) {
+                return false;
+            }
+
+            var data = {
+                list: [
+                    {
+                        tp_id: tp_id,
+                        tp_pid: tp_pid,
+                        tp_type: tp_type,
+                        tp_name: o.tp_name,
+                        superviser: o.superviser,
+                        produce: o.produce,
+                    }
+                ]
+            }
+
+            API.service("/addPointBatch", data, function (e) {
+                layer.msg(e.msg);
+                $('.layui-layer-close').close();
+            })
+        })
+    })
+</script>
+</body>
+</html>

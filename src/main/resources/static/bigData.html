@@ -102,7 +102,14 @@
     }
 
 
-    UI.renderPointTree("#tree-id", onNodeSelect, {}, {1: !0, 2: !0, 3: !0});
+    UI.renderPointTree("#tree-id", onNodeSelect, {
+        check: {enable: !0},
+        callback: {
+            onCheck: function () {
+
+            }
+        }
+    }, {1: !0, 2: !0, 3: !0});
     treeEl.on("z-tree-load", function () {
         var nodes = $(this).data("z-tree").getNodes();
         nodes && nodes.length > 0 && onNodeSelect(nodes[0]);
@@ -115,19 +122,24 @@
             laydate.render({elem: "#big_data_analysis_device_from"}),
             $("#big_data_analysis_simple").click(function () {
                 /*try {*/
-                var tree = $.fn.zTree.getZTreeObj("tree-id");
-                var i = tree.getSelectedNodes();
-                if (1 !== i.length)return layer.msg("请先选择要分析的一个设备!"), !1;
-                if (3 !== (i = i[0].oriData).tp_type)
+                var checkedNode = $("#tree-id").data("z-tree").getCheckedNodes(!0);
+                if (0 === checkedNode.length)
+                    return layer.msg("请选择要分析的设备!"), !1;
+                var dvs = [];
+                if ($.each(checkedNode, function () {
+                            3 === this.oriData.tp_type && dvs.push(this.oriData.deviceId)
+                        }), 0 === dvs.length)
                     return layer.msg("请先选择要分析的设备!"), !1;
-                a = [i.deviceId];
+
+
+
                 var t = {ckdata: "1"};
                 if (
-                        t.deviceList = a,
+                        t.deviceList = dvs,
                                 t.channelList = [n.val()],
                                 t.beginTime = d.val(),
                                 t.endTime = _.val(),
-                        0 === a.length
+                        0 === dvs.length
                 )
                     return layer.msg("请先选择要分析的设备!"), !1;
                 if (10 !== t.beginTime.length || 10 !== t.endTime.length)

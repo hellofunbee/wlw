@@ -463,7 +463,7 @@ $(function () {
 
                 tbody.empty();
                 $(data.object).each(function (i, e) {
-                    if(!this.in_ownername || 'null' == this.in_ownername)
+                    if (!this.in_ownername || 'null' == this.in_ownername)
                         this.in_ownername = '';
                     var tpl = rowTpl.clone();
                     tpl.find('[field="in_total"]').attr('unit', API.dict.in_unit[e.in_unit]);
@@ -504,19 +504,38 @@ $(function () {
         if (!node)return;
 
         //当点击父节点时，自动选择第一个设备
-        if (node.oriData["tp_type"] < 5) {
-            while (node && node.oriData["tp_type"] < 5) {
-                var c = node.children;
-                if (c && c.length > 0) {
-                    node = c[0];
-                    if (node && node.oriData["tp_type"] === 5) {
-                        treeEl.data("z-tree").selectNode(node);
-                        onNodeSelect(node);
-                        return
+        if (node.oriData["tp_type"] != 5) {
+            if (node.oriData["tp_type"] < 6) {
+                while (node && node.oriData["tp_type"] < 6) {
+                    var c = node.children;
+                    if (c && c.length > 0) {
+                        node = c[0];
+                        if (node && node.oriData["tp_type"] === 6) {
+                            treeEl.data("z-tree").selectNode(node);
+                            onNodeSelect(node);
+                            return
+                        }
+                    } else {
+                        layer.msg('请选择地块');
+                        return;
                     }
-                } else {
-                    layer.msg('请选择地块');
-                    return;
+                }
+            }
+
+            if (node.oriData["tp_type"] > 5) {
+                while (node && node.oriData["tp_type"] > 5) {
+                    var c = node.children;
+                    if (c && c.length > 0) {
+                        node = c[0];
+                        if (node && node.oriData["tp_type"] === 5) {
+                            treeEl.data("z-tree").selectNode(node);
+                            onNodeSelect(node);
+                            return
+                        }
+                    } else {
+                        layer.msg('请选择地块');
+                        return;
+                    }
                 }
             }
         }
@@ -538,7 +557,8 @@ $(function () {
         2: !0,
         3: !1,
         4: !1,
-        5: !0
+        5: !0,
+        6: !0
     });
 
     page.find(".mx-top-select > h3").click(function () {

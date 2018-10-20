@@ -319,6 +319,33 @@ $(function () {
                         renderMapData(e, i)
                     });
 
+                    if (!isFocused) {
+                        var city = "北京市市辖区";
+                        if (UI.getConstant()) {
+                            city = UI.getConstant().province_ + UI.getConstant().city_+ UI.getConstant().district_;
+                        }
+
+                        var bdary = new BMap.Boundary;
+                        bdary.get(city, function (rs) {
+                            var count = rs.boundaries.length;
+                            if (count === 0) {
+                                return
+                            }
+                            var ply = new BMap.Polygon(rs.boundaries[0], {
+                                strokeWeight: 2,
+                                strokeColor: "#ff0000",
+                                fillColor: "#fff",
+                                strokeOpacity: 1
+                            });
+                            // map1.addOverlay(ply);
+
+                            var pointArray = [];
+                            pointArray = pointArray.concat(ply.getPath())
+                            map1.setViewport(pointArray);
+                            // showInfo(ply,{});
+                        })
+                    }
+
                     // renderMapData(distData[0])
                 }
             }

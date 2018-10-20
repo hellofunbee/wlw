@@ -17,7 +17,7 @@
     <div class="mt20">
         <a href="bigData3.html" onclick='return window.showMainContent(this.getAttribute("href")+"?tab=2"),!1'
            target="_parent" class="btn-lg">返回</a>
-        <a class="btn-lg" id="modle" value="1">设备-->检测指标</a>
+        <a class="btn-lg" id="modle" value="1">地块-->检测指标</a>
         <a class="btn-lg interval_type" interval_type="0">按天分析</a>
         <a class="btn-lg interval_type" interval_type="1">按月分析</a>
         <a class="btn-lg interval_type" interval_type="2">按年分析</a>
@@ -48,13 +48,13 @@
     $('#modle').on('click', function () {
         if ($(this).attr('value') == 1) {
             $(this).attr('value', 2)
-            $(this).text('投入品-->设备');
+            $(this).text('投入品-->地块');
             rurl = '/listInput_';
             init();
         } else {
 
             $(this).attr('value', 1)
-            $(this).text('设备-->投入品');
+            $(this).text('地块-->投入品');
             rurl = '/listInput_Batch';
             init();
         }
@@ -77,10 +77,11 @@
 
                 API.service(rurl, param,
                         function (a) {
-
-                            //if ($('#modle').attr('value') == 1)
+                            console.log($('#modle').attr('value'))
                             loadByChannel(a)
-                            /* else
+                            /*if ($('#modle').attr('value') === '2')
+                             loadByChannel(a)
+                             else
                              loadByDV(a);*/
                             var c_el = $(".fx-result");
                             if (!c_el.html()) {
@@ -120,7 +121,7 @@
 
                 });
 
-                if (data2.length > 0) {
+                if (data2.length > 1) {
                     data1.push(data2);
                     series.push({
                         fill: false,
@@ -129,8 +130,10 @@
                 }
             }
 
+            console.log(data1)
 
-            if (data1.length > 0 && data1.length > 1) {
+
+            if (data1.length > 0 && data1.length > 0 ) {
                 /*class="fx-result-list"*/
                 $('<div  style="height: 450px" id="chart_' + i + '"></div>').appendTo(c_el);
 
@@ -189,6 +192,7 @@
         })
     }
     function loadByDV(a) {
+        return
         var c_el = $(".fx-result").empty();
         $.each(a.object, function (i, o) {
 

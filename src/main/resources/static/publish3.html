@@ -253,7 +253,7 @@ queryIt = function () {
         var t = e.object, n = '<div class="time">  <div class="close"></div>  <h3>{year}年</h3>  <p>{monthDay}</p></div><div class="info">  <h3 class="news_title">生猪屠宰价格信息</h3>  <p class="news_content">据农业部监测，上周（8月14日-8月20日）全国规模 以上生猪定点屠宰企业生猪平均收购价格为15.03...  </p></div>';
         $(t).each(function (e) {
             var t = this, i = $('<div class="xx-list"></div>').appendTo(a), s = new Date(1e3 * t.m_time);
-            i.append(n.replace(/{year}/g, s.format("yyyy")).replace(/{monthDay}/g, s.format("MM月dd日"))).find(".news_title").text(t.m_title).end().find(".news_content").text(UI.cutSize(t.m_content, 36)).end().find(".news_title").attr("m_id", t.m_id).click(function () {
+            i.append(n.replace(/{year}/g, s.format("yyyy")).replace(/{monthDay}/g, s.format("MM月dd日"))).find(".news_title").text(t.m_title).end().find(".news_content").text(UI.cutSize(t.m_content, 500)).end().find(".news_title").attr("m_id", t.m_id).click(function () {
 
 
                 return showMessageDetail($(this).attr("m_id"), 3, $(this).attr("m_title")), !1

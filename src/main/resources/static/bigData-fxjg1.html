@@ -49,9 +49,13 @@
                     layer.msg('暂无信息！');
                     return false;
                 }
+                loadByChannel(a);
 
+                return false;
 
+                var aar = [];
                 $.each(a.object, function (a, o) {
+
 
                     var data = [];
                     var deviceId = o.deviceId;
@@ -72,59 +76,160 @@
 
                     });
 
-                    if (data.length == 0) {
-                        layer.msg('暂无信息！');
-                    } else
-                        var plot2 = $.jqplot('chart1', [data], {
-                            title: title,
-                            animate: true,
-                            animateReplot: true,
-                            cursor: {
-                                show: true,
-                                zoom: true,
-                                looseZoom: true,
-                                showTooltip: false
-                            },
-                            legend: {
-                                show: true,//设置是否出现分类名称框（即所有分类的名称出现在图的某个位置）
-                                location: 'ne',     // 分类名称框出现位置, nw, n, ne, e, se, s, sw, w.
-                                xoffset: 12,        // 分类名称框距图表区域上边框的距离（单位px）
-                                yoffset: 12,        // 分类名称框距图表区域左边框的距离(单位px)
-                                background: '',       //分类名称框距图表区域背景色
-                                textColor: ''          //分类名称框距图表区域内字体颜色
-                            }, seriesDefaults: {
-                                showMarker: false,
-                                rendererOptions: {
-                                    smooth: true
-                                }
-                            }, series: [{
-                                label: y_lable
-                            }
-                            ],
-
-                            axes: {
-                                xaxis: {
-                                    renderer: $.jqplot.DateAxisRenderer,
-                                    label: x_label,
-                                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-                                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-                                    tickOptions: {
-                                        // labelPosition: 'middle',
-                                        angle: 30,
-                                        formatString: '%Y-%m-%d %H时'
-                                    }
-
-                                },
-                                yaxis: {
-                                    label: y_lable,
-                                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-                                }
-                            }
-                        });
-
-
+                    if (data.length > 0) {
+                        aar.push(data)
+                    }
                 })
-            })
+
+
+                if (aar.length == 0)
+                    layer.msg('暂无信息');
+                return false;
+
+                var plot2 = $.jqplot('chart1', aar, {
+                    title: title,
+                    animate: true,
+                    animateReplot: true,
+                    cursor: {
+                        show: true,
+                        zoom: true,
+                        looseZoom: true,
+                        showTooltip: false
+                    },
+                    legend: {
+                        show: true,//设置是否出现分类名称框（即所有分类的名称出现在图的某个位置）
+                        location: 'ne',     // 分类名称框出现位置, nw, n, ne, e, se, s, sw, w.
+                        xoffset: 12,        // 分类名称框距图表区域上边框的距离（单位px）
+                        yoffset: 12,        // 分类名称框距图表区域左边框的距离(单位px)
+                        background: '',       //分类名称框距图表区域背景色
+                        textColor: ''          //分类名称框距图表区域内字体颜色
+                    }, seriesDefaults: {
+                        showMarker: false,
+                        rendererOptions: {
+                            smooth: true
+                        }
+                    }, series: [{
+                        label: y_lable
+                    }
+                    ],
+
+                    axes: {
+                        xaxis: {
+                            renderer: $.jqplot.DateAxisRenderer,
+                            label: x_label,
+                            labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                            tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                            tickOptions: {
+                                // labelPosition: 'middle',
+                                angle: 30,
+                                formatString: '%Y-%m-%d %H时'
+                            }
+
+                        },
+                        yaxis: {
+                            label: y_lable,
+                            labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                        }
+                    }
+                });
+            });
+
+    function loadByChannel(a) {
+        var c_el = $(".fx-result").empty();
+        $.each(a.object, function (i, o) {
+
+            var channel = o.channel;
+            var name = o.name + '(' + o.unit + ')';
+            var unit = '(' + o.unit + ')';
+
+            var data1 = [];
+            var series = [];
+            for (var ii in o.data) {
+                var data2 = [];
+                var item = o.data[ii];
+                var deviceId = item.deviceId;
+                var deviceName = item.deviceName;
+
+
+                var vals = item.list;
+                var x_label = "时间";
+                var y_label = deviceName;
+                var title = name + '分析';
+                $(vals).each(function (iii) {
+                    data2.push([vals[iii]['infoDataTime'], parseFloat(vals[iii][channel])]);
+
+                });
+
+                if (data2.length > 0) {
+                    data1.push(data2);
+                    series.push({
+                        fill: false,
+                        label: y_label
+                    });
+                }
+
+
+            }
+
+
+            if (data1.length > 0) {
+                /*class="fx-result-list"*/
+                $('<div  style="height: 450px" id="chart_' + i + '"></div>').appendTo(c_el);
+
+                var plot2 = $.jqplot('chart_' + i, data1, {
+                    title: title,
+                    cursor: {
+                        show: false
+                    },
+                    legend: {
+                        show: true,//设置是否出现分类名称框（即所有分类的名称出现在图的某个位置）
+                        location: 'ne',     // 分类名称框出现位置, nw, n, ne, e, se, s, sw, w.
+                        xoffset: 12,        // 分类名称框距图表区域上边框的距离（单位px）
+                        yoffset: 12,        // 分类名称框距图表区域左边框的距离(单位px)
+                        background: '',       //分类名称框距图表区域背景色
+                        textColor: ''          //分类名称框距图表区域内字体颜色
+                    },
+                    series: series,
+                    highlighter: {
+                        show: true,
+                        showMarker: false,
+                        useAxesFormatters: false,
+                        formatString: '%d, %.1f'
+
+                    },
+                    seriesDefaults: {
+                        showMarker: false,
+                        rendererOptions: {
+                            smooth: true,
+                            animation: {
+                                show: false
+                            }
+                        },
+                    },
+                    axes: {
+                        xaxis: {
+                            renderer: $.jqplot.DateAxisRenderer,
+                            label: x_label,
+                            labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                            tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+
+                            tickOptions: {
+                                // labelPosition: 'middle',
+                                angle: 30,
+                                formatString: '%Y-%m-%d %H时',
+                            }
+
+                        },
+                        yaxis: {
+                            label: unit,
+                            labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                        }
+                    }
+                });
+            }
+
+        })
+    }
 })
 </script>
 </body>

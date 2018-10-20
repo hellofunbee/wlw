@@ -71,6 +71,9 @@ $(function () {
                         if (left + p_w_l < 0) {
                             left = -p_w_l;
                         }
+                        if(left + w +p_w_l> $(window).width()){
+                            left = $(window).width() - w - p_w_l;
+                        }
 
                         var sub_el = UI.appendFieldTo($('<dl class="nav-drop" style="width:' + w + 'px;left:' + left + 'px"></dl>'), {}, el)
 
