@@ -604,13 +604,12 @@ UI.renderSynChart = function (ulEL, chartData, callbackHtml) {
         if (!chart) {
             console.log("TODO:" + chartOption.label + "|" + chartOption.name);
             /*chart = {
-                renderTo: function (el, chartOption) {
-                    return $("<div>TODO:" + chartOption.label + "|" + chartOption.name + "</div>").appendTo(el)
-                }
-            }*/
+             renderTo: function (el, chartOption) {
+             return $("<div>TODO:" + chartOption.label + "|" + chartOption.name + "</div>").appendTo(el)
+             }
+             }*/
 
-        }else
-        if (callbackHtml) {
+        } else if (callbackHtml) {
             el = $("<div></div>");
             chart.renderTo(el, chartOption);
             callbackHtml(el, chartOption)
@@ -632,17 +631,17 @@ var showMessageDetail = function (id, type, title, type2) {
 
     var options;
     if (type2 == 2)//专家的咨询
-         options = {url: url + "?id=" + id + "&type=" +type +'&m_source=2'};
+        options = {url: url + "?id=" + id + "&type=" + type + '&m_source=2'};
     else
-         options = {url: url + "?id=" + id + "&type=" + (type || 2)};
+        options = {url: url + "?id=" + id + "&type=" + (type || 2)};
 
     // window.openPageContent("信息发布", "首页资讯", options);
-    window.open(apiPre+"/details.html?detail-url="+encodeURIComponent(apiPre+'/'+options.url));
+    window.open(apiPre + "/details.html?detail-url=" + encodeURIComponent(apiPre + '/' + options.url));
     return false
 };
 
 UI.details = function (url) {
-    window.open(apiPre+"/details.html?" +"detail-url="+encodeURIComponent(url));
+    window.open(apiPre + "/details.html?" + "detail-url=" + encodeURIComponent(url));
     return false
 };
 UI.preZero = function (oriStr, len, maxValue) {
@@ -856,7 +855,7 @@ UI.showCamera = function (deviceId, elSelector) {
         sessionStorage.setItem("szUsername", deviceUser);
         sessionStorage.setItem("szPassword", devicePwd);
         if (!iframe.size()) {
-            iframe = $('<iframe id="video_frame" style="z-index: 1"  frameborder="no"></iframe>').appendTo(el.empty()).height(el.height()).width(el.width()).on("load", function () {
+            iframe = $('<iframe id="video_frame"   style="z-index: 1"  frameborder="no"></iframe>').appendTo(el.empty()).height(el.height()).width(el.width()).on("load", function () {
                 $(this).contents().find("html,body").css({
                     margin: 0,
                     "padding:": 0,
@@ -869,17 +868,21 @@ UI.showCamera = function (deviceId, elSelector) {
         sessionStorage.setItem("player_height", el.height());
         sessionStorage.setItem("player_width", el.width());
         el.css({overflow: "hidden"});
+
         iframe.attr("src", "./js/player/player.html?t=" + (new Date).getTime())
     };
     var showCamera = function (deviceId) {
-        var el = $(elSelector).html("获取设备信息中 [" + deviceId + "]     ... ");
+        // var el = $(elSelector).html("获取设备信息中 [" + deviceId + "]     ... ");
+        var el = $(elSelector);
         API.getShopCamera(deviceId, function (d) {
             renderCameraTo(el, d.object.ip, d.object.port || d.object.s_proxy, d.object.username, d.object.password, d.object.type)
         }, function (d) {
-            el.html(d.msg + '[<a class="retry">重试</a>&#160;|&#160;<a class="test">测试</a>]<img style="width: 100%" src="images/video2.png" alt="">').find("a.retry").click(function () {
-                showCamera(deviceId);
-                return false
-            }).end();
+            layer.msg(d.msg)
+
+            /*el.html(d.msg + '[<a class="retry">重试</a>&#160;|&#160;<a class="test">测试</a>]<img style="width: 100%" src="images/video2.png" alt="">').find("a.retry").click(function () {
+             showCamera(deviceId);
+             return false
+             }).end();*/
             if (location.href.indexOf("127.0.0.1") !== "-1") {
                 el.find("a.test").click(function () {
                     renderCameraTo(el, "192.168.2.8", 80, "admin", "a8888888", 1);
@@ -1025,21 +1028,51 @@ UI.renderClassTree = function (targetEl, onClick, setting, showTypes, c_type) {
     })
 };
 UI.getConstant = function () {
-    if(sessionStorage.getItem('constant')){
-       return window.JSON.parse(sessionStorage.getItem('constant'));
+    if (sessionStorage.getItem('constant')) {
+        return window.JSON.parse(sessionStorage.getItem('constant'));
 
-    }else {
-        API.service("/con/list",{},function (e) {
+    } else {
+        API.service("/con/list", {}, function (e) {
 
-            if(e.success && e.object.province && e.object.city && e.object.district)
-                sessionStorage.setItem("constant",JSON.stringify(e.object));
+            if (e.success && e.object.province && e.object.city && e.object.district)
+                sessionStorage.setItem("constant", JSON.stringify(e.object));
 
 
-        },function () {
+        }, function () {
 
         })
         return null;
     }
+};
+
+UI.preShowCam = function (node, el, w, h) {
+    try {
+        if ($("#video_frame").length > 0) {
+            $("#video_frame")[0].contentWindow.logout();
+        }
+    } catch (e) {
+        console.log(e)
+    }
+    $(el).empty();
+
+    API.service("/listIPC",
+        {mapingDeviceId: node.oriData.deviceId},
+        function (i) {
+            if (i && i.object.length > 0 && i.object[0].logo) {
+                $('<img src="images/video2.png" style="width: 100%" alt=""/>').attr('src', i.object[0].logo).appendTo($(el))
+            } else {
+                $('<img src="images/video2.png" style="width: 100%" alt=""/>').appendTo($(el))
+
+            }
+            UI.showCamera(node.oriData.deviceId, el)
+        }, function () {
+            $('<img src="images/video2.png" style="width: 100%" alt=""/>').appendTo($(el))
+            UI.showCamera(node.oriData.deviceId, el)
+        });
+};
+
+UI.getCData = function (day) {
+    return new Date(new Date().getTime() + day * 24 * 60 * 60 * 1000)
 }
 
 

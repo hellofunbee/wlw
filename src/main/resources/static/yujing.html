@@ -50,6 +50,8 @@ queryIt = function () {
                 return showMessageDetail($(this).attr("m_id"), 5, $(this).attr("m_title")), !1
             })
         })
+    },function (e) {
+        layer.msg(e.msg)
     })
 }, searClsEl.on("change", function () {
     $(this).val(), queryIt()

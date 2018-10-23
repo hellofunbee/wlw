@@ -266,6 +266,8 @@ queryIt = function () {
                 })
             })
         })
+    },function (e) {
+        layer.msg(e.msg)
     })
 }, searClsEl.on("change", function () {
     $(this).val(), queryIt()

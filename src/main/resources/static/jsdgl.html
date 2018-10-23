@@ -378,7 +378,8 @@
                 d && d.oriData && (n = d.oriData.tp_name + " " + n),
                         $(".sm-userInfo").text(n),
                         t = a,
-                        UI.showCamera(t, ".camera-area"),
+                        UI.preShowCam(lastSelectNode, ".camera-area",300,300),
+//                        UI.showCamera(t, ".camera-area"),
 
                         (extracted(a, i, l, add_edit, show_monitor))
             }
@@ -400,19 +401,19 @@
         UI.renderPointTree("#jsdgl_tree", onNodeSelect);
 
         page.find(".btn-delete-all").click(function () {
-            try{
-            var t = tbl.find("tbody").find(".mx-checkbox.on");
-            0 === t.size()
-                    ? layer.msg("请选择监控点.")
-                    : layer.confirm(
-                    "确定删除选中的" + t.size() + "个监控点吗?",
-                    function (e) {
-                        layer.close(e),
-                                $(t).each(function (e) {
-                                   deleteIPCPoint($(this).parents("tr").find(".btn-delete-one"))
-                                })
-                    })
-            }catch (e){
+            try {
+                var t = tbl.find("tbody").find(".mx-checkbox.on");
+                0 === t.size()
+                        ? layer.msg("请选择监控点.")
+                        : layer.confirm(
+                        "确定删除选中的" + t.size() + "个监控点吗?",
+                        function (e) {
+                            layer.close(e),
+                                    $(t).each(function (e) {
+                                        deleteIPCPoint($(this).parents("tr").find(".btn-delete-one"))
+                                    })
+                        })
+            } catch (e) {
                 layer.msg(e)
             }
         });

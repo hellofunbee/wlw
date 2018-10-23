@@ -49,27 +49,28 @@
                     layer.msg('暂无信息！');
                     return false;
                 }
-                loadByChannel(a);
-
-                return false;
+//                loadByChannel(a);
+//                return false;
 
                 var aar = [];
+                var title = '';
+                var x_lable;
+                var series = [];
+                var y_lable = '';
                 $.each(a.object, function (a, o) {
 
 
                     var data = [];
                     var deviceId = o.deviceId;
                     var deviceName = o.deviceName;
-                    var deviceId = o.deviceId;
 
-                    var item = o.info.data[0];
-                    var date = o.info.date;
-                    var vals = item.data;
+                    var item = o.info.data[0];//数据对象
+                    var date = o.info.date;//时间x项
+                    var vals = item.data;//数据项
 
-                    var y_lable = item.name + '(' + item.unit + ')';
-                    var x_label = "时间";
-
-                    var title = deviceName + ' 【' + y_lable + '】分析';
+                     y_lable = item.name + '(' + item.unit + ')';
+                    title = item.name + '(' + item.unit + ')';
+                     x_label = "时间";
 
                     $(date).each(function (i) {
                         data.push([date[i], parseFloat(vals[i])]);
@@ -77,14 +78,18 @@
                     });
 
                     if (data.length > 0) {
-                        aar.push(data)
+                        aar.push(data);
+                        series.push({
+                            label: deviceName
+                        });
                     }
                 })
 
 
-                if (aar.length == 0)
+                if (aar.length <= 0) {
                     layer.msg('暂无信息');
-                return false;
+                    return false;
+                }
 
                 var plot2 = $.jqplot('chart1', aar, {
                     title: title,
@@ -96,6 +101,7 @@
                         looseZoom: true,
                         showTooltip: false
                     },
+                    series: series,
                     legend: {
                         show: true,//设置是否出现分类名称框（即所有分类的名称出现在图的某个位置）
                         location: 'ne',     // 分类名称框出现位置, nw, n, ne, e, se, s, sw, w.
@@ -108,10 +114,7 @@
                         rendererOptions: {
                             smooth: true
                         }
-                    }, series: [{
-                        label: y_lable
-                    }
-                    ],
+                    },
 
                     axes: {
                         xaxis: {

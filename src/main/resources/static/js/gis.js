@@ -1,5 +1,6 @@
 $(function () {
     var mapEl = $("#map");
+    var points = [];
 
     $('.mx-handle').click(function (event) {
         event.preventDefault();
@@ -38,6 +39,7 @@ $(function () {
     var nodePoints = {};
     var addNodeOverlay = function (map, data) {
         var point = new BMap.Point(data.y, data.x);
+        points.push(point);
         var marker = new BMap.Marker(point);
         nodePoints[data["tp_id"]] = marker;
         map.addOverlay(marker);
@@ -78,9 +80,11 @@ $(function () {
             map.removeOverlay(nodePoints[n])
         }
         nodePoints = {};
+        points = [];
         if (parentNode && parentNode.children)$(parentNode.children).each(function (i) {
             handlerNode(map, this)
         })
+        map.setViewport(points);
 
     };
     var activeMapNode = function (actNode) {

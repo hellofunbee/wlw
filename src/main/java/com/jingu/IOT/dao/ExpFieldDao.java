@@ -53,7 +53,12 @@ public class ExpFieldDao {
                         " select GROUP_CONCAT(c1.c_name) from exp_field e1" +
                         " LEFT JOIN class c1 on c1.c_id = e1.c_id " +
                         " where e1.tu_id = u.tu_id " +
-                        " ) fields " +
+                        " ) fields, " +
+                        "(select count(exp_client_id) from exp_client cl " +
+
+                        " where cl.exp_id = e.tu_id " +
+
+                        " ) clients " +
                         " from exp_field e" +
                         " inner JOIN t_user u on  e.tu_id = u.tu_id and u.tu_type = 6" +
                         " left JOIN class c on c.c_id = e.c_id " +

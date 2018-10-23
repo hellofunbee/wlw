@@ -64,6 +64,7 @@
         </tbody>
 
     </table>
+    <div class="xxx-layer1"></div>
 </div>
 
 <script type="text/javascript">
@@ -89,7 +90,7 @@
         $(this).hasClass("on") ? tbody.find(":not([field]).mx-checkbox").removeClass("on") : tbody.find(":not([field]).mx-checkbox").addClass("on")
     });
 
-    API.service("/getGatherSettings", {deviceId: deviceId, tp_id: tpId,listDisplay:1}, function (e) {
+    API.service("/getGatherSettings", {deviceId: deviceId, tp_id: tpId, listDisplay: 1}, function (e) {
 
         var t = [];
         for (var i in e.object)
@@ -108,7 +109,7 @@
                 '            <td><input field = "ala_low" type="text" class="text"></td>' +
                 '            <td class="tc"><div field = "ala_producer" class="mx-checkbox"><em></em></div></td>' +
                 '            <td class="tc"><div field = "ala_supervisor" class="mx-checkbox"><em></em></div></td>' +
-                '            <td><input field = "ala_content" type="text" class="text"></td>' +
+                '            <td><input field = "ala_content" type="text" readonly onclick="edit_content(this)" class="text"></td>' +
                 '        </tr>';
 
 
@@ -166,12 +167,12 @@
             }
 
 
-/*
-            if (ala_state == 1) {
-                a.find(".mx-switch").addClass('on');
-            } else {
-                a.find(".mx-switch").removeClass('on');
-            }*/
+            /*
+             if (ala_state == 1) {
+             a.find(".mx-switch").addClass('on');
+             } else {
+             a.find(".mx-switch").removeClass('on');
+             }*/
 
 
             !0 === e && setTimeout(function () {
@@ -180,12 +181,12 @@
 
 
             /*$(".mx-switch").on("click", function (t) {
-                if ($(this).hasClass('on')) {
-                    $(this).removeClass('on');
-                } else {
-                    $(this).addClass('on');
-                }
-            });*/
+             if ($(this).hasClass('on')) {
+             $(this).removeClass('on');
+             } else {
+             $(this).addClass('on');
+             }
+             });*/
             a.find(".mx-switch").click(function () {
                 var t = $(this).children("em").text();
                 "开" == t ? ($(this).removeClass("on"),
@@ -250,6 +251,42 @@
 
 
     })
+
+    var ask = '<div class="pop "  style="position: absolute;right: 10px;top: 0;">' +
+
+            '        <div class="btn-radius-group">' +
+
+            '<textarea  maxlength="200" style="padding:5px;border-radius:5px ;border: solid #afafaf 1p" id="ala_content" cols="24" rows="6" >' +
+            '</textarea>' +
+
+
+            '            <a style="position: absolute;right: 50px;bottom: 10px;border:solid #afafaf 1px;border-radius: 5px;color: #00B83F"  class=" save">保存</a>' +
+            '            <a style="position: absolute;right: 10px;bottom: 10px;border:solid #afafaf 1px;border-radius: 5px;color: #333333"  class=" cancel">取消</a>' +
+            '        </div>' +
+            '        </div>';
+
+
+    function edit_content(el) {
+        var layero = $(el).closest('td');
+        layero.append(ask);
+
+        var ctl_el = layero.find('.pop')
+        ctl_el.css('top', (layero.offset().top - 115) + 'px')
+        ctl_el.css('right', layero.offset().right)
+
+        ctl_el.find('#ala_content').val($(el).val());
+        ctl_el.find('.cancel').on('click', function () {
+            ctl_el.remove()
+        })
+        ctl_el.find('.save').on('click', function () {
+
+            $(el).val(ctl_el.find('#ala_content').val())
+            ctl_el.remove()
+
+        })
+
+
+    }
 
 </script>
 </body>

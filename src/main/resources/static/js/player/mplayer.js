@@ -67,3 +67,16 @@ function closeTalk(onSuccess, onerror) {
         }
     }
 }
+
+function logout() {
+    var szIP = sessionStorage.getItem('szIP');
+    if(!szIP)return;
+
+    var iRet = WebVideoCtrl.I_Logout(szIP);
+    if (0 == iRet) {
+        console.log("退出成功！")
+    } else {
+        console.log("退出失败！")
+    }
+
+}

@@ -44,8 +44,7 @@ $(function () {
         var c_data_type = index + 1;
 
 
-        console.log(data.state_type, c_data_type)
-        console.log('000000000000000000000')
+
         if (data.state_type != c_data_type) {
 
             if (data.state_type == 0 && c_data_type == 1) {
@@ -323,7 +322,9 @@ $(function () {
                 }
             }
         } else if (node && node.oriData.tp_type === 4) {
-            UI.showCamera(node.oriData.deviceId, page.find(".fitbit-video"));
+
+           UI.preShowCam(node,".fitbit-video")
+            // UI.showCamera(node.oriData.deviceId, page.find(".fitbit-video"));
             return true
         }
         return false

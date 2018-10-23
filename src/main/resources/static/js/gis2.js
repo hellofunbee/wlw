@@ -6,6 +6,7 @@ $(function () {
 
     var marks = [];
     var isFocused = false;
+    var focus_one = false;
 
     var mapEl = $("map2");
     var map1 = mapEl.data("map");
@@ -114,7 +115,7 @@ $(function () {
     var distData = [];
     var constant = UI.getConstant();
 
-    var renderMapData = function (d, index) {
+    var renderMapData = function (d, index,last) {
         var v = d.province + d.city + d.district;
         var bdary = new BMap.Boundary;
         bdary.get(v, function (rs) {
@@ -138,7 +139,15 @@ $(function () {
                 polygon_item.push({item: d, polygon: ply});
 
 
-                //TODO 后台获取默认点
+                //xwfedit
+
+                if(focus_one){
+                    isFocused = true;
+                    focus_one = false;
+                    showInfo(ply, d)
+
+                }
+                else
 
                 if (isFocused == false && ply) {
 
@@ -148,6 +157,9 @@ $(function () {
                         isFocused = true;
                     }
 
+                }
+                if(last){
+                   showD();
                 }
 
                 ply.addEventListener("click", function () {
@@ -180,49 +192,62 @@ $(function () {
     var reload = function () {
         API.service("/listDistribution",
             {
+                //20181021xwfedit
                 isMap: 1,
                 d_type: 1,
                 search: $('#gis2-search').prev('input').val(),
+                d_province:$('.topProvinceSel').attr("value"),
+                d_city:$('.topCitySel').attr("value"),
+                d_district:$('.topDistrictSel').attr("value"),
+
             },
             function (data) {
                 distData = data.object;
                 if (distData.length) {
                     all = [];
                     polygon_item = [];
+                    map1.clearOverlays();//xwfedit
                     isFocused = false;
                     $(data.object).each(function (i, e) {
-                        renderMapData(e, i)
+                        renderMapData(e, i,i==distData.length-1)
                     });
 
-                    if (!isFocused) {
-                        var city = "北京市市辖";
-                        if (UI.getConstant()) {
-                            city = UI.getConstant().province_ + UI.getConstant().city_+ UI.getConstant().district_;
-
-                        }
-
-                        var bdary = new BMap.Boundary;
-                        bdary.get(city, function (rs) {
-                            var count = rs.boundaries.length;
-                            if (count === 0) {
-                                return
-                            }
-                            var ply = new BMap.Polygon(rs.boundaries[0], {
-                                strokeWeight: 2,
-                                strokeColor: "#ff0000",
-                                fillColor: "#fff",
-                                strokeOpacity: 1
-                            });
-
-                            var pointArray = [];
-                            pointArray = pointArray.concat(ply.getPath())
-                            map1.setViewport(pointArray);
-                        })
-                    }
+                   
 
 
                 }
             });
+    }
+
+    /**\
+     * 显示默认地区
+     */
+    function showD() {
+        if (!isFocused) {
+            var city = "北京市市辖";
+            if (UI.getConstant()) {
+                city = UI.getConstant().province_ + UI.getConstant().city_+ UI.getConstant().district_;
+
+            }
+
+            var bdary = new BMap.Boundary;
+            bdary.get(city, function (rs) {
+                var count = rs.boundaries.length;
+                if (count === 0) {
+                    return
+                }
+                var ply = new BMap.Polygon(rs.boundaries[0], {
+                    strokeWeight: 2,
+                    strokeColor: "#ff0000",
+                    fillColor: "#fff",
+                    strokeOpacity: 1
+                });
+
+                var pointArray = [];
+                pointArray = pointArray.concat(ply.getPath())
+                map1.setViewport(pointArray);
+            })
+        }
     }
     reload();
     $(".sblb>h3").click(function () {
@@ -236,33 +261,49 @@ $(function () {
         } else {
             me.addClass("on");
             me.next().show();
-            if (!me.data("init_select")) {
-                me.data("init_select", true);
+            //20181021xwfedit
+            if (!me.attr("init_select")) {
+                me.attr("init_select", true);
                 var render = function (d) {
                     return '<dd style="cursor: pointer;"' + " onmouseover=\"this.style.backgroundColor='#ccc';\"" + " onmouseout=\"this.style.backgroundColor='#fff'\"" + ' value="' + d.value + '"' + " onclick=\"$(this).parents('dl')" + ".attr('value', $(this).attr('value'))" + ".trigger('change')" + ".prev('h3').html($(this).text()+'<em><i></i></em>').click()" + '">' + d.name + "</dd>"
                 };
+
                 UI.renderProvince(".topProvinceSel", function () {
                     if ($(this).attr("value")) {
+
                         $(".topCitySel").prev("h3").removeClass("on").addClass("on").next().show();
+                        $(".topCitySel").attr('value','');
+                        $(".topProvinceSel").prev("h3").attr("init_select", true);
                         UI.renderCity(".topCitySel", $(this).attr("value"), function () {
+
                             if ($(this).attr("value")) {
                                 $(".topDistrictSel").prev("h3").removeClass("on").addClass("on").next().show();
+                                $(".topDistrictSel").attr('value','');
+                                $(".topCitySel").prev("h3").attr("init_select", true);
+
+
                                 UI.renderDistrict(".topDistrictSel", $(this).attr("value"), function () {
                                     var val = $(this).attr("value");
                                     if (val) {
-                                        val = parseInt(val);
+                                        $(".topDistrictSel").prev("h3").attr("init_select", true);
+
+                                        focus_one = true;
+
+
+                                        reload();
+                                        /*val = parseInt(val);
                                         for (var i = 0; i < distData.length; i++) {
                                             if (parseInt(distData[i]["d_district"]) === val) {
                                                 renderMapData(distData[i]);
                                                 break
                                             }
-                                        }
+                                        }*/
                                     }
-                                }, render, 2)
+                                }, render, 1)
                             }
-                        }, render, 2)
+                        }, render, 1)
                     }
-                }, render, 2);
+                }, render, 1);
                 $(".topProvinceSel, .topCitySel, .topDistrictSel").css("max-height", "300px").css("overflow", "auto")
             }
         }

@@ -6,6 +6,7 @@ $(function () {
     var controls = [];
 
     var isFocused = false;
+    var focus_one = false;
     var all = [];//所有区域的中心点数组用于聚焦所有的点
     var polygon_item = [];//区域，以及数据item
 
@@ -133,7 +134,7 @@ $(function () {
 
     }
     var constant = UI.getConstant();
-    var drawMapArea = function (v, messages, keep) {
+    var drawMapArea = function (v, messages, keep,last) {
         /* map.reset();
          if (!keep) {
          cleanMapAreas()
@@ -169,6 +170,15 @@ $(function () {
                 //     showInfo(ply, messages)
                 //     isFocused = true;
                 // }
+                //xwfedit
+
+                if(focus_one){
+                    isFocused = true;
+                    focus_one = false;
+                    showInfo(ply, messages)
+
+                }
+                else
 
                 if (isFocused == false && ply) {
                     console.log(constant)
@@ -185,6 +195,10 @@ $(function () {
                         }
                     }
 
+                }
+
+                if(last){
+                    showD();
                 }
 
                 ply.addEventListener("click", function () {
@@ -252,41 +266,47 @@ $(function () {
                     var item = this;
                     var place = item.province + (item.city ? item.city : '') + (item.district ? item.district : '');
                     console.log(place)
-                    drawMapArea(place, item.list, i > 0)
+                    drawMapArea(place, item.list, i > 0,i == d.object.length -1)
                 })
 
-                //设置默认区域
-                if (!isFocused) {
-                    var city = "北京市市辖区";
-                    if (UI.getConstant()) {
-                        city = UI.getConstant().province_ + UI.getConstant().city_+ UI.getConstant().district_;
 
-                    }
-
-                    var bdary = new BMap.Boundary;
-                    bdary.get(city, function (rs) {
-                        var count = rs.boundaries.length;
-                        if (count === 0) {
-                            return
-                        }
-                        var ply = new BMap.Polygon(rs.boundaries[0], {
-                            strokeWeight: 2,
-                            strokeColor: "#ff0000",
-                            fillColor: "#fff",
-                            strokeOpacity: 1
-                        });
-
-                        var pointArray = [];
-                        pointArray = pointArray.concat(ply.getPath())
-                        map1.setViewport(pointArray);
-                    })
-                }
             }
         }, function (d) {
             layer.msg(d.msg || "暂无数据");
             cleanMapAreas()
         })
     };
+
+    /**\
+     * 显示默认地区
+     */
+    function showD() {
+        if (!isFocused) {
+            var city = "北京市市辖";
+            if (UI.getConstant()) {
+                city = UI.getConstant().province_ + UI.getConstant().city_+ UI.getConstant().district_;
+
+            }
+
+            var bdary = new BMap.Boundary;
+            bdary.get(city, function (rs) {
+                var count = rs.boundaries.length;
+                if (count === 0) {
+                    return
+                }
+                var ply = new BMap.Polygon(rs.boundaries[0], {
+                    strokeWeight: 2,
+                    strokeColor: "#ff0000",
+                    fillColor: "#fff",
+                    strokeOpacity: 1
+                });
+
+                var pointArray = [];
+                pointArray = pointArray.concat(ply.getPath())
+                map1.setViewport(pointArray);
+            })
+        }
+    }
     $(".selWaringType").on("change", function () {
         reload()
     });
@@ -304,28 +324,51 @@ $(function () {
         } else {
             me.addClass("on");
             me.next().show();
-            if (!me.data("init_select")) {
-                me.data("init_select", true);
+            //20181021xwfedit
+            if (!me.attr("init_select")) {
+                me.attr("init_select", true);
                 var render = function (d) {
                     return '<dd style="cursor: pointer;"' + " onmouseover=\"this.style.backgroundColor='#ccc';\"" + " onmouseout=\"this.style.backgroundColor='#fff'\"" + ' value="' + d.value + '"' + " onclick=\"$(this).parents('dl')" + ".attr('value', $(this).attr('value'))" + ".trigger('change')" + ".prev('h3').html($(this).text()+'<em><i></i></em>').click()" + '">' + d.name + "</dd>"
                 };
-                var isClick = true;
-                UI.renderProvince(".topProvinceSel", function () {
-                    if ($(this).attr("value")) {
-                        $(".topCitySel").prev("h3").removeClass("on").addClass("on").next().show();
-                        UI.renderCity(".topCitySel", $(this).attr("value"), function () {
-                            if ($(this).attr("value")) {
-                                $(".topDistrictSel").prev("h3").removeClass("on").addClass("on").next().show();
-                                UI.renderDistrict(".topDistrictSel", $(this).attr("value"), function () {
 
-                                    if (isClick) {
-                                        isClick = false;
-                                        reload();
-                                        setTimeout(function () {
-                                            isClick = true;
-                                        }, 1000);//一秒内不能重复点击
+                UI.renderProvince(".topProvinceSel", function () {
+                    focus_one = true;
+                    reload();
+
+                    if ($(this).attr("value")) {
+
+
+                        $(".topCitySel").prev("h3").removeClass("on").addClass("on").next().show();
+                        $(".topCitySel").attr('value','');
+                        $(".topProvinceSel").prev("h3").attr("init_select", true);
+                        UI.renderCity(".topCitySel", $(this).attr("value"), function () {
+                            focus_one = true;
+                            reload();
+
+                            if ($(this).attr("value")) {
+
+                                $(".topDistrictSel").prev("h3").removeClass("on").addClass("on").next().show();
+                                $(".topDistrictSel").attr('value','');
+                                $(".topCitySel").prev("h3").attr("init_select", true);
+
+
+                                UI.renderDistrict(".topDistrictSel", $(this).attr("value"), function () {
+                                    var val = $(this).attr("value");
+                                    focus_one = true;
+                                    reload();
+
+                                    if (val) {
+                                        $(".topDistrictSel").prev("h3").attr("init_select", true);
+
+                                        /*val = parseInt(val);
+                                         for (var i = 0; i < distData.length; i++) {
+                                         if (parseInt(distData[i]["d_district"]) === val) {
+                                         renderMapData(distData[i]);
+                                         break
+                                         }
+                                         }*/
                                     }
-                                }, render, 3)
+                                }, render,3)
                             }
                         }, render, 3)
                     }

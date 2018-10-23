@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="sm-title fl">视频信息</div>
-        <a  class="btn btn-default fr btn-jsdgl" >监视点管理</a>
+        <a class="btn btn-default fr btn-jsdgl">监视点管理</a>
         <div class="sm-userInfo fr">[21号] 李娜 土豆</div>
     </div>
     <div class="spxx-module mt10">
@@ -75,8 +75,10 @@
                     a = (e.oriData.tp_id, e.oriData.deviceId),
                             i = e.getParentNode();
                     i && i.oriData && (t = i.oriData.tp_name + " " + t),
-                            $(".sm-userInfo").text(t),
-                            UI.showCamera(a, "#synthesize3_video")
+                            $(".sm-userInfo").text(t);
+
+                    UI.preShowCam(lastSelectNode,"#synthesize3_video")
+
                 }
             };
 

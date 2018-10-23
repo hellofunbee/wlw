@@ -381,13 +381,15 @@
         laydate.render(
                 {
                     elem: "#ds",
-                    format: 'yyyy-MM-dd'
+                    format: 'yyyy-MM-dd',
+                    value:UI.getCData(-10).format('yyyy-MM-dd')
                 }
         );
         laydate.render(
                 {
                     elem: "#de",
-                    format: 'yyyy-MM-dd'
+                    format: 'yyyy-MM-dd',
+                    value:UI.getCData(0).format('yyyy-MM-dd')
                 }
         );
 

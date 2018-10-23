@@ -1,3 +1,5 @@
-var http = "http://120.132.53.44:8087/";
-/*var http = "http://192.168.0.206:8087/";*/
-/*var http = "/";*/
+var http="http://39.107.119.69:8087/";
+var img="http://39.107.119.69:8087";
+
+// var http="http://localhost:8087/";
+// var img="http://localhost:8087";
