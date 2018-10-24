@@ -100,17 +100,17 @@
 
 				<span class='fir_head_all'>监测单数据</span>
 
-				<span id="" class='fl fir_head_l'>
+				<span  class='fl fir_head_l'>
 
 				</span>
 
-				<span id="" class='fr fir_head_r_search'  style='display: none;'>
+				<span  class='fr fir_head_r_search'  style='display: none;'>
 
 				
 
 				</span>
 
-				<span id="" class='fr fir_head_r' style='display: none;'>
+				<span  class='fr fir_head_r' style='display: none;'>
 
 				
 
@@ -118,7 +118,7 @@
 
 			</div>
 
-			<div id="" class="menu_equip">
+			<div  class="menu_equip">
 
 				<ul>
 
@@ -142,7 +142,8 @@
 
 					<li class='menu_e_list'>
 
-						<a href="marketData.html" class="nav_l_market">市场数据</a>
+						<!--<a href="marketData.html" class="nav_l_market">市场数据</a>-->
+						<a href="http://pfsc.agri.cn/scdt/" target="_blank" class="nav_l_market">市场数据</a>
 
 					</li>
 
@@ -157,102 +158,57 @@
 			<div class="right">
 
 				<div class="menu_eq_list">
-
 					<ul class="clear" style="min-width: 100%;">
-
 						<li class="active">数值分析</li>
-
 						<li>均值分析</li>
-
 						<li>峰值分析</li>
-
 						<li>谷值分析</li>
-
 					</ul>
-
 					<div class="toRight">
-
 						<span></span>
-
 					</div>
-
 				</div>
 
-				<div class='bdouterAll' style=''>
-
+				<div class='bdouterAll'  style=''>
 					<div class='bdouter'>
-
 						<div class="fieldset">
-
 							<p class='fieldsetF'>请选择要分析的设备</p>
-
 							<div class='bdequips'>
-
-
-
 							</div>
-
-							
-
 						</div>
-
 							<div class="picHavedata">
-
 								<span></span>
-
 							</div>
-
 						</div>
-
 						<div id="bdequipSelOut">
-
 							<p class='bdequipSelName'>请选择要分析的指标</p>
-
 							<ul class='bdequipSel'>
-
 								<li class='bdequipSelL'>
-
 									<ul>
-
-										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+										<!--<li>
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>电池电量</span>
-
 										</li>
-
 										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>二氧化碳</span>
-
 										</li>
 
 										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>风向</span>
 
 										</li>
 
 										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>土壤水分</span>
-
 										</li>
 
 										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>系统5V电压</span>
-
-										</li>
+										</li>-->
 
 										
 
@@ -264,45 +220,31 @@
 
 									<ul>
 
-										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+										<!--<li>
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>土壤温度</span>
-
 										</li>
 
 										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>空气湿度</span>
-
 										</li>
 
 										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>降水量</span>
-
 										</li>
 
 										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>空气温度</span>
-
 										</li>
 
 										<li>
-
-											<input class="bdequipSeles fl" type="checkbox" name="" id="" value="" />
-
+											<input class="bdequipSeles fl" type="checkbox" name=""  value="" />
 											<span class='fl bdequipSelesval'>光照度</span>
 
-										</li>
+										</li>-->
 
 									</ul>
 
@@ -360,8 +302,8 @@
 
 							<span class='fl'>分析项目 </span>
 
-							<select name="" class='fl'>
-									<option value="mainLi1" data-dan='单位(%25)'>电池电量</option>
+							<select name="" class='fl' id="channels">
+									<!--<option value="mainLi1" data-dan='单位(%25)'>电池电量</option>
 
 									<option value="mainLi2" data-dan='单位(ppm)'>二氧化碳</option>
 
@@ -379,7 +321,7 @@
 
 									<option value="mainLi9" data-dan='单位(℃)'>土壤温度</option>
 
-									<option value="mainLi10" data-dan='单位(%25)'>空气湿度</option>
+									<option value="mainLi10" data-dan='单位(%25)'>空气湿度</option>-->
 							</select>
 
 						</p>
@@ -426,6 +368,7 @@
 
 		<script src="js/commen.js"></script>
 
+		<script src='js/api.js'></script>
 		<script src='js/bigData.js'></script>
 
 	</body>

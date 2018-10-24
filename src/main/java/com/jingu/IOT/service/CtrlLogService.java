@@ -2,6 +2,8 @@ package com.jingu.IOT.service;
 
 import com.jingu.IOT.dao.CtrlLogDao;
 import com.jingu.IOT.entity.InputRequset;
+import com.jingu.IOT.entity.PointEntity;
+import com.jingu.IOT.requset.StaticRequest;
 import com.jingu.IOT.response.IOTResult;
 import com.jingu.IOT.util.CheckUtil;
 import com.jingu.IOT.util.CommonUtils;
@@ -87,6 +89,7 @@ public class CtrlLogService {
 
         List<Integer> tp_ids = sRequest.getTp_ids();//设备节点
         List<Integer> c_ids = sRequest.getC_ids();//控制ids
+
         int interval_type = sRequest.getInterval_type();//时间间隔
 
         List<Map> result = new ArrayList<>();
@@ -97,6 +100,7 @@ public class CtrlLogService {
             Map dv = pointService.findById(tp_id);
             if (dv == null || dv.get("tp_name") == null)
                 continue;
+
 
             for (int c_id : c_ids) {
 
@@ -109,7 +113,7 @@ public class CtrlLogService {
                 logs = CommonUtils.effect_Logs_By_Time(logs, interval_type);//数据处理
 
                 Map ctrl = settingService.getControlSetting(c_id);
-                if (ctrl == null) {
+                if (ctrl == null || logs.size() == 0) {
                     continue;
                 }
 
@@ -123,6 +127,74 @@ public class CtrlLogService {
             cmap.put("data", ctrls);
             cmap.put("tp_id", dv.get("tp_id"));
             cmap.put("tp_name", dv.get("tp_name"));
+            result.add(cmap);
+        }
+        if (result.isEmpty()) {
+            return new IOTResult(false, "暂无相关信息", null, 0);
+        }
+        return new IOTResult(true, "查看成功", result, 0);
+    }
+
+    /**
+     * app 的执行分析
+     * @param sRequest
+     * @return
+     */
+    public IOTResult getCalData_app(StaticRequest sRequest) {
+        IOTResult x = checkUtil.chckSession(sRequest, StaticRequest.class);
+        if (x != null) return x;
+
+        if (sRequest.getCkdata() == 1) {
+            if (sRequest.getBeginTime().compareTo(sRequest.getEndTime()) > 0) {
+                return new IOTResult(false, "输入的日期有误", null, 3);
+            }
+            return new IOTResult(true, "日期输入正确", null, 0);
+        }
+
+        List<String> dvids = sRequest.getDeviceList();//设备节点
+
+        int interval_type = sRequest.getInterval_type();//时间间隔
+
+        List<Map> result = new ArrayList<>();
+        for (String tp_id : dvids) {
+            Map cmap = new HashMap();
+            List<Map> ctrls = new ArrayList<>();
+
+            PointEntity p = new PointEntity();
+            p.setDeviceId(tp_id);
+            PointEntity dv = pointService.getPoint(p);
+            if (dv == null || dv.getTp_name() == null)
+                continue;
+            List<Integer> c_ids = settingService.getCtrlIds(tp_id);
+            if (c_ids == null || c_ids.isEmpty()) {
+                continue;
+            }
+
+            for (int c_id : c_ids) {
+
+                PageData pd = new PageData();
+                pd.put("ctrl_id", c_id);
+                pd.put("ts", sRequest.getBeginTime());
+                pd.put("te", sRequest.getEndTime());
+                List<Map<String, Object>> logs = ctrlLogDao.list(pd);// 要找的数据
+
+                logs = CommonUtils.effect_Logs_By_Time(logs, interval_type);//数据处理
+                Map ctrl = settingService.getControlSetting(c_id);
+                if (ctrl == null || logs.size() == 0) {
+                    continue;
+                }
+
+                Map d = new HashMap();
+                d.put("list", logs);
+                d.put("ctrl_id", ctrl.get("ctrl_id"));//ctrl_id
+                d.put("ctrl_name", ctrl.get("ctrl_name"));//ctrl_name
+                ctrls.add(d);
+
+            }
+            cmap.put("data", ctrls);
+            cmap.put("tp_id", dv.getTp_id());
+            cmap.put("tp_name", dv.getTp_name());
+            cmap.put("deviceId", dv.getDeviceId());
             result.add(cmap);
         }
         if (result.isEmpty()) {

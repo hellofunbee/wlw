@@ -1,6 +1,7 @@
 package com.jingu.IOT.web;
 
 import com.jingu.IOT.entity.InputRequset;
+import com.jingu.IOT.requset.StaticRequest;
 import com.jingu.IOT.response.IOTResult;
 import com.jingu.IOT.service.CtrlLogService;
 import com.jingu.IOT.service.PointService;
@@ -83,10 +84,15 @@ public class CtrlLogController {
     @CrossOrigin
     @RequestMapping(value = "getLogCaldata", method = RequestMethod.POST)
     public IOTResult getCalData(@RequestBody InputRequset sRequest) throws UnsupportedEncodingException {
-
         return ctrlLogService.getCalData(sRequest);
-
     }
+
+    @CrossOrigin
+    @RequestMapping(value = "getLogCaldata_app", method = RequestMethod.POST)
+    public IOTResult getCalData(@RequestBody StaticRequest sRequest) throws UnsupportedEncodingException {
+        return ctrlLogService.getCalData_app(sRequest);
+    }
+
 
     @RequestMapping(value = "testi", method = RequestMethod.GET)
     public void test() throws Exception {
