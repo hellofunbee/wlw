@@ -5,8 +5,8 @@ if (!window.js_common_loaded) {
             }
         };
     window.js_common_loaded = true;
-    // window.apiPre = 'http://localhost:8087';
-    window.apiPre ='http://39.107.119.69:8087';
+    window.apiPre = 'http://localhost:8087';
+    // window.apiPre ='http://39.107.119.69:8087';
     /*window.apiPre = window.apiPre || "";*/
     window.staticPre = window.staticPre || "http://39.107.119.69:8087";
     var _mock = false;

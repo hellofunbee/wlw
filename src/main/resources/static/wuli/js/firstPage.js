@@ -81,7 +81,8 @@ function listMessage1Bygroup() {
 
     $.ajax({
 
-        url: http + "listMessage1Bygroup",
+        // url: http + "listMessage1Bygroup",
+        url: http + "listHomePageMessage",
 
         type: "post",
 
@@ -194,91 +195,86 @@ function listMessage1Bygroup() {
 
                     $('.fir_skill>p').hide();
 
-                    for (var a = 0; a < data.object.length; a++) {
+                    $(data.object).each(function (a, e) {
 
-                        var str = '<div class="fir_var_out"><p class="fir_var">' + data.object[a].c_name +
+                        var str = '<div class="fir_var_out">' +
+                            '<p class="fir_var">' + e.c_name + '</p>';
 
-                            '</p><p class="fir_var_lists">新技术研究</p><ul class="fir_var_l_nums">';
+                            $(e.classList).each(function (b, e) {
+                                str += '<p class="fir_var_lists">' + e.c_name + '</p>' +
+                                    '<ul class="fir_var_l_nums">';
+                                $(e.messageList).each(function (b, e) {
 
-                        for (var b = 0; b < data.object[a].list.length; b++) {
+                                    var newText
+                                    if (e.m_content.length > 50) {
+                                        newText = e.m_content.substr(0, 50) + '...';
+                                    } else {
+                                        newText = e.m_content;
+                                    }
 
-                            var newText
+                                    var tTop = '';
 
-                            if (data.object[a].list[b].m_content.length > 50) {
+                                    if (e.m_title.length > 25) {
 
-                                newText = data.object[a].list[b].m_content.substr(0, 50) + '...';
+                                        tTop = e.m_title.substr(0, 25) + '...';
 
-                            } else {
+                                    } else {
 
-                                newText = data.object[a].list[b].m_content;
+                                        tTop = e.m_title
 
-                            }
+                                    }
 
-                            var tTop = '';
+                                    //添加了  http://servera.jianghujoy.com:8087/
 
-                            if (data.object[a].list[b].m_title.length > 25) {
+                                    str += '<li class="fir_var_l_num"><a href="./proDetail.html?m_id=' + e.m_id +
 
-                                tTop = data.object[a].list[b].m_title.substr(0, 25) + '...';
+                                        '&title=文章详情" target="_self" ><div class="fir_var_l_n_top clear"><img class="fir_var_l_n_img fl" src="' + img +
 
-                            } else {
+                                        e.m_cover + '" /><div class="fir_var_l_n_text fl">' +
 
-                                tTop = data.object[a].list[b].m_title
+                                        '<p class="fir_var_l_n_t_top">' + tTop +
 
-                            }
+                                        '</p><p class="fir_var_l_n_t_text">' + newText + '</p>' +
 
-                            //添加了  http://servera.jianghujoy.com:8087/
+                                        '</div></div><p class="fir_var_l_user">' + e.m_authorname +
 
-                            str += '<li class="fir_var_l_num"><a href="./proDetail.html?m_id=' + data.object[
+                                        '</p><div class="clear"><span class="fl fir_var_l_time">' + dealdata(e.m_time) +
 
-                                    a].list[b].m_id +
+                                        '</span><span class="fr fir_var_l_more">了解更多></span>' +
 
-                                '&title=文章详情" target="_self" ><div class="fir_var_l_n_top clear"><img class="fir_var_l_n_img fl" src="' + img +
+                                        '</div></a></li>'
 
-                                data.object[a].list[b].m_cover + '" /><div class="fir_var_l_n_text fl">' +
+                                    /* str += '<li class="fir_var_l_num"><a href="./proDetail.html?m_id=' + data.object[
 
-                                '<p class="fir_var_l_n_t_top">' + tTop +
+                                     a].list[b].m_id +
 
-                                '</p><p class="fir_var_l_n_t_text">' + newText + '</p>' +
+                                     '&title=文章详情" target="_self" ><div class="fir_var_l_n_top clear"><img class="fir_var_l_n_img fl" src="' +
 
-                                '</div></div><p class="fir_var_l_user">' + data.object[a].list[b].m_authorname +
+                                     e.m_cover + '" /><div class="fir_var_l_n_text fl">' +
 
-                                '</p><div class="clear"><span class="fl fir_var_l_time">' + dealdata(data.object[
+                                     '<p class="fir_var_l_n_t_top">' + tTop +
 
-                                    a].list[b].m_time) +
+                                     '</p><p class="fir_var_l_n_t_text">' + newText + '</p>' +
 
-                                '</span><span class="fr fir_var_l_more">了解更多></span>' +
+                                     '</div></div><p class="fir_var_l_user">' + e.m_authorname +
 
-                                '</div></a></li>'
+                                     '</p><div class="clear"><span class="fl fir_var_l_time">' + dealdata(data.object[
 
-                            /* str += '<li class="fir_var_l_num"><a href="./proDetail.html?m_id=' + data.object[
+                                     a].list[b].m_time) +
 
-                             a].list[b].m_id +
+                                     '</span><span class="fr fir_var_l_more">了解更多></span>' +
 
-                             '&title=文章详情" target="_self" ><div class="fir_var_l_n_top clear"><img class="fir_var_l_n_img fl" src="' +
+                                     '</div></a></li>' */
 
-                             data.object[a].list[b].m_cover + '" /><div class="fir_var_l_n_text fl">' +
+                                });
+                                str += '</ul>'
+                            });
 
-                             '<p class="fir_var_l_n_t_top">' + tTop +
-
-                             '</p><p class="fir_var_l_n_t_text">' + newText + '</p>' +
-
-                             '</div></div><p class="fir_var_l_user">' + data.object[a].list[b].m_authorname +
-
-                             '</p><div class="clear"><span class="fl fir_var_l_time">' + dealdata(data.object[
-
-                             a].list[b].m_time) +
-
-                             '</span><span class="fr fir_var_l_more">了解更多></span>' +
-
-                             '</div></a></li>' */
-
-                        }
-
-                        str += '</ul></div>'
+                        str += '</div>'
 
                         $(".fir_skill").append(str);
 
-                    }
+                    })
                     ;
 
                 } else {
@@ -436,7 +432,7 @@ function listPic() {
 
                     //添加了  http://servera.jianghujoy.com:8087/
 
-                    $('.swiper-wrapper').append(' <div class="swiper-slide"><img data-src="'+data.object[i].h_url + '" src="'+img +data.object[i].h_cover + '"/></div>')
+                    $('.swiper-wrapper').append(' <div class="swiper-slide"><img data-src="' + data.object[i].h_url + '" src="' + img + data.object[i].h_cover + '"/></div>')
 
                     /* $('.swiper-wrapper').append(" <div class='swiper-slide'><img data-src=" + data.object[
 
