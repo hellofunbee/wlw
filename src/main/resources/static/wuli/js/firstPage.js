@@ -201,7 +201,8 @@ function listMessage1Bygroup() {
                             '<p class="fir_var">' + e.c_name + '</p>';
 
                             $(e.classList).each(function (b, e) {
-                                str += '<p class="fir_var_lists">' + e.c_name + '</p>' +
+
+                                str += '<p class="fir_var_lists">' + mutil.cutSize(e.c_name,9) + '</p>' +
                                     '<ul class="fir_var_l_nums">';
                                 $(e.messageList).each(function (b, e) {
 
